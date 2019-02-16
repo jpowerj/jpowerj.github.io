@@ -1,0 +1,7 @@
+tad/Sentiment_Analysis_files/*.json
+tad/corpora/UNGDC_1970-2017/
+tad/datasets/*.RData
+tad/datasets/*.zip
+tad/datasets/*.txt
+*.json
+*.secret
