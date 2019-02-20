@@ -392,11 +392,7 @@ div.tocify {
             <li role="separator" class="divider"></li>
             <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
             <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
-<<<<<<< HEAD
-            <li></li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
-=======
-            <a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
             <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
             <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
           </ul>
@@ -426,10 +422,8 @@ div.tocify {
 <h1>1. download manifesto numeric data (rile score)</h1>
 <pre class="r"><code>library(manifestoR)
 mp_setapikey(&quot;datasets/manifesto_apikey.txt&quot;)
-manifesto_data &lt;- mp_maindataset()</code></pre>
-<pre><code>## Connecting to Manifesto Project DB API... 
-## Connecting to Manifesto Project DB API... corpus version: 2018-2</code></pre>
-<pre class="r"><code>all_countries &lt;- unique(manifesto_data$countryname)
+manifesto_data &lt;- mp_maindataset()
+all_countries &lt;- unique(manifesto_data$countryname)
 just_us &lt;- manifesto_data %&gt;% filter(countryname == &quot;United States&quot;)
 us_rile &lt;- just_us$rile
 just_us &lt;- attach_year(just_us)
@@ -439,8 +433,6 @@ modern_us_data &lt;- just_us %&gt;% filter(numyear &gt;= 1968)</code></pre>
 <div id="step-2-download-the-actual-texts" class="section level1">
 <h1>Step 2: Download the actual texts</h1>
 <pre class="r"><code>the_docs &lt;- mp_corpus(data.frame(party=modern_us_data$party,date=modern_us_data$date))</code></pre>
-<pre><code>## Connecting to Manifesto Project DB API... corpus version: 2018-2 
-## Connecting to Manifesto Project DB API... corpus version: 2018-2</code></pre>
 </div>
 <div id="step-3-make-document-term-matrix-then-convert-into-format" class="section level1">
 <h1>Step 3: Make document-term matrix, then convert into format</h1>
@@ -486,12 +478,12 @@ summary(model)</code></pre>
 # secondary reference)
 test_predictions &lt;- predict(model, us_dtm_sm_test)$predictions
 test_predictions</code></pre>
-<pre><code>## [1]  0  0  0  0  0  0 33  0</code></pre>
+<pre><code>## [1] 33 33 33  0 33 33 33 33</code></pre>
 <pre class="r"><code>us_labels_test</code></pre>
 <pre><code>## [1]   8.361  25.903  11.140  25.124  -6.442  27.957 -20.578  32.969</code></pre>
 <pre class="r"><code>error &lt;- sum((test_predictions-us_labels_test)^2)
 error</code></pre>
-<pre><code>## [1] 6276.837</code></pre>
+<pre><code>## [1] 6218.229</code></pre>
 <p>Ok so we have a number representing the error, but we have no idea how to interpret it. So to get perspective on whether it’s “good” or “bad”, let’s compare with a “baseline” method where you just always guess the <em>average</em> rile score of the training observations (so you never even look at the text itself).</p>
 <pre class="r"><code>avg_rile_train &lt;- mean(us_labels_train)
 avg_rile_train</code></pre>

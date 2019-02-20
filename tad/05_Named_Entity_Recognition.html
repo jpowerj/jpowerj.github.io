@@ -393,11 +393,7 @@ div.tocify {
             <li role="separator" class="divider"></li>
             <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
             <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
-<<<<<<< HEAD
-            <li></li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
-=======
-            <a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
             <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
             <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
           </ul>
@@ -430,9 +426,9 @@ div.tocify {
 <ul>
 <li><img src="W3_files/img/tree.png" title="fig:" /></li>
 </ul>
-<p>In this tutorial, we’ll be talking about this final method, Named Entity Recognition. Unfortunately, because of</p>
+<p>In this tutorial, we’ll be talking about this final method, Named Entity Recognition.</p>
 <pre class="r"><code>library(googleLanguageR)
-gl_auth(&quot;~/gcloud_nlp/TL-NLP-e6110f370407.json&quot;)
+gl_auth(&quot;../gcloud/nlp_api_teaching.json&quot;)
 gramsci &lt;- &quot;The subaltern classes, by definition, are not unified and cannot unite until they are able to become a &#39;State&#39;: their history, therefore, is intertwined with that of civil society, and thereby with the history of States and groups of States&quot;
 greenwald &lt;- c(&quot;If fighting Israeli occupying forces is barred as &#39;terrorism,&#39; and nonviolent boycotts against Israel are barred as &#39;anti-Semitism,&#39; then what is considered a legitimate means for Palestinians and their allies to resist and end the decades-long, illegal Israeli occupation?&quot;,&quot;The answer is: nothing.&quot;,&quot;Palestinians are obliged to submit to Israeli occupation in a way that none of the people demanding that would ever themselves submit to occupation of their land.&quot;,&quot;All forms of resistance to Israeli occupation are deemed illegitimate.&quot;,&quot;That, manifestly, is the whole point of all of this.&quot;)
 wiki &lt;- &quot;In June 1982, the Israel Defense Forces invaded Lebanon with the intention of rooting out the PLO.&quot;
@@ -444,15 +440,9 @@ yarmouk &lt;- &quot;The largest Palestinian refugee camp in Syria has been &#39;
 combined &lt;- &quot;By mid-1982, under the supervision of the Multinational Force, the Palestine Liberation Organization withdrew from Lebanon following weeks of battles in West Beirut and shortly before the massacre took place.&quot;
 
 nlp_result &lt;- gl_nlp(c(wiki2,yarmouk,combined))</code></pre>
-<<<<<<< HEAD
-<pre><code>## 2019-02-09 11:45:22 -- annotateText: 222 characters</code></pre>
-<pre><code>## 2019-02-09 11:45:23 -- annotateText: 251 characters</code></pre>
-<pre><code>## 2019-02-09 11:45:23 -- annotateText: 208 characters</code></pre>
-=======
-<pre><code>## 2019-02-08 14:37:12 -- annotateText: 222 characters</code></pre>
-<pre><code>## 2019-02-08 14:37:12 -- annotateText: 251 characters</code></pre>
-<pre><code>## 2019-02-08 14:37:13 -- annotateText: 208 characters</code></pre>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+<pre><code>## 2019-02-20 17:05:48 -- annotateText: 222 characters</code></pre>
+<pre><code>## 2019-02-20 17:05:48 -- annotateText: 251 characters</code></pre>
+<pre><code>## 2019-02-20 17:05:49 -- annotateText: 208 characters</code></pre>
 <pre class="r"><code>nlp_result$entities</code></pre>
 <pre><code>## [[1]]
 ## # A tibble: 8 x 9
@@ -487,16 +477,16 @@ nlp_result &lt;- gl_nlp(c(wiki2,yarmouk,combined))</code></pre>
 ## 
 ## [[3]]
 ## # A tibble: 8 x 9
-##   name  type  salience wikipedia_url mid   magnitude score beginOffset
-##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
-## 1 batt… EVENT   0.0657 &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         142
-## 2 Leba… LOCA…   0.116  https://en.w… /m/0…       0     0           115
-## 3 mass… EVENT   0.117  &lt;NA&gt;          &lt;NA&gt;        0     0           188
-## 4 Mult… ORGA…   0.125  &lt;NA&gt;          &lt;NA&gt;        0     0            42
-## 5 Pale… ORGA…   0.126  https://en.w… /m/0…       0     0            67
-## 6 place OTHER   0.114  &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         202
-## 7 supe… OTHER   0.297  &lt;NA&gt;          &lt;NA&gt;        0     0            23
-## 8 West… LOCA…   0.0391 https://en.w… /m/0…       0     0           153
+##   name  type  salience mid   wikipedia_url magnitude score beginOffset
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+## 1 batt… EVENT   0.0657 &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         142
+## 2 Leba… LOCA…   0.116  /m/0… https://en.w…       0     0           115
+## 3 mass… EVENT   0.117  &lt;NA&gt;  &lt;NA&gt;                0     0           188
+## 4 Mult… ORGA…   0.125  &lt;NA&gt;  &lt;NA&gt;                0     0            42
+## 5 Pale… ORGA…   0.126  /m/0… https://en.w…       0     0            67
+## 6 place OTHER   0.114  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         202
+## 7 supe… OTHER   0.297  &lt;NA&gt;  &lt;NA&gt;                0     0            23
+## 8 West… LOCA…   0.0391 /m/0… https://en.w…       0     0           153
 ## # ... with 1 more variable: mention_type &lt;chr&gt;</code></pre>
 <pre class="r"><code>nlp_result$tokens</code></pre>
 <pre><code>## [[1]]
@@ -987,11 +977,7 @@ nlp_result &lt;- gl_nlp(c(wiki2,yarmouk,combined))</code></pre>
 <pre class="r"><code>nlp_result$sentences[[2]]$score</code></pre>
 <pre><code>## [1] -0.5</code></pre>
 <pre class="r"><code>y_trans &lt;- gl_translate(yarmouk, &quot;es&quot;)</code></pre>
-<<<<<<< HEAD
-<pre><code>## 2019-02-09 11:45:24 -- Translating text: 251 characters -</code></pre>
-=======
-<pre><code>## 2019-02-08 14:37:14 -- Translating text: 251 characters -</code></pre>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+<pre><code>## 2019-02-20 17:05:50 -- Translating text: 251 characters -</code></pre>
 <pre class="r"><code>y_trans$translatedText</code></pre>
 <pre><code>## [1] &quot;El mayor campo de refugiados palestinos en Siria se ha &#39;transformado en un campo de muerte&#39; cuando las fuerzas del régimen de Assad siguen adelante con una ofensiva importante contra el Estado Islámico de Irak y los combatientes del Levante que controlan el área, advirtieron las Naciones Unidas.&quot;</code></pre>
 <pre class="r"><code># Using tidyverse (dplyr and readr) from this cell onwards
@@ -1040,16 +1026,16 @@ for (doc_num in c(1,2,3)) {
 ## 
 ## [[3]]
 ## # A tibble: 8 x 9
-##   name  type  salience wikipedia_url mid   magnitude score beginOffset
-##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
-## 1 batt… EVENT   0.0657 &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         142
-## 2 Leba… LOCA…   0.116  https://en.w… /m/0…       0     0           115
-## 3 mass… EVENT   0.117  &lt;NA&gt;          &lt;NA&gt;        0     0           188
-## 4 Mult… ORGA…   0.125  &lt;NA&gt;          &lt;NA&gt;        0     0            42
-## 5 Pale… ORGA…   0.126  https://en.w… /m/0…       0     0            67
-## 6 place OTHER   0.114  &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         202
-## 7 supe… OTHER   0.297  &lt;NA&gt;          &lt;NA&gt;        0     0            23
-## 8 West… LOCA…   0.0391 https://en.w… /m/0…       0     0           153
+##   name  type  salience mid   wikipedia_url magnitude score beginOffset
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+## 1 batt… EVENT   0.0657 &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         142
+## 2 Leba… LOCA…   0.116  /m/0… https://en.w…       0     0           115
+## 3 mass… EVENT   0.117  &lt;NA&gt;  &lt;NA&gt;                0     0           188
+## 4 Mult… ORGA…   0.125  &lt;NA&gt;  &lt;NA&gt;                0     0            42
+## 5 Pale… ORGA…   0.126  /m/0… https://en.w…       0     0            67
+## 6 place OTHER   0.114  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         202
+## 7 supe… OTHER   0.297  &lt;NA&gt;  &lt;NA&gt;                0     0            23
+## 8 West… LOCA…   0.0391 /m/0… https://en.w…       0     0           153
 ## # ... with 1 more variable: mention_type &lt;chr&gt;</code></pre>
 <pre class="r"><code>UN_speeches &lt;- read_csv(&quot;corpora/UNGDC_2017_ascii.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
@@ -1080,13 +1066,8 @@ for (speech_num in 3:4){
   has_trump &lt;- &quot;Trump&quot; %in% cur_entities
   trump_list[[speech_num]] &lt;- has_trump
 }</code></pre>
-<<<<<<< HEAD
-<pre><code>## 2019-02-09 11:45:25 -- annotateText: 499 characters</code></pre>
-<pre><code>## 2019-02-09 11:45:25 -- annotateText: 500 characters</code></pre>
-=======
-<pre><code>## 2019-02-08 14:37:14 -- annotateText: 499 characters</code></pre>
-<pre><code>## 2019-02-08 14:37:15 -- annotateText: 500 characters</code></pre>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+<pre><code>## 2019-02-20 17:05:51 -- annotateText: 499 characters</code></pre>
+<pre><code>## 2019-02-20 17:05:51 -- annotateText: 500 characters</code></pre>
 <pre class="r"><code>print(entity_list)</code></pre>
 <pre><code>## [[1]]
 ## NULL
@@ -1118,18 +1099,18 @@ for (speech_num in 3:4){
 ## [[4]]
 ## [[4]][[1]]
 ## # A tibble: 31 x 9
-##    name  type  salience wikipedia_url mid   magnitude score beginOffset
-##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
-##  1 chal… OTHER  0.00459 &lt;NA&gt;          &lt;NA&gt;        0     0           319
-##  2 choi… OTHER  0.0428  &lt;NA&gt;          &lt;NA&gt;        0     0            83
-##  3 comm… OTHER  0.00432 &lt;NA&gt;          &lt;NA&gt;        0     0           354
-##  4 deve… OTHER  0.0310  &lt;NA&gt;          &lt;NA&gt;        1     0.4         275
-##  5 doubt OTHER  0.0143  &lt;NA&gt;          &lt;NA&gt;        0     0           213
-##  6 Gene… ORGA…  0.0173  https://en.w… /m/0…       0     0           137
-##  7 issu… OTHER  0.0131  &lt;NA&gt;          &lt;NA&gt;        0     0           235
-##  8 lif   OTHER  0.00686 &lt;NA&gt;          &lt;NA&gt;        0.1   0.1         497
-##  9 life  OTHER  0.0143  &lt;NA&gt;          &lt;NA&gt;        0.1   0.1         194
-## 10 link  OTHER  0.107   &lt;NA&gt;          &lt;NA&gt;        0     0           159
+##    name  type  salience mid   wikipedia_url magnitude score beginOffset
+##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+##  1 chal… OTHER  0.00459 &lt;NA&gt;  &lt;NA&gt;                0     0           319
+##  2 choi… OTHER  0.0428  &lt;NA&gt;  &lt;NA&gt;                0     0            83
+##  3 comm… OTHER  0.00432 &lt;NA&gt;  &lt;NA&gt;                0     0           354
+##  4 deve… OTHER  0.0310  &lt;NA&gt;  &lt;NA&gt;                1     0.4         275
+##  5 doubt OTHER  0.0143  &lt;NA&gt;  &lt;NA&gt;                0     0           213
+##  6 Gene… ORGA…  0.0173  /m/0… https://en.w…       0     0           137
+##  7 issu… OTHER  0.0131  &lt;NA&gt;  &lt;NA&gt;                0     0           235
+##  8 lif   OTHER  0.00686 &lt;NA&gt;  &lt;NA&gt;                0.1   0.1         497
+##  9 life  OTHER  0.0143  &lt;NA&gt;  &lt;NA&gt;                0.1   0.1         194
+## 10 link  OTHER  0.107   &lt;NA&gt;  &lt;NA&gt;                0     0           159
 ## # ... with 21 more rows, and 1 more variable: mention_type &lt;chr&gt;</code></pre>
 <pre class="r"><code>trump_vec &lt;- unlist(trump_list)
 print(which(trump_vec))</code></pre>

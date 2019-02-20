@@ -392,11 +392,7 @@ div.tocify {
             <li role="separator" class="divider"></li>
             <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
             <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
-<<<<<<< HEAD
-            <li></li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
-=======
-            <a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
             <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
             <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
           </ul>
@@ -439,26 +435,12 @@ div.tocify {
 <h2><code>sentimentr</code> Demo</h2>
 <p>Before we dive in, we can do two quick demos illustrating the features of both libraries. Let’s start with <code>sentimentr</code> by loading the library into working memory using the <code>library()</code> function:</p>
 <pre class="r"><code>library(sentimentr)</code></pre>
-<<<<<<< HEAD
 <p>Now, to see how sentiment analysis works at the most basic level, let’s give it two sentences – the first one unambiguously expressing a negative sentiment, the other a positive sentiment:</p>
 <pre class="r"><code>bolsonaro_lula &lt;- &quot;Bolsonaro is scary, dude. Lula is cool, though.&quot;
 sentiment(bolsonaro_lula)</code></pre>
 <pre><code>##    element_id sentence_id word_count sentiment
 ## 1:          1           1          4    -0.250
 ## 2:          1           2          4     0.375</code></pre>
-=======
-<pre><code>## 
-## Attaching package: &#39;sentimentr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:syuzhet&#39;:
-## 
-##     get_sentences</code></pre>
-<p>Now, to see how sentiment analysis works at the most basic level, let’s give it two sentences – the first one unambiguously expressing a negative sentiment, the other a positive sentiment:</p>
-<pre class="r"><code>bolsonaro_lula &lt;- &quot;Bolsonaro is a scary dude. Lula is cool, though.&quot;
-sentiment(bolsonaro_lula)</code></pre>
-<pre><code>##    element_id sentence_id word_count  sentiment
-## 1:          1           1          5 -0.2236068
-## 2:          1           2          4  0.3750000</code></pre>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
 <p>Cool, so that worked as expected. To understand why, we can use <code>sentimentr</code>’s <code>extract_sentiment_terms()</code> to see specifically which terms it picked up as particularly negative and which it picked up as positive:</p>
 <pre class="r"><code>extract_sentiment_terms(bolsonaro_lula)</code></pre>
 <pre><code>##    element_id sentence_id negative positive
@@ -512,7 +494,6 @@ dead_prez &lt;- c(&quot;I want to be free to live, able to have what I need to l
 
 get_sentiment(dead_prez)</code></pre>
 <pre><code>## [1]  0.5  0.0 -0.4</code></pre>
-<<<<<<< HEAD
 <pre class="r"><code>get_nrc_sentiment(dead_prez)</code></pre>
 <pre><code>##   anger anticipation disgust fear joy sadness surprise trust negative
 ## 1     0            0       0    0   0       0        0     0        0
@@ -522,8 +503,6 @@ get_sentiment(dead_prez)</code></pre>
 ## 1        0
 ## 2        0
 ## 3        2</code></pre>
-=======
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
 </div>
 </div>
 <div id="sentimentr" class="section level1">
@@ -534,16 +513,11 @@ get_sentiment(dead_prez)</code></pre>
 <h1><code>GoogleLanguageR</code></h1>
 <p>To interface with the Google Language API programmatically, we will use the extremely convenient <a href="https://github.com/ropensci/googleLanguageR"><code>GoogleLanguageR</code> package</a>.</p>
 <pre class="r"><code>library(googleLanguageR)
-gl_auth(&quot;Sentiment_Analysis_files/google_language_api_key.json&quot;)</code></pre>
+gl_auth(&quot;../gcloud/nlp_api_teaching.json&quot;)</code></pre>
 <pre class="r"><code>texts &lt;- c(&quot;The Tuskegee Study of Untreated Syphilis in the Negro Male was an infamous and unethical clinical study conducted between 1932 and 1972 by the U.S. Public Health Service. The purpose of this study was to observe the natural history of untreated syphilis; the African-American men in the study were told they were receiving free health care from the United States government.&quot;,&quot;Investigators enrolled in the study a total of 600 impoverished, African-American sharecroppers from Macon County, Alabama. The men were told that the study was only going to last six months, but it actually lasted 40 years. After funding for treatment was lost, the study was continued without informing the men that they would never be treated. None of the men were ever told that they had the disease, and none were treated with penicillin even after the antibiotic was proven to successfully treat syphilis.&quot;)
 nlp_result &lt;- gl_nlp(texts)</code></pre>
-<<<<<<< HEAD
-<pre><code>## 2019-02-09 11:45:30 -- annotateText: 374 characters</code></pre>
-<pre><code>## 2019-02-09 11:45:31 -- annotateText: 511 characters</code></pre>
-=======
-<pre><code>## 2019-02-08 14:37:25 -- annotateText: 374 characters</code></pre>
-<pre><code>## 2019-02-08 14:37:26 -- annotateText: 511 characters</code></pre>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+<pre><code>## 2019-02-20 17:05:58 -- annotateText: 374 characters</code></pre>
+<pre><code>## 2019-02-20 17:05:59 -- annotateText: 511 characters</code></pre>
 <pre class="r"><code>attributes(nlp_result)</code></pre>
 <pre><code>## $names
 ## [1] &quot;sentences&quot;         &quot;tokens&quot;            &quot;entities&quot;         

@@ -393,11 +393,7 @@ div.tocify {
             <li role="separator" class="divider"></li>
             <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
             <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
-<<<<<<< HEAD
-            <li></li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
-=======
-            <a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a>
->>>>>>> 2285ad775126f4913017da94848dee7f55c60b27
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
             <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
             <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
           </ul>
@@ -472,7 +468,7 @@ blog_html</code></pre>
 ## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset= ...
 ## [2] &lt;body class=&quot;home blog group-blog hfeed&quot;&gt;\n&lt;div id=&quot;page&quot; class=&quot;sit ...</code></pre>
 <p>Now, it’s time to quickly leap to the next level of R awesomeness, by way of the <a href="https://www.tidyverse.org/">“TIDYVERSE”</a>. Long story short, the tidyverse is a set of R packages with a unified “semantic philosophy” about how coding should work, and to be honest it feels much closer to how my brain works when doing “data science” than standard R syntax does. I don’t encounter R enough to really know how many people use standard R functions vs. how many have entered the tidyverse, but it’s definitely a not-insignificant number. I’d be willing to bet a majority of “data scientists” use the tidyverse.</p>
-<p>[TODO: tidyverse tutorial]</p>
+<!-- [TODO: tidyverse tutorial] -->
 <p>So, now that you know the basics of how <code>dplyr</code> works, let’s use it to “pipe” the html code we downloaded into a simple processing pipeline:</p>
 <pre class="r"><code>title_nodes &lt;- blog_html %&gt;% html_nodes(&quot;.entry-title&quot;)
 title_nodes</code></pre>
@@ -764,7 +760,7 @@ substr(full_text,0,1000)</code></pre>
 <li><code>%d</code> if you’re going to fill it in with an integer</li>
 <li><code>%f</code> if you’re going to fill it in with a float (number with decimal points)</li>
 </ul>
-<pre class="r"><code>api_key &lt;- readLines(&quot;Web_Scraping_files/google_api_key.secret&quot;)
+<pre class="r"><code>api_key &lt;- readLines(&quot;../gcloud/kgraph_api_teaching.secret&quot;)
 query_template &lt;- &quot;https://kgsearch.googleapis.com/v1/entities:search?query=%s&amp;key=%s&amp;limit=%d&quot;
 query_url &lt;- sprintf(query_template, &quot;south+african+border+war&quot;, api_key, 3)
 kg_json &lt;- fromJSON(query_url)
@@ -777,7 +773,7 @@ kg_df</code></pre>
 <pre><code>## # A tibble: 3 x 3
 ##   name                     score kg_id        
 ##   &lt;chr&gt;                    &lt;dbl&gt; &lt;chr&gt;        
-## 1 South African Border War  887. kg:/m/0bbx4h 
+## 1 South African Border War  888. kg:/m/0bbx4h 
 ## 2 Africa                    636. kg:/m/0dg3n1 
 ## 3 Apartheid                 618. kg:/m/0hn9dw9</code></pre>
 <p>We see that of the three results, the first one has the highest <code>resultScore</code> value. So we pick this one and make another API request to obtain info about it:</p>
