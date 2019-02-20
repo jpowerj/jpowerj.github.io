@@ -516,8 +516,8 @@ get_sentiment(dead_prez)</code></pre>
 gl_auth(&quot;../gcloud/nlp_api_teaching.json&quot;)</code></pre>
 <pre class="r"><code>texts &lt;- c(&quot;The Tuskegee Study of Untreated Syphilis in the Negro Male was an infamous and unethical clinical study conducted between 1932 and 1972 by the U.S. Public Health Service. The purpose of this study was to observe the natural history of untreated syphilis; the African-American men in the study were told they were receiving free health care from the United States government.&quot;,&quot;Investigators enrolled in the study a total of 600 impoverished, African-American sharecroppers from Macon County, Alabama. The men were told that the study was only going to last six months, but it actually lasted 40 years. After funding for treatment was lost, the study was continued without informing the men that they would never be treated. None of the men were ever told that they had the disease, and none were treated with penicillin even after the antibiotic was proven to successfully treat syphilis.&quot;)
 nlp_result &lt;- gl_nlp(texts)</code></pre>
-<pre><code>## 2019-02-20 17:05:58 -- annotateText: 374 characters</code></pre>
-<pre><code>## 2019-02-20 17:05:59 -- annotateText: 511 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:33 -- annotateText: 374 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:33 -- annotateText: 511 characters</code></pre>
 <pre class="r"><code>attributes(nlp_result)</code></pre>
 <pre><code>## $names
 ## [1] &quot;sentences&quot;         &quot;tokens&quot;            &quot;entities&quot;         

@@ -440,9 +440,9 @@ yarmouk &lt;- &quot;The largest Palestinian refugee camp in Syria has been &#39;
 combined &lt;- &quot;By mid-1982, under the supervision of the Multinational Force, the Palestine Liberation Organization withdrew from Lebanon following weeks of battles in West Beirut and shortly before the massacre took place.&quot;
 
 nlp_result &lt;- gl_nlp(c(wiki2,yarmouk,combined))</code></pre>
-<pre><code>## 2019-02-20 17:05:48 -- annotateText: 222 characters</code></pre>
-<pre><code>## 2019-02-20 17:05:48 -- annotateText: 251 characters</code></pre>
-<pre><code>## 2019-02-20 17:05:49 -- annotateText: 208 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:23 -- annotateText: 222 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:24 -- annotateText: 251 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:24 -- annotateText: 208 characters</code></pre>
 <pre class="r"><code>nlp_result$entities</code></pre>
 <pre><code>## [[1]]
 ## # A tibble: 8 x 9
@@ -977,7 +977,7 @@ nlp_result &lt;- gl_nlp(c(wiki2,yarmouk,combined))</code></pre>
 <pre class="r"><code>nlp_result$sentences[[2]]$score</code></pre>
 <pre><code>## [1] -0.5</code></pre>
 <pre class="r"><code>y_trans &lt;- gl_translate(yarmouk, &quot;es&quot;)</code></pre>
-<pre><code>## 2019-02-20 17:05:50 -- Translating text: 251 characters -</code></pre>
+<pre><code>## 2019-02-20 17:19:25 -- Translating text: 251 characters -</code></pre>
 <pre class="r"><code>y_trans$translatedText</code></pre>
 <pre><code>## [1] &quot;El mayor campo de refugiados palestinos en Siria se ha &#39;transformado en un campo de muerte&#39; cuando las fuerzas del régimen de Assad siguen adelante con una ofensiva importante contra el Estado Islámico de Irak y los combatientes del Levante que controlan el área, advirtieron las Naciones Unidas.&quot;</code></pre>
 <pre class="r"><code># Using tidyverse (dplyr and readr) from this cell onwards
@@ -1066,8 +1066,8 @@ for (speech_num in 3:4){
   has_trump &lt;- &quot;Trump&quot; %in% cur_entities
   trump_list[[speech_num]] &lt;- has_trump
 }</code></pre>
-<pre><code>## 2019-02-20 17:05:51 -- annotateText: 499 characters</code></pre>
-<pre><code>## 2019-02-20 17:05:51 -- annotateText: 500 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:27 -- annotateText: 499 characters</code></pre>
+<pre><code>## 2019-02-20 17:19:27 -- annotateText: 500 characters</code></pre>
 <pre class="r"><code>print(entity_list)</code></pre>
 <pre><code>## [[1]]
 ## NULL
