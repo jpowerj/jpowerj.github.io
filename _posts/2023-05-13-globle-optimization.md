@@ -71,8 +71,10 @@ You instantly have a variable called `dist_cepii` in your environment,
 containing pairwise distances (calculated a few different ways) between
 all countries[^2]:
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 # Keep only distance vars, plus ids
@@ -88,10 +90,14 @@ dists <- dists %>%
 # Convert the weighted dists to floats
 dists <- dists %>%
   mutate(distw_num = suppressWarnings(as.numeric(distw)))
-dists %>% head(disp_n) %>% knitr::kable()
+dists %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | iso_o | iso_d |       dist |    distcap | distw              | distwces           |  distw_num |
 |:------|:------|-----------:|-----------:|:-------------------|:-------------------|-----------:|
@@ -100,6 +106,8 @@ dists %>% head(disp_n) %>% knitr::kable()
 | ABW   | AIA   |   983.2682 |   983.2682 | 976.89739999999995 | 976.89160000000004 |   976.8974 |
 | ABW   | ALB   |  9091.7420 |  9091.7420 | 9091.5759999999991 | 9091.4660000000003 |  9091.5760 |
 | ABW   | AND   |  7572.7880 |  7572.7880 | 7570.0839999999998 | 7570.0829999999996 |  7570.0840 |
+
+</div>
 
 The `dist` and `distcap` columns are straightforward: the distances
 between the countries’ centroids and capital cities, respectively. The
@@ -115,8 +123,10 @@ distance values and providing custom labels for six countries not
 included in the `countrycode` helper library, we get a version with
 readable country names:
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 dists <- dists %>%
@@ -144,10 +154,14 @@ dists <- dists %>%
   filter(country_o != "French Polynesia" & country_d != "French Polynesia") %>%
   filter(country_o != "Cook Islands" & country_d != "Cook Islands") %>%
   filter(country_o != "Pitcairn Islands" & country_d != "Pitcairn Islands")
-dists %>% head(disp_n) %>% knitr::kable()
+dists %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country_o | country_d   | iso_o | iso_d |       dist |    distcap | distw              | distwces           |  distw_num |
 |:----------|:------------|:------|:------|-----------:|-----------:|:-------------------|:-------------------|-----------:|
@@ -157,12 +171,16 @@ dists %>% head(disp_n) %>% knitr::kable()
 | Aruba     | Albania     | ABW   | ALB   |  9091.7420 |  9091.7420 | 9091.5759999999991 | 9091.4660000000003 |  9091.5760 |
 | Aruba     | Andorra     | ABW   | AND   |  7572.7880 |  7572.7880 | 7570.0839999999998 | 7570.0829999999996 |  7570.0840 |
 
+</div>
+
 Finally, with a somewhat scary-looking single `dplyr` (piped) operation,
 we get our average distances for each country, using a few different
 ways of measuring “average”:
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 mean_dists <- dists %>%
@@ -191,10 +209,14 @@ mean_dists <- dists %>%
   rename(country=country_o)
 #%>%
 #  select(country_o, everything())
-mean_dists %>% head(disp_n) %>% knitr::kable()
+mean_dists %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country     | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw        | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:--------------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -203,6 +225,8 @@ mean_dists %>% head(disp_n) %>% knitr::kable()
 | Algeria     |  6571.217 |    6157.438 | 18953.23 | New Zealand | 643.6230 | Andorra         |   6516.543 |     5986.565 |  19107.99 | New Zealand  |  11645.69 |  781.0697 | Andorra             |     6561.525 |       6102.879 |    18953.23 | New Zealand    |    643.6230 | Andorra         |
 | Andorra     |  6548.793 |    6214.106 | 19455.71 | New Zealand | 492.9274 | Spain           |   6487.443 |     6067.936 |  19278.08 | New Zealand  |  11849.80 |  519.3864 | Spain               |     6539.376 |       6214.106 |    19455.71 | New Zealand    |    492.9274 | Spain           |
 | Angola      |  7636.282 |    7169.937 | 17965.46 | Tokelau     | 553.1064 | Zaire           |   7649.624 |     7230.497 |  17829.95 | Tokelau      |  12864.15 |  681.5906 | Congo - Brazzaville |     7632.548 |       7169.937 |    17965.46 | Tokelau        |    553.1064 | Zaire           |
+
+</div>
 
 The `mean_dist`, `median_dist`, `max_dist`, and `min_dist` columns are
 self-explanatory, but `argmax_dist` tells us the country that is
@@ -223,17 +247,23 @@ at a few different ways of computing this average, starting with the
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_mean <- mean_dists %>%
   arrange(mean_dist) %>%
   select(country, mean_dist, everything())
-sorted_mean %>% head(disp_n) %>% knitr::kable()
+sorted_mean %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country    | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:-----------|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -243,16 +273,24 @@ sorted_mean %>% head(disp_n) %>% knitr::kable()
 | Italy      |  6410.571 |    5996.121 | 18572.15 | New Zealand | 230.0196 | San Marino      |   6365.753 |     5680.541 |  18460.90 | New Zealand  |  11963.57 |  327.9480 | San Marino      |     6399.405 |       5884.250 |    18572.15 | New Zealand    |    230.0196 | San Marino      |
 | San Marino |  6415.701 |    6079.517 | 18621.28 | New Zealand | 230.0196 | Italy           |   6358.362 |     5795.321 |  18427.01 | New Zealand  |  11910.63 |  308.0931 | Slovenia        |     6404.382 |       5971.463 |    18621.28 | New Zealand    |    230.0196 | Italy           |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_mean %>% tail(disp_n) %>% knitr::kable()
+sorted_mean %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country     | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|----------:|------------:|---------:|:------------|----------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -262,21 +300,29 @@ sorted_mean %>% tail(disp_n) %>% knitr::kable()
 | Fiji        |  13512.67 |    14275.24 | 19388.75 | Niger       |  788.5273 | Wallis & Futuna |   13570.82 |     14377.85 |  19384.72 | Burkina Faso |  17938.90 |  788.8261 | Wallis & Futuna |     13520.41 |       14275.24 |    19388.75 | Niger          |    788.5273 | Wallis & Futuna |
 | Tonga       |  13673.66 |    14556.90 | 19139.56 | Niger       |  604.2923 | Niue            |   13732.91 |     14722.22 |  19222.06 | Niger        |  17742.83 |  581.7196 | Niue            |     13683.17 |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
 
+</div>
+
 ### Median of Distances
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_median <- mean_dists %>%
   arrange(median_dist) %>%
   select(country, median_dist, everything())
-sorted_median %>% head(disp_n) %>% knitr::kable()
+sorted_median %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country | median_dist | mean_dist | max_dist | argmax_dist |  min_dist | argmin_dist       | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw      | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:--------|------------:|----------:|---------:|:------------|----------:|:------------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:------------------|-------------:|---------------:|------------:|:---------------|------------:|:---------------|
@@ -286,16 +332,24 @@ sorted_median %>% head(disp_n) %>% knitr::kable()
 | Chad    |    5364.059 |  6986.228 | 19192.57 | Tokelau     | 1158.0940 | Equatorial Guinea |   6965.297 |     5450.785 |  19137.92 | Tokelau      |  12235.48 | 1232.0420 | Equatorial Guinea |     6975.912 |       5364.059 |    19192.57 | Tokelau        |    916.8266 | Nigeria        |
 | Jordan  |    5390.645 |  6559.271 | 17076.25 | Niue        |  111.0933 | Israel            |   6513.777 |     5292.887 |  17082.49 | Niue         |  12443.22 |  114.6373 | Israel            |     6545.317 |       5390.645 |    17076.25 | Niue           |    111.0933 | Israel         |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_median %>% tail(disp_n) %>% knitr::kable()
+sorted_median %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country         | median_dist | mean_dist | max_dist | argmax_dist    | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw   | p90_distw | min_distw | argmin_distw  | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|------------:|----------:|---------:|:---------------|---------:|:----------------|-----------:|-------------:|----------:|:---------------|----------:|----------:|:--------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -305,24 +359,32 @@ sorted_median %>% tail(disp_n) %>% knitr::kable()
 | Wallis & Futuna |    14540.30 |  13207.36 | 19846.20 | Niger          | 662.7784 | Tokelau         |   13261.60 |     14538.54 |  19697.69 | Niger          |  17749.21 |  470.5988 | Samoa         |     13215.18 |       14540.30 |    19846.20 | Niger          |    662.7784 | Tokelau         |
 | Tonga           |    14556.90 |  13673.66 | 19139.56 | Niger          | 604.2923 | Niue            |   13732.91 |     14722.22 |  19222.06 | Niger          |  17742.83 |  581.7196 | Niue          |     13683.17 |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
 
+</div>
+
 ### Mean of Weighted Distances
 
 (We need to drop NAs for the weighted measures)
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_mean_distw <- mean_dists %>%
   arrange(mean_distw) %>%
   select(country, mean_distw, everything()) %>%
   drop_na(mean_distw)
-sorted_mean_distw %>% head(disp_n) %>% knitr::kable()
+sorted_mean_distw %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country    | mean_distw | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:-----------|-----------:|----------:|------------:|---------:|:------------|---------:|:----------------|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -332,16 +394,24 @@ sorted_mean_distw %>% head(disp_n) %>% knitr::kable()
 | San Marino |   6358.362 |  6415.701 |    6079.517 | 18621.28 | New Zealand | 230.0196 | Italy           |     5795.321 |  18427.01 | New Zealand  |  11910.63 |  308.0931 | Slovenia        |     6404.382 |       5971.463 |    18621.28 | New Zealand    |    230.0196 | Italy           |
 | Italy      |   6365.753 |  6410.571 |    5996.121 | 18572.15 | New Zealand | 230.0196 | San Marino      |     5680.541 |  18460.90 | New Zealand  |  11963.57 |  327.9480 | San Marino      |     6399.405 |       5884.250 |    18572.15 | New Zealand    |    230.0196 | San Marino      |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_mean_distw %>% tail(disp_n) %>% knitr::kable()
+sorted_mean_distw %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country     | mean_distw | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|-----------:|----------:|------------:|---------:|:------------|----------:|:----------------|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -351,22 +421,30 @@ sorted_mean_distw %>% tail(disp_n) %>% knitr::kable()
 | Fiji        |   13570.82 |  13512.67 |    14275.24 | 19388.75 | Niger       |  788.5273 | Wallis & Futuna |     14377.85 |  19384.72 | Burkina Faso |  17938.90 |  788.8261 | Wallis & Futuna |     13520.41 |       14275.24 |    19388.75 | Niger          |    788.5273 | Wallis & Futuna |
 | Tonga       |   13732.91 |  13673.66 |    14556.90 | 19139.56 | Niger       |  604.2923 | Niue            |     14722.22 |  19222.06 | Niger        |  17742.83 |  581.7196 | Niue            |     13683.17 |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
 
+</div>
+
 ### Median of Weighted Distances
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_median_distw <- mean_dists %>%
   arrange(median_distw) %>%
   select(country, median_distw, everything()) %>%
   drop_na(median_distw)
-sorted_median_distw %>% head(disp_n) %>% knitr::kable()
+sorted_median_distw %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country      | median_distw | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist | mean_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:-------------|-------------:|----------:|------------:|---------:|:------------|----------:|:------------|-----------:|----------:|:-------------|----------:|----------:|:-------------|-------------:|---------------:|------------:|:---------------|------------:|:---------------|
@@ -376,16 +454,24 @@ sorted_median_distw %>% head(disp_n) %>% knitr::kable()
 | Saudi Arabia |     5199.033 |  6907.222 |    5591.434 | 16203.79 | Niue        | 425.21070 | Bahrain     |   6816.178 |  16547.74 | Niue         |  13171.91 | 804.10050 | Bahrain      |     6895.014 |       5591.434 |    16203.79 | Niue           |   425.21070 | Bahrain        |
 | Israel       |     5262.949 |  6540.009 |    5464.722 | 17171.11 | Niue        |  68.90157 | Palestine   |   6496.556 |  17165.09 | Niue         |  12366.88 |  72.66324 | Palestine    |     6526.097 |       5464.722 |    17171.11 | Niue           |    68.90157 | Palestine      |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_median_distw %>% tail(disp_n) %>% knitr::kable()
+sorted_median_distw %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country         | median_distw | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|-------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -394,6 +480,8 @@ sorted_median_distw %>% tail(disp_n) %>% knitr::kable()
 | Tonga           |     14722.22 |  13673.66 |    14556.90 | 19139.56 | Niger       | 604.2923 | Niue            |   13732.91 |  19222.06 | Niger        |  17742.83 |  581.7196 | Niue            |     13683.17 |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
 | Samoa           |     14770.88 |  12946.54 |    14204.92 | 19904.45 | Mali        | 574.2394 | Vanuatu         |   13275.58 |  19603.05 | Niger        |  17500.88 |  470.5988 | Wallis & Futuna |     12952.16 |       14225.43 |    19904.45 | Mali           |    574.2394 | Vanuatu         |
 | Niue            |     14816.30 |  13368.45 |    14482.60 | 19108.23 | Chad        | 604.2923 | Tonga           |   13423.24 |  19226.05 | Niger        |  17551.72 |  581.7195 | Tonga           |     13378.56 |       14589.33 |    19108.23 | Chad           |    604.2923 | Tonga           |
+
+</div>
 
 ### Half Weighted Mean, Half Weighted Median
 
@@ -405,8 +493,10 @@ quantity.
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_meanmed_distw <- mean_dists %>%
@@ -414,10 +504,14 @@ sorted_meanmed_distw <- mean_dists %>%
   select(country, meanmed_distw, everything()) %>%
   drop_na(meanmed_distw) %>%
   arrange(meanmed_distw)
-sorted_meanmed_distw %>% head(disp_n) %>% knitr::kable()
+sorted_meanmed_distw %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country | meanmed_distw | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:--------|--------------:|----------:|------------:|---------:|:------------|----------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -427,16 +521,24 @@ sorted_meanmed_distw %>% head(disp_n) %>% knitr::kable()
 | Israel  |      5879.752 |  6540.009 |    5464.722 | 17171.11 | Niue        |  68.90157 | Palestine       |   6496.556 |     5262.949 |  17165.09 | Niue         |  12366.88 |  72.66324 | Palestine       |     6526.097 |       5464.722 |    17171.11 | Niue           |    68.90157 | Palestine       |
 | Greece  |      5888.932 |  6401.242 |    5675.844 | 17541.17 | Niue        | 485.28230 | North Macedonia |   6345.718 |     5432.146 |  17521.98 | Niue         |  11668.36 | 420.24540 | North Macedonia |     6388.844 |       5675.844 |    17541.17 | Niue           |   485.28230 | North Macedonia |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_meanmed_distw %>% tail(disp_n) %>% knitr::kable()
+sorted_meanmed_distw %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country | meanmed_distw | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:--------|--------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -445,6 +547,8 @@ sorted_meanmed_distw %>% tail(disp_n) %>% knitr::kable()
 | Samoa   |      14023.23 |  12946.54 |    14204.92 | 19904.45 | Mali        | 574.2394 | Vanuatu         |   13275.58 |     14770.88 |  19603.05 | Niger        |  17500.88 |  470.5988 | Wallis & Futuna |     12952.16 |       14225.43 |    19904.45 | Mali           |    574.2394 | Vanuatu         |
 | Niue    |      14119.77 |  13368.45 |    14482.60 | 19108.23 | Chad        | 604.2923 | Tonga           |   13423.24 |     14816.30 |  19226.05 | Niger        |  17551.72 |  581.7195 | Tonga           |     13378.56 |       14589.33 |    19108.23 | Chad           |    604.2923 | Tonga           |
 | Tonga   |      14227.56 |  13673.66 |    14556.90 | 19139.56 | Niger       | 604.2923 | Niue            |   13732.91 |     14722.22 |  19222.06 | Niger        |  17742.83 |  581.7196 | Niue            |     13683.17 |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
+
+</div>
 
 ## Capital Cities
 
@@ -463,17 +567,23 @@ So, using the aggregated `distcap` variables instead of the
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_meancap <- mean_dists %>%
   arrange(mean_distcap) %>%
   select(country, mean_distcap, everything())
-sorted_meancap %>% head(disp_n) %>% knitr::kable()
+sorted_meancap %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country    | mean_distcap | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:-----------|-------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|---------------:|------------:|:---------------|------------:|:----------------|
@@ -483,16 +593,24 @@ sorted_meancap %>% head(disp_n) %>% knitr::kable()
 | Italy      |     6399.405 |  6410.571 |    5996.121 | 18572.15 | New Zealand | 230.0196 | San Marino      |   6365.753 |     5680.541 |  18460.90 | New Zealand  |  11963.57 |  327.9480 | San Marino      |       5884.250 |    18572.15 | New Zealand    |    230.0196 | San Marino      |
 | San Marino |     6404.382 |  6415.701 |    6079.517 | 18621.28 | New Zealand | 230.0196 | Italy           |   6358.362 |     5795.321 |  18427.01 | New Zealand  |  11910.63 |  308.0931 | Slovenia        |       5971.463 |    18621.28 | New Zealand    |    230.0196 | Italy           |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_meancap %>% tail(disp_n) %>% knitr::kable()
+sorted_meancap %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country     | mean_distcap | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|-------------:|----------:|------------:|---------:|:------------|----------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|---------------:|------------:|:---------------|------------:|:----------------|
@@ -502,21 +620,29 @@ sorted_meancap %>% tail(disp_n) %>% knitr::kable()
 | Fiji        |     13520.41 |  13512.67 |    14275.24 | 19388.75 | Niger       |  788.5273 | Wallis & Futuna |   13570.82 |     14377.85 |  19384.72 | Burkina Faso |  17938.90 |  788.8261 | Wallis & Futuna |       14275.24 |    19388.75 | Niger          |    788.5273 | Wallis & Futuna |
 | Tonga       |     13683.17 |  13673.66 |    14556.90 | 19139.56 | Niger       |  604.2923 | Niue            |   13732.91 |     14722.22 |  19222.06 | Niger        |  17742.83 |  581.7196 | Niue            |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
 
+</div>
+
 ### Median of Capital Distances
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_mediancap <- mean_dists %>%
   arrange(median_distcap) %>%
   select(country, median_distcap, everything())
-sorted_mediancap %>% head(disp_n) %>% knitr::kable()
+sorted_mediancap %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country | median_distcap | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist       | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw      | mean_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:--------|---------------:|----------:|------------:|---------:|:------------|----------:|:------------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:------------------|-------------:|------------:|:---------------|------------:|:---------------|
@@ -526,16 +652,24 @@ sorted_mediancap %>% head(disp_n) %>% knitr::kable()
 | Chad    |       5364.059 |  6986.228 |    5364.059 | 19192.57 | Tokelau     | 1158.0940 | Equatorial Guinea |   6965.297 |     5450.785 |  19137.92 | Tokelau      |  12235.48 | 1232.0420 | Equatorial Guinea |     6975.912 |    19192.57 | Tokelau        |    916.8266 | Nigeria        |
 | Jordan  |       5390.645 |  6559.271 |    5390.645 | 17076.25 | Niue        |  111.0933 | Israel            |   6513.777 |     5292.887 |  17082.49 | Niue         |  12443.22 |  114.6373 | Israel            |     6545.317 |    17076.25 | Niue           |    111.0933 | Israel         |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_mediancap %>% tail(disp_n) %>% knitr::kable()
+sorted_mediancap %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country         | median_distcap | mean_dist | median_dist | max_dist | argmax_dist    | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw   | p90_distw | min_distw | argmin_distw  | mean_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|---------------:|----------:|------------:|---------:|:---------------|---------:|:----------------|-----------:|-------------:|----------:|:---------------|----------:|----------:|:--------------|-------------:|------------:|:---------------|------------:|:----------------|
@@ -545,12 +679,16 @@ sorted_mediancap %>% tail(disp_n) %>% knitr::kable()
 | Tonga           |       14556.90 |  13673.66 |    14556.90 | 19139.56 | Niger          | 604.2923 | Niue            |   13732.91 |     14722.22 |  19222.06 | Niger          |  17742.83 |  581.7196 | Niue          |     13683.17 |    19139.56 | Niger          |    604.2923 | Niue            |
 | Niue            |       14589.33 |  13368.45 |    14482.60 | 19108.23 | Chad           | 604.2923 | Tonga           |   13423.24 |     14816.30 |  19226.05 | Niger          |  17551.72 |  581.7195 | Tonga         |     13378.56 |    19108.23 | Chad           |    604.2923 | Tonga           |
 
+</div>
+
 ### Half Median, Half Mean of Capital Distance
 
 **Top 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 sorted_meanmed_distcap <- mean_dists %>%
@@ -558,10 +696,14 @@ sorted_meanmed_distcap <- mean_dists %>%
   select(country, meanmed_capdist, everything()) %>%
   drop_na(meanmed_capdist) %>%
   arrange(meanmed_capdist)
-sorted_meanmed_distcap %>% head(disp_n) %>% knitr::kable()
+sorted_meanmed_distcap %>% head(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country   | meanmed_capdist | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:----------|----------------:|----------:|------------:|---------:|:------------|----------:|:------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:-------------|-------------:|---------------:|------------:|:---------------|------------:|:---------------|
@@ -571,16 +713,24 @@ sorted_meanmed_distcap %>% head(disp_n) %>% knitr::kable()
 | Palestine |        5992.627 |  6542.312 |    5456.729 | 17224.54 | Niue        |  68.90157 | Israel      |   6499.195 |     5289.208 |  17196.58 | Niue         |  12347.68 |  72.66324 | Israel       |     6528.524 |       5456.729 |    17224.54 | Niue           |    68.90157 | Israel         |
 | Israel    |        5995.410 |  6540.009 |    5464.722 | 17171.11 | Niue        |  68.90157 | Palestine   |   6496.556 |     5262.949 |  17165.09 | Niue         |  12366.88 |  72.66324 | Palestine    |     6526.097 |       5464.722 |    17171.11 | Niue           |    68.90157 | Palestine      |
 
+</div>
+
 **Bottom 5:**
 
+
+
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
-sorted_meanmed_distcap %>% tail(disp_n) %>% knitr::kable()
+sorted_meanmed_distcap %>% tail(disp_n)
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 | country         | meanmed_capdist | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|----------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -589,6 +739,8 @@ sorted_meanmed_distcap %>% tail(disp_n) %>% knitr::kable()
 | Fiji            |        13897.83 |  13512.67 |    14275.24 | 19388.75 | Niger       | 788.5273 | Wallis & Futuna |   13570.82 |     14377.85 |  19384.72 | Burkina Faso |  17938.90 |  788.8261 | Wallis & Futuna |     13520.41 |       14275.24 |    19388.75 | Niger          |    788.5273 | Wallis & Futuna |
 | Niue            |        13983.94 |  13368.45 |    14482.60 | 19108.23 | Chad        | 604.2923 | Tonga           |   13423.24 |     14816.30 |  19226.05 | Niger        |  17551.72 |  581.7195 | Tonga           |     13378.56 |       14589.33 |    19108.23 | Chad           |    604.2923 | Tonga           |
 | Tonga           |        14120.03 |  13673.66 |    14556.90 | 19139.56 | Niger       | 604.2923 | Niue            |   13732.91 |     14722.22 |  19222.06 | Niger        |  17742.83 |  581.7196 | Niue            |     13683.17 |       14556.90 |    19139.56 | Niger          |    604.2923 | Niue            |
+
+</div>
 
 ## The Takeaway
 
@@ -607,7 +759,7 @@ You can download the processed data, with the precomputed average
 distances, [here](/assets/data/country_dists.csv).
 
 <details>
-<summary>Code</summary>
+<summary markdown="span">Code</summary>
 
 ``` r
 library(readr)
@@ -615,6 +767,10 @@ write_csv(mean_dists, "../assets/data/country_dists.csv")
 ```
 
 </details>
+
+<div class="table-wrapper" markdown="block">
+
+
 
 [^1]: Officially called [*départements et régions
     d’outre-mer*](https://en.wikipedia.org/wiki/Overseas_departments_and_regions_of_France)

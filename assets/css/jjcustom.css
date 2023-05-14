@@ -108,3 +108,17 @@ table {
     font-size: 90% !important;
     overflow-x: scroll !important;
 } */
+
+/* details {
+    width: 100% !important;
+    overflow-x: scroll !important;
+} */
+
+/* table {
+    width: 100% !important;
+    overflow-x: scroll !important;
+} */
+
+.table-wrapper {
+    overflow-x: scroll;
+}

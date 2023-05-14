@@ -57,7 +57,10 @@ footer_links:
 #    icon: fas fa-rss-square
 copyright: "&copy; 2023 [Jeff Jacobs](https://cs.stanford.edu/~jjacobs3). Powered by [Jekyll](https://jekyllrb.com/) &amp; [So Simple](https://github.com/mmistakes/so-simple-theme)."
 exclude: ["*.qmd"]
-
+kramdown:
+  parse_block_html: true
+#  parse_span_html: false
+#  html_to_native: true
 # Build settings
 remote_theme: "mmistakes/so-simple-theme@3.2.0"
 plugins:

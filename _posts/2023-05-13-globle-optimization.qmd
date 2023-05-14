@@ -3,20 +3,23 @@ title: "Globle Optimization"
 author: "Jeff Jacobs"
 format:
   gfm:
-    preserve_yaml: true
+    keep-yaml: true
     title: ""
     author: ""
     date: ""
+    excerpt-separator: <!--more-->
+    preview-mode: raw
 #format:
 #  html:
 #    preserve_yaml: true
-editor: visual
+#editor: visual
 date: "2023-05-13"
 embed-resources: true
 layout: post
-always_allow_html: true
-excerpt_separator: <!--more-->
-df-print: paged
+#always_allow_html: true
+df-print: kable
+code-copy: true
+#toc: true
 ---
 
 ```{r,setup=TRUE,echo=FALSE}
@@ -62,6 +65,8 @@ library(countrycode)
 
 You instantly have a variable called `dist_cepii` in your environment, containing pairwise distances (calculated a few different ways) between all countries[^vars]:
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,disp-cepii}
 #| code-fold: true
 # Keep only distance vars, plus ids
@@ -77,12 +82,16 @@ dists <- dists %>%
 # Convert the weighted dists to floats
 dists <- dists %>%
   mutate(distw_num = suppressWarnings(as.numeric(distw)))
-dists %>% head(disp_n) %>% knitr::kable()
+dists %>% head(disp_n)
 ```
+
+</div>
 
 The `dist` and `distcap` columns are straightforward: the distances between the countries' centroids and capital cities, respectively. The weighted variables, `distw` and `distwcec`, are called "gravity-weighted" distances, which in this case means that the original distances are weighted "using city-level data to assess the geographic distribution of population (in 2004) inside each nation" (see [here](http://www.cepii.fr/PDF_PUB/wp/2011/wp2011-25.pdf) for full details).
 
 After some basic cleaning---dropping some too-small countries with strange distance values and providing custom labels for six countries not included in the `countrycode` helper library, we get a version with readable country names:
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,clean-countries}
 #| code-fold: true
@@ -112,10 +121,14 @@ dists <- dists %>%
   filter(country_o != "French Polynesia" & country_d != "French Polynesia") %>%
   filter(country_o != "Cook Islands" & country_d != "Cook Islands") %>%
   filter(country_o != "Pitcairn Islands" & country_d != "Pitcairn Islands")
-dists %>% head(disp_n) %>% knitr::kable()
+dists %>% head(disp_n)
 ```
 
+</div>
+
 Finally, with a somewhat scary-looking single `dplyr` (piped) operation, we get our average distances for each country, using a few different ways of measuring "average":
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,compute-avg}
 #| warning: FALSE
@@ -146,8 +159,10 @@ mean_dists <- dists %>%
   rename(country=country_o)
 #%>%
 #  select(country_o, everything())
-mean_dists %>% head(disp_n) %>% knitr::kable()
+mean_dists %>% head(disp_n)
 ```
+
+</div>
 
 The `mean_dist`, `median_dist`, `max_dist`, and `min_dist` columns are self-explanatory, but `argmax_dist` tells us the country that is *furthest away* from a given country, while `argmin_dist` tells us the country that is *closest*. `p90_distw` tells us the 90th percentile of the `distw` measure between this country and all other countries (this is how I caught the strange distances for the countries we dropped in the previous step).
 
@@ -159,39 +174,55 @@ Now that we have our average distances, we can get our result: the country that 
 
 **Top 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean}
 #| code-fold: true
 sorted_mean <- mean_dists %>%
   arrange(mean_dist) %>%
   select(country, mean_dist, everything())
-sorted_mean %>% head(disp_n) %>% knitr::kable()
+sorted_mean %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-bottom}
 #| code-fold: true
-sorted_mean %>% tail(disp_n) %>% knitr::kable()
+sorted_mean %>% tail(disp_n)
 ```
+
+</div>
 
 ### Median of Distances
 
 **Top 5:**
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,median}
 #| code-fold: true
 sorted_median <- mean_dists %>%
   arrange(median_dist) %>%
   select(country, median_dist, everything())
-sorted_median %>% head(disp_n) %>% knitr::kable()
+sorted_median %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,median-bottom}
 #| code-fold: true
-sorted_median %>% tail(disp_n) %>% knitr::kable()
+sorted_median %>% tail(disp_n)
 ```
+
+</div>
 
 ### Mean of Weighted Distances
 
@@ -199,25 +230,35 @@ sorted_median %>% tail(disp_n) %>% knitr::kable()
 
 **Top 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-distw}
 #| code-fold: true
 sorted_mean_distw <- mean_dists %>%
   arrange(mean_distw) %>%
   select(country, mean_distw, everything()) %>%
   drop_na(mean_distw)
-sorted_mean_distw %>% head(disp_n) %>% knitr::kable()
+sorted_mean_distw %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-distw-bottom}
 #| code-fold: true
-sorted_mean_distw %>% tail(disp_n) %>% knitr::kable()
+sorted_mean_distw %>% tail(disp_n)
 ```
+
+</div>
 
 ### Median of Weighted Distances
 
 **Top 5:**
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,median-distw}
 #| code-fold: true
@@ -225,21 +266,29 @@ sorted_median_distw <- mean_dists %>%
   arrange(median_distw) %>%
   select(country, median_distw, everything()) %>%
   drop_na(median_distw)
-sorted_median_distw %>% head(disp_n) %>% knitr::kable()
+sorted_median_distw %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,median-distw-bottom}
 #| code-fold: true
-sorted_median_distw %>% tail(disp_n) %>% knitr::kable()
+sorted_median_distw %>% tail(disp_n)
 ```
+
+</div>
 
 ### Half Weighted Mean, Half Weighted Median
 
 I wasn't sure what to call this, and I don't think it should be used for important statistical analyses, but out of curiosity I tried to "balance" the sorted-by-weighted-mean and sorted-by-weighted-median results by computing the arithmetic mean of the two and sorting by this quantity.
 
 **Top 5:**
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,mean-median}
 #| code-fold: true
@@ -248,15 +297,21 @@ sorted_meanmed_distw <- mean_dists %>%
   select(country, meanmed_distw, everything()) %>%
   drop_na(meanmed_distw) %>%
   arrange(meanmed_distw)
-sorted_meanmed_distw %>% head(disp_n) %>% knitr::kable()
+sorted_meanmed_distw %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-median-bottom}
 #| code-fold: true
-sorted_meanmed_distw %>% tail(disp_n) %>% knitr::kable()
+sorted_meanmed_distw %>% tail(disp_n)
 ```
+
+</div>
 
 ## Capital Cities
 
@@ -266,43 +321,61 @@ Globle has a companion game, [Globle-Capitals](https://globle-capitals.com), tha
 
 **Top 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-capdist}
 #| code-fold: true
 sorted_meancap <- mean_dists %>%
   arrange(mean_distcap) %>%
   select(country, mean_distcap, everything())
-sorted_meancap %>% head(disp_n) %>% knitr::kable()
+sorted_meancap %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-capdist-bottom}
 #| code-fold: true
-sorted_meancap %>% tail(disp_n) %>% knitr::kable()
+sorted_meancap %>% tail(disp_n)
 ```
+
+</div>
 
 ### Median of Capital Distances
 
 **Top 5:**
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,median-capdist}
 #| code-fold: true
 sorted_mediancap <- mean_dists %>%
   arrange(median_distcap) %>%
   select(country, median_distcap, everything())
-sorted_mediancap %>% head(disp_n) %>% knitr::kable()
+sorted_mediancap %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,median-capdist-bottom}
 #| code-fold: true
-sorted_mediancap %>% tail(disp_n) %>% knitr::kable()
+sorted_mediancap %>% tail(disp_n)
 ```
+
+</div>
 
 ### Half Median, Half Mean of Capital Distance
 
 **Top 5:**
+
+<div class="table-wrapper" markdown="block">
 
 ```{r,mean-median-cap}
 #| code-fold: true
@@ -311,15 +384,21 @@ sorted_meanmed_distcap <- mean_dists %>%
   select(country, meanmed_capdist, everything()) %>%
   drop_na(meanmed_capdist) %>%
   arrange(meanmed_capdist)
-sorted_meanmed_distcap %>% head(disp_n) %>% knitr::kable()
+sorted_meanmed_distcap %>% head(disp_n)
 ```
+
+</div>
 
 **Bottom 5:**
 
+<div class="table-wrapper" markdown="block">
+
 ```{r,mean-median-cap-bottom}
 #| code-fold: true
-sorted_meanmed_distcap %>% tail(disp_n) %>% knitr::kable()
+sorted_meanmed_distcap %>% tail(disp_n)
 ```
+
+</div>
 
 ## The Takeaway
 
