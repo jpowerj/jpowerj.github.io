@@ -1,0 +1,110 @@
+.align-right {
+    margin-left: auto;
+    margin-right: 0;
+    float: right;
+    padding-bottom: 2px !important;
+    margin-bottom: 2px !important;
+}
+
+.bigish {
+    font-size: 110% !important;
+}
+
+.bigish2 {
+    font-size: 105% !important;
+}
+
+.bigger {
+    font-size: 120% !important;
+}
+
+.biggerer {
+    font-size: 150% !important;
+}
+
+.biggerest {
+    font-size: 180% !important;
+}
+
+.callout {
+    margin-bottom: 0.9em !important;
+}
+
+.entity {
+    color: blue !important;
+}
+
+.lb {
+    border-left: 1px solid black !important;
+}
+
+.ln {
+    border-left: 0 !important;
+}
+
+.bn {
+    border-bottom: 0 !important;
+}
+
+.bb {
+    border-bottom: 1px solid black !important;
+}
+
+.rb {
+    border-left: 1px solid black !important;
+    border-right: 1px solid black !important;
+}
+
+.tb {
+    border-top: 1px solid black !important;
+}
+
+.moresmall {
+    font-size: 80% !important;
+}
+
+.smallmath .math.inline {
+    font-size: 90% !important;
+}
+
+.smallmath .MathJax,
+.smallmath .MathJax_Display {
+    font-size: 80% !important;
+}
+
+.redbox {
+    border: 2px solid red !important;
+    padding: 3px !important;
+    background-color: rgba(255, 0, 0, 0.1) !important;
+}
+
+.tinytext {
+    font-size: 66% !important;
+}
+
+.callout-content p:first-child {
+    margin-bottom: 0 !important;
+}
+
+/* ul {
+    margin-bottom: 0.4em !important;
+} */
+
+center p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+center img {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+section h2 {
+    margin-bottom: 0 !important;
+}
+/* 
+table {
+    font-size: 90% !important;
+    overflow-x: scroll !important;
+} */

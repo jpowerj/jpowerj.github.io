@@ -1,0 +1,8 @@
+- title: Home
+  url: /
+#- title: Categories
+#  url: /categories/
+- title: Search
+  url: /search/
+- title: "Academic Homepage"
+  url: https://cs.stanford.edu/~jjacobs3
