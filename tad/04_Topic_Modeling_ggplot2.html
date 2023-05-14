@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jeff Jacobs" />
+
+<meta name="date" content="2018-11-28" />
+
+<title>Training and Visualizing Topic Models with ggplot2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CU Text-as-Data Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workshop Sessions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="01_Introduction_to_R.html">Week 1: Intro to R</a></li>
+            <li><a href="02_Web_Scraping.html">Week 2: Web Scraping</a></li>
+            <li><a href="03_Frequency_Analysis.html">Week 3: Frequency Analysis</a></li>
+            <li><a href="04_Topic_Modeling_ggplot2.html">Week 4: Topic Modeling and Visualization</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
+            <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
+            <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
+            <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="TAD_Resource_Extravaganza.html">Resources</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://textlab.econ.columbia.edu/">CU TextLab</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Training and Visualizing Topic Models with <code>ggplot2</code></h1>
+<h4 class="author"><em>Jeff Jacobs</em></h4>
+<h4 class="date"><em>11/28/2018</em></h4>
+
+</div>
+
+
+<div id="topic-modeling-overview" class="section level1">
+<h1>Topic Modeling Overview</h1>
+<div id="why-are-we-doing-this" class="section level2">
+<h2>Why Are We Doing This?</h2>
+<p>Short answer: either because we want to gain insights into a text corpus (and subsequently test hypotheses) that’s too big to read, or because the texts are really boring and you don’t want to read them all (my case). But now the longer answer.</p>
+<p>Although as social scientists our first instinct is often to immediately start running regressions, I would describe topic modeling more as a method of “exploratory data analysis”, as opposed to statistical data analysis methods like regression. What this means is, until we get to the Structural Topic Model (if it ever works), we won’t be quantitatively <em>evaluating</em> hypotheses but rather viewing our dataset through different “lenses”, hopefully <em>generating</em> testable hypotheses along the way.</p>
+<p>There are <a href="https://www.coursera.org/learn/exploratory-data-analysis">whole courses</a> and <a href="https://books.google.com/books/about/Exploratory_Data_Analysis.html?id=UT9dAAAAIAAJ">textbooks written by famous scientists</a> devoted solely to Exploratory Data Analysis, so I won’t try to reinvent the wheel here. However I will point out that topic modeling pretty clearly dispels the typical critique from the humanities and (some) social sciences that computational text analysis just “reduces everything down to numbers and algorithms” or “tries to quantify the unquantifiable” (or my favorite comment, “a computer can’t read a book”). It simply transforms, summarizes, zooms in and out, or otherwise manipulates your data in a customizable manner, with the whole purpose being to help you gain insights you wouldn’t have been able to develop otherwise. Note that this doesn’t imply (a) that the human gets replaced in the pipeline (<em>you</em> have to set up the algorithms and <em>you</em> have to do the interpretation of their results), or (b) that the computer is able to solve every question humans pose to it.</p>
+</div>
+<div id="ggplot2-vs-rs-standard-plotting-functions" class="section level2">
+<h2><code>ggplot2</code> vs R’s “Standard” Plotting Functions</h2>
+<p>In this tutorial you’ll <em>also</em> learn about a visualization package called <code>ggplot2</code>, which provides an alternative to the “standard” plotting functions built into R. <code>ggplot2</code> is another element in the <a href="https://www.tidyverse.org/">“tidyverse”</a>, alongside packages you’ve already seen like <code>dplyr</code>, <code>tibble</code>, and <code>readr</code> (<code>readr</code> is where the <code>read_csv()</code> function – the one with an underscore instead of the dot that’s in R’s built-in <code>read.csv()</code> function – comes from.).</p>
+<p>The novelty of <code>ggplot2</code> over the standard plotting functions comes from the fact that, instead of just replicating the plotting functions that every other library has (line graph, bar graph, pie chart), it’s built on a systematic “philosophy” of statistical/scientific visualization called the <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">“Grammar of Graphics”</a>. Long story short, this means that it decomposes “a graph” into a set of principal components (can’t think of a better term right now lol) so that you can think about them and set them up separately: data, “geometry” (lines, bars, points), mappings between data and the chosen geometry, coordinate systems, facets (basically subsets of the full data, e.g., to produce separate visualizations for male-identifying or female-identifying people), scales (linear? logarithmic?), and themes (pure #aesthetics).</p>
+<p>So basically I’ll try to argue (by example) that using the plotting functions from <code>ggplot</code> is (a) far more intuitive (once you get a feel for the “Grammar of Graphics” stuff) and (b) far more aesthetically appealing out-of-the-box than the “Standard” plotting functions built into R.</p>
+<p>First things first, let’s just compare a “completed” standard-R visualization of a topic model with a completed <code>ggplot2</code> visualization, produced from the exact same data:</p>
+<p><em>Standard R Visualization</em></p>
+<p><img src="Topic_Modeling_ggplot2_files/intifada_6.png" alt="Standard R Visualization" /></p>
+<p><em><code>ggplot2</code> Visualization</em></p>
+<p><img src="Topic_Modeling_ggplot2_files/pergroup_topic_noislam.png" alt="ggplot2 Visualization" /> The second one looks way cooler, right? Ok, onto LDA</p>
+</div>
+<div id="what-is-lda" class="section level2">
+<h2>What is LDA?</h2>
+<p>Honestly I feel like LDA is better explained visually than with words, but let me mention just one thing first: LDA, short for <a href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet Allocation</a> is a <a href="https://en.wikipedia.org/wiki/Generative_model"><strong>generative model</strong></a> (as opposed to a <a href="https://en.wikipedia.org/wiki/Discriminative_model">discriminative model</a>, like binary classifiers used in machine learning), which means that the explanation of the model is going to be a little weird. LDA is characterized (and defined) by its assumptions regarding the <a href="http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/xegbohtmlnode5.html"><strong>data generating process</strong></a> that produced a given text. Specifically, it models a world where you, imagining yourself as an author of a text in your corpus, carry out the following steps when writing a text<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>:</p>
+<ol style="list-style-type: decimal">
+<li><p>Assume you’re in a world where there are only <span class="math inline">\(K\)</span> possible topics that you could write about. In this case we’ll choose <span class="math inline">\(K = 3\)</span>: Politics, Arts, and Finance. Each of these three topics is then <em>defined by</em> a distribution over all possible words specific to the topic. So, pretending that there are only 6 words in the English language – “coup”, “election”, “artist”, “gallery”, “stock”, and “portfolio” – the distributions (and thus definitions) of the three topics could look like the following:</p>
+<pre class="r"><code>word_dists &lt;- list()
+words &lt;- c(&quot;coup&quot;,&quot;election&quot;,&quot;artist&quot;,&quot;gallery&quot;,&quot;stock&quot;,&quot;portfolio&quot;)
+# About to make a data_frame, so need to load the tidyverse
+library(tidyverse)
+politics_probs &lt;- c(0.48, 0.48, 0.01, 0.01, 0.01, 0.01)
+word_dists[[&quot;politics&quot;]] &lt;- data_frame(topic=&quot;politics&quot;,word=words, p=politics_probs)
+arts_probs &lt;- c(0.05, 0.05, 0.45, 0.2, 0.05, 0.2)
+word_dists[[&quot;arts&quot;]] &lt;- data_frame(topic=&quot;arts&quot;,word=words, p=arts_probs)
+finance_probs &lt;- c(0.01, 0.01, 0.01, 0.01, 0.48, 0.48)
+word_dists[[&quot;finance&quot;]] &lt;- data_frame(topic=&quot;finance&quot;,word=words, p=finance_probs)
+# Here we combine the separate data_frames together (just for
+# plotting purposes) using the rbindlist() function from the
+# data.table library
+library(data.table)
+dists_df = as_tibble(rbindlist(word_dists))
+
+# One way to plot it: separate plots by topic
+by_topic &lt;- ggplot(data=dists_df, aes(x=factor(word,words),y=p)) +
+  geom_bar(stat=&quot;identity&quot;, position = &quot;dodge&quot;) +
+  facet_grid(~factor(dists_df$topic,names(word_dists))) +
+  theme(axis.text.x=element_text(angle=45, hjust=1, face=&quot;bold&quot;)) +
+  xlab(&quot;Word&quot;) + ylab(&quot;P(word|topic)&quot;)
+by_topic</code></pre>
+<p><img src="04_Topic_Modeling_ggplot2_files/figure-html/fake-word-dists-1.png" width="672" /></p>
+<pre class="r"><code># Another way: one plot, each word has three bars
+by_word &lt;- ggplot(data=dists_df, aes(x=factor(word,words),y=p)) +
+  geom_bar(aes(fill=factor(topic,names(word_dists))), stat=&quot;identity&quot;, position=&quot;dodge&quot;) +
+  xlab(&quot;Word&quot;) + ylab(&quot;P(word|topic)&quot;) + labs(fill=&quot;Topic&quot;) 
+by_word</code></pre>
+<p><img src="04_Topic_Modeling_ggplot2_files/figure-html/fake-word-dists-2.png" width="672" /></p></li>
+<li><p>Choose a <em>distribution</em> over the topics from the previous step, based on how much emphasis you’d like to place on each topic in your writing (on average). For example, if you love writing about politics, sometimes like writing about art, and don’t like writing about finance, your distribution over topics could look like:</p>
+<pre class="r"><code>library(tidyverse)
+topic_dist &lt;- data_frame(topic=names(word_dists),p=c(0.6,0.3,0.1))
+# Basic barplot
+ggplot(data=topic_dist, aes(x=factor(topic,names(word_dists)), y=p)) +
+  geom_bar(stat=&quot;identity&quot;) + xlab(&quot;Topic&quot;) + ylab(&quot;P(topic)&quot;)</code></pre>
+<img src="04_Topic_Modeling_ggplot2_files/figure-html/fake-topic-dist-1.png" width="672" /></li>
+<li><p>Now we start by writing a word into our document. First we randomly sample a <em>topic</em> <span class="math inline">\(T\)</span> from our distribution over topics we chose in the last step. Then we randomly sample a <em>word</em> <span class="math inline">\(w\)</span> from topic <span class="math inline">\(T\)</span>’s word distribution, and write <span class="math inline">\(w\)</span> down on the page.</p></li>
+<li><p>We repeat step 3 however many times we want, sampling a topic and then a word for each “slot” in our document, filling up the document to arbitrary length until we’re satisfied.</p></li>
+</ol>
+<p>This process is summarized in the following image: <img src="Topic_Modeling_ggplot2_files/lda_discs.png" /></p>
+<div id="generating-documents" class="section level3">
+<h3>Generating Documents</h3>
+<p>And if we wanted to create a text using the distributions we’ve set up thus far, it would look like the following, which just implements Step 3 from above:</p>
+<pre class="r"><code># First I seed the random number generator, so that your
+# &quot;random&quot; numbers will match mine
+set.seed(1948)
+generateWord &lt;- function(topic_dist, word_dists) {
+  # 3a. Sample a topic from the topic distribution (corresponds
+  # to the colored discs in the figure above)
+  # (Note that we could generate a *vector* of draws from
+  # the distribution here, and create a whole document in
+  # one line, if we wanted)
+  sampled_topic &lt;- sample(topic_dist$topic, 1, replace = T, prob = topic_dist$p)
+  # 3b. Sample a word from the selected topic&#39;s distribution
+  # (corresponds to the color-highlighted words in the figure)
+  sampled_word &lt;- sample(word_dists[[sampled_topic]]$word, 1, replace = T, prob = word_dists[[sampled_topic]]$p)
+  return(list(&quot;topic&quot;=sampled_topic, &quot;word&quot;=sampled_word))
+}
+word_info &lt;- generateWord(topic_dist, word_dists)
+print(paste0(&quot;Sampled topic: &quot;,word_info$topic))</code></pre>
+<pre><code>## [1] &quot;Sampled topic: politics&quot;</code></pre>
+<pre class="r"><code>print(paste0(&quot;Sampled word: &quot;,word_info$word))</code></pre>
+<pre><code>## [1] &quot;Sampled word: election&quot;</code></pre>
+<p>Then we could either keep calling that function again and again until we had enough words to fill our document, or we could do what the comment suggests and write a quick <code>generateDoc()</code> function:</p>
+<pre class="r"><code>generateDoc &lt;- function(topic_dist, word_dists, num_words){
+  # Sample num_words topics
+  topic_vec &lt;- sample(topic_dist$topic, num_words, replace = T, prob = topic_dist$p)
+  doc_df &lt;- data_frame(topic=topic_vec, word=&quot;&quot;)
+  # Sample num_words words from the topic distributions, one for
+  # each topic in topic_vec
+  #num_per_topic &lt;- topic_df %&gt;% group_by(topic) %&gt;% tally()
+  #num_art_words &lt;- num_per_topic %&gt;% filter(topic == &quot;Art&quot;) %&gt;% pull(n)
+  #art_words &lt;- sample(art_dist$Word, num_art_words, replace=T, prob = art_dist$`P(word|topic)`)
+  politics_slots &lt;- which(doc_df$topic == &quot;politics&quot;)
+  arts_slots &lt;- which(doc_df$topic == &quot;arts&quot;)
+  finance_slots &lt;- which(doc_df$topic == &quot;finance&quot;)
+  # Now we know how many words to sample from each
+  politics_words &lt;- sample(word_dists[[&quot;politics&quot;]]$word, length(politics_slots), replace = T, prob = word_dists[[&quot;politics&quot;]]$p)
+  arts_words &lt;- sample(word_dists[[&quot;arts&quot;]]$word, length(arts_slots), replace = T, prob = word_dists[[&quot;arts&quot;]]$p)
+  finance_words &lt;- sample(word_dists[[&quot;finance&quot;]]$word, length(finance_slots), replace = T, prob = word_dists[[&quot;finance&quot;]]$p)
+  # Now fill in the slots
+  doc_df[politics_slots,&quot;word&quot;] = politics_words
+  doc_df[arts_slots,&quot;word&quot;] = arts_words
+  doc_df[finance_slots,&quot;word&quot;] = finance_words
+  return(doc_df)
+}
+doc_df &lt;- generateDoc(topic_dist, word_dists, 50)
+print(doc_df)</code></pre>
+<pre><code>## # A tibble: 50 x 2
+##    topic    word     
+##    &lt;chr&gt;    &lt;chr&gt;    
+##  1 finance  artist   
+##  2 arts     portfolio
+##  3 politics election 
+##  4 arts     portfolio
+##  5 politics coup     
+##  6 finance  stock    
+##  7 politics election 
+##  8 arts     portfolio
+##  9 politics coup     
+## 10 arts     artist   
+## # ... with 40 more rows</code></pre>
+<pre class="r"><code># But the &quot;real&quot; final document looks like:
+print(paste(doc_df$word, collapse=&#39; &#39;))</code></pre>
+<pre><code>## [1] &quot;artist portfolio election portfolio coup stock election portfolio coup artist election gallery election coup coup election coup election artist election artist coup portfolio election election coup portfolio artist coup election artist election artist artist portfolio artist election portfolio coup stock election coup artist artist coup election artist coup election election&quot;</code></pre>
+<p>So yeah it’s… not really coherent. No actual human would write like this. BUT it does make sense if you think of each of the steps as representing a simplified model of how humans actually <em>do</em> write, especially for particular types of documents: If I’m writing a book about Cold War history, for example, I’ll probably want to dedicate large chunks to the US, the USSR, and China, and then perhaps smaller chunks to Cuba, East and West Germany, Indonesia, Afghanistan, and South Yemen. In that case, you <em>could</em> imagine sitting down and deciding what you should write that day by drawing from your topic distribution, maybe 30% US, 30% USSR, 20% China, and then 4% for the remaining countries. Then you can also imagine the topic-conditional word distributions, where if you choose to write about the USSR you’ll probably be using “Khrushchev” fairly frequently, whereas if you chose Indonesia you may instead use “Sukarno”, “massacre”, and “Suharto” as your most frequent terms.</p>
+<p>The real reason this simplified model helps is because, if you think about it, it <em>does</em> match what a document looks like once we apply the bag-of-words assumption, and the original document is reduced to a vector of word frequency tallies. Which leads to an important point.</p>
+</div>
+<div id="why-would-you-ever-generate-a-document-this-way" class="section level3">
+<h3>Why Would You Ever Generate A Document This Way?</h3>
+<p>The answer: you wouldn’t. Because LDA is a <em>generative</em> model, this whole time we have been describing and simulating the data-generating process. But the real magic of LDA comes from when we flip it around and run it “backwards”: instead of <em>deriving</em> documents from probability distributions, we switch to a likelihood-maximization framework and estimate the <em>probability distributions</em> that were most likely to generate a <em>given</em> document.</p>
+<p>This is really just a fancy version of the toy maximum-likelihood problems you’ve done in your stats class: whereas there you were given a numerical dataset and asked something like “assuming this data was generated by a normal distribution, what are the most likely <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> parameters of that distribution?”, now you’re given a <em>textual</em> dataset (which is not a meaningful difference, since you immediately transform the textual data to numeric data) and asked “what are the most likely Dirichlet priors and probability distributions that generated this data?”.</p>
+<p>So now you could imagine taking a stack of bag-of-words tallies, analyzing the frequencies of various words, and “backwards inducting” these probability distributions. This is all that LDA does, it just does it way faster than a human could do it.</p>
+</div>
+</div>
+</div>
+<div id="onto-the-code" class="section level1">
+<h1>Onto the Code</h1>
+<p>For this particular tutorial we’re going to use the same <code>tm</code> (Text Mining) library we used in the <a href="../Frequency%20Analysis.html">last tutorial</a>, due to its fairly gentle learning curve. However, I should point out here that if you really want to do some more advanced topic modeling-related analyses, a more feature-rich library is <code>tidytext</code>, which uses functions from the tidyverse instead of the standard R functions that <code>tm</code> uses. There is already an entire book on <code>tidytext</code> though, which is incredibly helpful and also free, available <a href="https://www.tidytextmining.com/">here</a>. So I’d recommend that over any tutorial I’d be able to write on <code>tidytext</code>.</p>
+<pre class="r"><code>library(tm)</code></pre>
+<p>As before, we load the corpus from a .csv file containing (at minimum) a column containing unique IDs for each observation and a column containing the actual text. For this tutorial, our corpus consists of short summaries of US atrocities scraped from <a href="https://github.com/dessalines/essays/blob/master/us_atrocities.md">this site</a>:</p>
+<pre class="r"><code># If you want to load a corpus from .txt files in a directory, use
+#const_corpus &lt;- Corpus(DirSource(&quot;constitutions&quot;))
+# For loading corpus from csv file, we first load it into a dataframe
+library(data.table)
+atroc_df &lt;- fread(&quot;corpora/us_atroc_corpus.csv&quot;)
+head(atroc_df)</code></pre>
+<pre><code>##    doc_id    category      subcat
+## 1:      0 Imperialism Middle East
+## 2:      1 Imperialism Middle East
+## 3:      2 Imperialism Middle East
+## 4:      3 Imperialism Middle East
+## 5:      4 Imperialism Middle East
+## 6:      5 Imperialism Middle East
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 text
+## 1:                                                                                                                                                                                                                                                                                                                                                                                                                                           On April 14, 2018, the US, UK, and France launched 100 more missiles at 3 different targets in Syria, again claiming that the Syrian government used chemical attacks against its own citizens in douma as justification.  On 10 April, the Syrian government again invited the Organization for the Prohibition of Chemical Weapons to send a team to investigate the sites of the alleged attacks. Trump, Macron, and May have all issued statements saying that this is not an intervention in the Syrian civil war.
+## 2: Starting in June 2017, photos and videos from Syrian civilians in Raqqa showed that the US-backed coalition in Syria was illegally using white phosphorus in civilian areas. White phosphorus can burn human flesh down to the bone, and wounds can reignite up to days later. “No matter how white phosphorus is used, it poses a high risk of horrific and long-lasting harm in crowded cities like Raqqa and Mosul and any other areas with concentrations of civilians,” said Steve Goose, arms director at Human Rights Watch. One attack on an internet cafe killed at least 20 civilians, while other deaths are still being confirmed. One of those civilians killed was in the process of sending a report to Humans Rights Watch, when the cafe was struck. The US killed 273 syrian civilians in April, slightly more than the number killed by ISIS. A US attack in July killed another 50 civilians. In August, the US killed another 60+ civilians.
+## 3:                                                                                                     On April 4th, 2017, following the Khan Shaykhun chemical attack, Trump ordered an airstrike of 59 tomahawk cruise missiles(worth $70 million) fired at the Shayrat air base in Syria(one that Trump claims is the source of the chemical attack) in the 2017 Shayrat Missile Strike. This is the first attack by the US directly targeting Ba&#39;athist Syrian government forces, who are closely allied with Russia. Russian Prime Minister Dimitry Medvedev said the attack brought the U.S. &quot;&quot;&quot;&quot;within an inch&quot;&quot;&quot;&quot; of clashing with the Russian military, and could&#39;ve sparked a nuclear war. The attack was praised by US politicians on both sides of the aisle, as well &gt;30 countries. Over 700 children have been killed US coalition airstrikes in Iraq and Syria since August 2014. The US conducted another airstrike against Syria on June 7th, 2017.
+## 4:                                                                                                                                                                                                                                                                                                                                                                                                                                                                 On March 21st, 2017, A US airstrike killed at least 30 Syrian civilians in an airstrike on a school in the Raqqa province. The week before, 49 people were killed when US warplanes fired on a target in in the 2017 al-Jinah airstrike, a village in western Aleppo province. US officials said the attack had hit a building where al-Qaeda operatives were meeting, but residents said the warplanes had struck a mosque where hundreds of people had gathered for a weekly religious meeting.
+## 5:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              On March 17th, 2017, A US airstrike killed ~112 civilians in Mosul, Iraq. In response, US Defense Secretary James Mattis said, &quot;&quot;&quot;&quot;There is no military force in the world that is proven more sensitive to civilian casualties.&quot;&quot;&quot;&quot;
+## 6:                                                                                                                                                                                                                                                                        On February 15th, 2017, US-backed Saudi planes bombed a funeral in Yemen, killing 5 women and wounding dozens more. In the 2015 - Present Yemeni Civil War ), 16,200 people have been killed including 10,000 civilians, 3 million have been displaced and left homeless, and over 200,000 people are facing shortages of food, water and medicine. The US has used drone bombers in Yemen, and has supported Saudi interests in the region, with military contracts providing weapons and planes. The US has weapons contracts with Saudi Arabia valuing over $110 billion. In August 2018, Saudi planes bombed a school bus, killing 50, including 40 children, and wounding another 80.
+##    num_links
+## 1:         2
+## 2:         5
+## 3:         6
+## 4:         4
+## 5:         1
+## 6:         5</code></pre>
+<p>Notice that we have <em>metadata</em> (<code>atroc_id</code>, <code>category</code>, <code>subcat</code>, and <code>num_links</code>) in the corpus, in addition to our text column. Thus here we use the <code>DataframeSource()</code> function in <code>tm</code> (rather than <code>VectorSource()</code> or <code>DirSource()</code>) to convert it to a format that <code>tm</code> can work with. Remember from the <a href="../Frequency_Analysis.html">Frequency Analysis</a> tutorial that we need to change the name of the <code>atroc_id</code> variable to <code>doc_id</code> for it to work with <code>tm</code>:</p>
+<pre class="r"><code># atroc_id is the first column. Rename it to doc_id
+names(atroc_df)[1] &lt;- &quot;doc_id&quot;
+atroc_corpus &lt;- Corpus(DataframeSource(atroc_df))
+atroc_corpus</code></pre>
+<pre><code>## &lt;&lt;SimpleCorpus&gt;&gt;
+## Metadata:  corpus specific: 1, document level (indexed): 3
+## Content:  documents: 343</code></pre>
+<p>Time for preprocessing. Here you get to learn a new function <code>source()</code>. You give it the path to a <code>.r</code> file as an argument and it runs that file. It’s helpful here because I’ve made a file <code>preprocessing.r</code> that just contains all the preprocessing steps we did in the <a href="../Frequency_Analysis.html">Frequency Analysis tutorial</a>, packed into a single function called <code>do_preprocessing()</code>, which takes a corpus as its single positional argument and returns the cleaned version of the corpus.</p>
+<pre class="r"><code>source(&quot;Topic_Modeling_ggplot2_files/preprocessing.r&quot;)
+atroc_clean &lt;- do_preprocessing(atroc_corpus)</code></pre>
+<p>And we create our document-term matrix, which is where we ended last time. Here I pass an additional keyword argument <code>control</code> which tells <code>tm</code> to remove any words that are less than 3 characters.</p>
+<pre class="r"><code>#Create document-term matrix
+atroc_dtm &lt;- DocumentTermMatrix(atroc_clean, control=list(wordLengths=c(3,Inf)))</code></pre>
+<div id="running-lda" class="section level2">
+<h2>Running LDA</h2>
+<p>Now it’s time for the actual topic modeling! The key thing to keep in mind is that at first you have no idea what value you should choose for the number of topics to estimate <span class="math inline">\(K\)</span>. Later on we can learn smart-but-still-dark-magic ways to choose a <span class="math inline">\(K\)</span> value which is “optimal” in some sense. But for now we just pick a number and look at the output, to see if the topics make sense, are too broad (i.e., contain unrelated terms which should be in two separate topics), or are too narrow (i.e., two or more topics contain words that are actually one “real” topic).</p>
+<pre class="r"><code>library(topicmodels)
+K &lt;- 15
+atroc_lda &lt;-LDA(atroc_dtm, K, method=&quot;Gibbs&quot;, control=list(seed=1948))</code></pre>
+<p>Now we produce some basic visualizations of the parameters our model estimated:</p>
+<pre class="r"><code># Plot the top N words by topic!
+# Now some sort of tidyverse stuff. Stolen from
+# https://www.tidytextmining.com/topicmodeling.html
+library(tidytext)
+atroc_topics &lt;- tidy(atroc_lda, matrix = &quot;beta&quot;)
+
+library(ggplot2)
+library(dplyr)
+terms_per_topic &lt;- 10
+atroc_top_terms &lt;- atroc_topics %&gt;%
+#    filter(topic==6 | topic==8) %&gt;%
+    group_by(topic) %&gt;%
+    top_n(terms_per_topic, beta) %&gt;%
+    ungroup() %&gt;%
+    arrange(topic, -beta)
+# top_n() doesn&#39;t handle ties -__- so just take top 10 manually
+atroc_top_terms &lt;- atroc_top_terms %&gt;%
+    group_by(topic) %&gt;%
+    slice(1:terms_per_topic) %&gt;%
+    ungroup()
+
+atroc_top_terms$topic &lt;- factor(atroc_top_terms$topic)
+
+atroc_top_terms %&gt;%
+  mutate(term = reorder(term, beta)) %&gt;%
+  ggplot(aes(term, beta)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  facet_wrap(~ topic, scales = &quot;free&quot;) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip()</code></pre>
+<p><img src="04_Topic_Modeling_ggplot2_files/figure-html/first-plots-1.png" width="672" /></p>
+<pre class="r"><code># For more plots see
+# https://cran.r-project.org/web/packages/tidytext/vignettes/topic_modeling.html</code></pre>
+<pre class="r"><code>metacomm_tidy %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  filter(n &gt; 190) %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot(aes(word, n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+  theme(axis.text=element_text(size=16),
+        axis.title=element_text(size=16))</code></pre>
+<pre class="r"><code>######################################################
+### NEW SECTION: Optimizing the number of topics K ###
+######################################################
+
+# You&#39;ll need to run install.packages(&quot;ldatuning&quot;)
+# in the console before this line will work
+library(ldatuning)
+# Compute the K value &quot;scores&quot; from K=2 to K=15
+result &lt;- FindTopicsNumber(
+    comm_dtm,
+    topics = seq(from = 2, to = 15, by = 1),
+    metrics = c(&quot;Griffiths2004&quot;, &quot;CaoJuan2009&quot;, &quot;Arun2010&quot;, &quot;Deveaud2014&quot;),
+    method = &quot;Gibbs&quot;,
+    control = list(seed = 1948),
+    mc.cores = 2L,
+    verbose = TRUE
+)
+# Plot the scores, with graphs labeled &quot;minimize&quot; or
+# maximize based on whether it&#39;s a metric you want
+# to minimize or maximize
+FindTopicsNumber_plot(result)</code></pre>
+<pre class="r"><code>comm_post &lt;- posterior(comm_lda)
+comm_phi &lt;- comm_post$terms
+colnames(comm_dtm_mat) &lt;- as.character(1:30)
+comm_coherence &lt;- CalcProbCoherence(phi = comm_phi, dtm = comm_dtm_mat, M = 5)
+
+
+nih_m &lt;- FitLdaModel(dtm = nih_sample_dtm, 
+                 k = 5, 
+                 iterations = 200, 
+                 cpus = 1)
+
+# Ok, NOW I&#39;m trying to *compare* the two groups by
+# topic emphasis...
+# comm_post$topics is a num_docs x num_topics matrix
+doc_dists &lt;- tidy(comm_lda, matrix=&quot;gamma&quot;)
+# 1 to 25 are hamas. 26 to 53 are unc.
+doc_dists &lt;- doc_dists %&gt;%
+    mutate(group = ifelse(document %in% 1:25, &quot;Hamas&quot;, &quot;UNC&quot;))
+
+# Try totaling the doc topic proportions by group
+total_props &lt;- doc_dists %&gt;% group_by(group, topic) %&gt;% summarize(total_gamma=sum(gamma), avg_gamma=mean(gamma))
+# And sort by group x gamma
+total_props &lt;- total_props %&gt;% group_by(group) %&gt;% arrange(group, desc(avg_gamma))
+
+### MY TOPIC LABELS ###
+# 6 = incarceration
+# 8 = education
+# 15 = foreign relations (broader mid east)
+# 12 = martyrdom
+# 13 = peace plan
+# 4 = strikes
+
+### TOP BY GROUP ###
+# unc: 25=0.56, 30=0.676, 12=0.0386, 13=0.0373, 4=0.0282
+# hamas: 7=0.395, 25=0.0842, 13=0.0591, 24=0.0365, 8=0.0364
+
+# Here goes nothing
+total_props &lt;- total_props %&gt;%
+    mutate(label=case_when(
+        topic==4 ~ &quot;Strikes&quot;,
+        topic==6 ~ &quot;Incarceration&quot;,
+        topic==7 ~ &quot;Islam&quot;,
+        topic==8 ~ &quot;Education&quot;,
+        topic==12 ~ &quot;Martyrdom&quot;,
+        topic==13 ~ &quot;Peace Plan&quot;,
+        topic==15 ~ &quot;Mid East&quot;,
+        topic==25 ~ &quot;Nationalism&quot;
+    ))
+
+# Ok now only keep labeled topics
+labeled_props &lt;- total_props %&gt;% filter(!is.na(label))
+
+# Capitalize the groups
+labeled_props &lt;- labeled_props %&gt;%
+    ungroup() %&gt;%
+    mutate(group = ifelse(group==&quot;hamas&quot;, &quot;Hamas&quot;, &quot;UNC&quot;)) %&gt;%
+    group_by(group)
+
+# Uncomment this to drop Islam, Nationalism
+labeled_props &lt;- labeled_props %&gt;%
+    filter(label != &quot;Islam&quot;) %&gt;%
+    filter(label != &quot;Nationalism&quot;)
+
+# Try to plot by label
+labeled_props %&gt;%
+    ggplot(aes(x=label,y=avg_gamma,fill=group)) +
+    geom_bar(stat=&quot;identity&quot;,position=&quot;dodge&quot;) +
+    theme(axis.text.x=element_text(size=24, angle=45, hjust=1, face=&quot;bold&quot;),
+          axis.text.y=element_text(size=18),
+          axis.title=element_text(size=18),
+          plot.title = element_text(size=24, hjust = 0.5),
+          legend.text = element_text(size=24),
+          legend.title = element_blank()) +
+    labs(x = &quot;(Stemmed) Word&quot;, y = &quot;Proportion of Group&#39;s Texts&quot;) + 
+    #scale_fill_discrete(name = &quot;Group&quot;) +
+    ggtitle(&quot;Per-Group Topic Frequencies&quot;)</code></pre>
+</div>
+</div>
+<div id="choosing-an-optimal-value-for-k" class="section level1">
+<h1>Choosing an “Optimal” Value for <span class="math inline">\(K\)</span></h1>
+<pre class="r"><code>## This is if you want to &quot;optimize&quot; K
+#library(topicmodels)
+## In case of errors when installing topicmodels:
+## http://tinyheero.github.io/2016/02/20/install-r-topicmodels.html</code></pre>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>I’m simplifying by ignoring the fact that all distributions you “choose” are actually sampled from a Dirichlet distribution <span class="math inline">\(\mathsf{Dir}(\alpha)\)</span>, which is a probability distribution <em>over</em> probability distributions, with a single parameter <span class="math inline">\(\alpha\)</span>. The best way I can explain <span class="math inline">\(\alpha\)</span> is that it controls the “evenness” of the produced distributions: as <span class="math inline">\(\alpha\)</span> gets higher (especially as it increases beyond 1) the Dirichlet distribution is more and more likely to produce a <em>uniform</em> distribution over topics, whereas as it gets lower (from 1 down to 0) it is more likely to produce a non-uniform distribution over topics, i.e., a distribution weighted towards a particular topic or subset of the full set of topics.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

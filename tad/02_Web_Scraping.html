@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jeff Jacobs" />
+
+<meta name="date" content="2018-11-15" />
+
+<title>Basic Text Analysis: Web Scraping</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CU Text-as-Data Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workshop Sessions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="01_Introduction_to_R.html">Week 1: Intro to R</a></li>
+            <li><a href="02_Web_Scraping.html">Week 2: Web Scraping</a></li>
+            <li><a href="03_Frequency_Analysis.html">Week 3: Frequency Analysis</a></li>
+            <li><a href="04_Topic_Modeling_ggplot2.html">Week 4: Topic Modeling and Visualization</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
+            <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
+            <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
+            <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="TAD_Resource_Extravaganza.html">Resources</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://textlab.econ.columbia.edu/">CU TextLab</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Basic Text Analysis: Web Scraping</h1>
+<h4 class="author"><em>Jeff Jacobs</em></h4>
+<h4 class="date"><em>November 15, 2018</em></h4>
+
+</div>
+
+
+<p>Since last week was a lot of me talking about stuff before we got to see any code, this week we’re gonna dive right in to make up for it.</p>
+<p>The term “web scraping” is actually somewhat ambiguous, as there are many different ways of downloading information off of a website and into a structured data format. Today we’ll learn the following four, which probably cover… 98% of all the cases:</p>
+<ol style="list-style-type: decimal">
+<li>HTTP Request Scraping</li>
+<li>Browser Simulation Scraping</li>
+<li>API Scraping</li>
+<li>Full Website Scraping</li>
+</ol>
+<p>In my experience, I’d say HTTP Request Scraping covers about 80% of cases I’ve done, API Scraping another 10%, and then another 4% each for Browser Simulation and Full Website Scraping (with the remaining 2% being… weird stuff like connecting to a remote database, stuff we don’t need to worry about for this workshop). So what are these buzzwords?</p>
+<div id="http-request-scraping" class="section level2">
+<h2>HTTP Request Scraping</h2>
+<p>“HTTP” stands for <strong>HyperText Transfer Protocol</strong>. “HyperText” provides the first two letters of the acronym “HTML”, or <strong>HyperText Markup Language</strong>. Combining these two, we can see that HTTP is a protocol for transferring HTML between computers over the internet. Cool.</p>
+<p>The actual “innards” of HTTP you mostly don’t need to worry about. For this workshop we’ll focus on what are called “GET requests”, though I’ll also mention what “POST requests” are. GET requests are messages you can send to a remote computer, asking it for a certain file (POST requests just add the additional feature that you can send data – for example a completed form – to the server, on top of just asking for a file).</p>
+<p>Now to the actual code! The library we’ll be using is called <code>rvest</code>, so you’ll need to go to your console in R Studio and run <code>install.packages(&quot;rvest&quot;)</code>. Once that’s done, <code>rvest</code> can be loaded into working memory whenever we want. So let’s start a new file, <code>blog_scrape.Rmd</code>, where we’ll put our scraping code as we go along. Which gives away the theme of the next part…</p>
+<div id="scraping-blog-posts" class="section level3">
+<h3>Scraping Blog Posts</h3>
+<p>I’m going to use the HTTP Request scraping method to download all the posts on (the first page of) a blog<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. Specifically, <a href="http://mattbruenig.com/">Matt Breunig’s blog</a>, chosen based on maximizing simplicity and current-events-ness and minimizing insufferable-ness. Since it uses WordPress, you’ll be learning how to scrape over 60 million other websites too – it’s by far the most widely-used blogging platform. In other words, since WordPress is a blog publishing “framework”, any site using it will have almost identical HTML, with only the titles and post text (as well as style, which goes in a separate CSS file anyways) changed.</p>
+<p>So the first thing to do when trying to scrape a website is almost always right-clicking on the page, clicking “View Source”, and then Ctrl+F searching for the title of the first post. In most cases (even outside of WordPress) this will let you instantly see the format of the HTML code for the post. In our case, here is what we see if we search “Trump NLRB Smashed Google Guy” (the <a href="http://mattbruenig.com/2018/02/16/trump-nlrb-smashed-google-guy/">latest post</a> as of 4:47am on November 12, 2018):</p>
+<pre class="html"><code>&lt;/header&gt;&lt;!-- .site-header --&gt;
+
+        &lt;div id=&quot;content&quot; class=&quot;site-content&quot;&gt;
+
+    &lt;div id=&quot;primary&quot; class=&quot;content-area&quot;&gt;
+        &lt;main id=&quot;main&quot; class=&quot;site-main&quot; role=&quot;main&quot;&gt;
+
+        
+            
+            
+&lt;article id=&quot;post-14012&quot; class=&quot;post-14012 post type-post status-publish format-standard hentry category-labor&quot;&gt;
+    &lt;header class=&quot;entry-header&quot;&gt;
+        
+        &lt;h2 class=&quot;entry-title&quot;&gt;&lt;a href=&quot;http://mattbruenig.com/2018/02/16/trump-nlrb-smashed-google-guy/&quot; rel=&quot;bookmark&quot;&gt;Trump NLRB Smashed Google Guy&lt;/a&gt;&lt;/h2&gt;    &lt;/header&gt;&lt;!-- .entry-header --&gt;
+
+    
+    
+    &lt;div class=&quot;entry-content&quot;&gt;
+        &lt;p&gt;In August of last year, I &lt;a href=&quot;http://mattbruenig.com/2017/08/10/the-trump-nlrb-will-smash-the-google-guy/&quot;&gt;wrote&lt;/a&gt; that the new Republican-led NLRB would reject James Damore&amp;#8217;s unfair labor practice charge. I argued that they would do so, not because long-standing NLRB law requires them to, but rather because the management-side attorneys that lead Republican NLRB administrations want to give management as much discretion as possible to fire people. We learned today that this is precisely what &lt;a href=&quot;https://drive.google.com/file/d/1K1JRtRYBLyhhgkJLXnW2Nxjo5Bn6lw5V/view&quot;&gt;ended up&lt;/a&gt; happening.&lt;/p&gt;</code></pre>
+<p>Handwaving over an entire HTML lesson (we’re already time crunched :( ), just notice that you have text surrounded by tags which look like:</p>
+<pre class="html"><code>&lt;tagname attribute-name=attribute-value&gt;The text&lt;/tagname&gt;</code></pre>
+<p>Specifically, we see seemingly-important things around the title like <code>&lt;h2 class=&quot;entry-title&quot;&gt;</code> and then around the content like <code>&lt;div class=&quot;entry-content&quot;&gt;</code>. So let’s start by downloading the HTML of the homepage into an R character variable:</p>
+<pre class="r"><code>library(rvest)
+blog_html &lt;- read_html(&quot;http://mattbruenig.com&quot;)
+blog_html</code></pre>
+<pre><code>## {xml_document}
+## &lt;html lang=&quot;en-US&quot; class=&quot;no-js&quot;&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset= ...
+## [2] &lt;body class=&quot;home blog group-blog hfeed&quot;&gt;\n&lt;div id=&quot;page&quot; class=&quot;sit ...</code></pre>
+<p>Now, it’s time to quickly leap to the next level of R awesomeness, by way of the <a href="https://www.tidyverse.org/">“TIDYVERSE”</a>. Long story short, the tidyverse is a set of R packages with a unified “semantic philosophy” about how coding should work, and to be honest it feels much closer to how my brain works when doing “data science” than standard R syntax does. I don’t encounter R enough to really know how many people use standard R functions vs. how many have entered the tidyverse, but it’s definitely a not-insignificant number. I’d be willing to bet a majority of “data scientists” use the tidyverse.</p>
+<!-- [TODO: tidyverse tutorial] -->
+<p>So, now that you know the basics of how <code>dplyr</code> works, let’s use it to “pipe” the html code we downloaded into a simple processing pipeline:</p>
+<pre class="r"><code>title_nodes &lt;- blog_html %&gt;% html_nodes(&quot;.entry-title&quot;)
+title_nodes</code></pre>
+<pre><code>## {xml_nodeset (3)}
+## [1] &lt;h2 class=&quot;entry-title&quot;&gt;&lt;a href=&quot;http://mattbruenig.com/2018/02/16/t ...
+## [2] &lt;h2 class=&quot;entry-title&quot;&gt;&lt;a href=&quot;http://mattbruenig.com/2017/12/21/n ...
+## [3] &lt;h2 class=&quot;entry-title&quot;&gt;&lt;a href=&quot;http://mattbruenig.com/2017/12/15/a ...</code></pre>
+<p>Which tells us that we have 3 posts on the first page that we can scrape. Next, let’s do the same thing to get the <em>content</em> of the posts:</p>
+<pre class="r"><code>content_nodes &lt;- blog_html %&gt;% html_nodes(&quot;.entry-content&quot;)
+content_nodes</code></pre>
+<pre><code>## {xml_nodeset (3)}
+## [1] &lt;div class=&quot;entry-content&quot;&gt;\n\t\t&lt;p&gt;In August of last year, I &lt;a hre ...
+## [2] &lt;div class=&quot;entry-content&quot;&gt;\n\t\t&lt;p&gt;Jonathan Chait is mad that peopl ...
+## [3] &lt;div class=&quot;entry-content&quot;&gt;\n\t\t&lt;p&gt;I wrote a post yesterday pointin ...</code></pre>
+<p>Cool, 3 content nodes matching the 3 titles from before.</p>
+<p>Now if we keep looking at the source in our browser, we notice that although the titles are contained <em>within</em> the <code>&lt;h2 class=&quot;entry-title&quot;&gt;</code> node, they’re actually directly inside an <code>&lt;a&gt;</code> tag (which is used to make hyperlinks) nested within the <code>&lt;h2&gt;</code>. So we add another <code>html_nodes()</code> to the processing “chain”, to scoop out the link within each of the <code>&lt;h2&gt;</code>s we extracted before:</p>
+<pre class="r"><code>link_nodes &lt;- blog_html %&gt;% html_nodes(&quot;.entry-title&quot;) %&gt;% html_nodes(&quot;a&quot;)
+link_nodes</code></pre>
+<pre><code>## {xml_nodeset (3)}
+## [1] &lt;a href=&quot;http://mattbruenig.com/2018/02/16/trump-nlrb-smashed-google ...
+## [2] &lt;a href=&quot;http://mattbruenig.com/2017/12/21/neoliberals-used-to-refer ...
+## [3] &lt;a href=&quot;http://mattbruenig.com/2017/12/15/alabama-part-ii/&quot; rel=&quot;bo ...</code></pre>
+<p>Cool, we’re one level closer to the title text! And it hopefully gave you a good example of the intuitiveness of the <code>%&gt;%</code> operator with respect to constructing multi-step data processing pipelines.</p>
+<p>Now, as a last step, we can zoom in even further and get <em>just</em> the text of the title, i.e., zooming “inside” the <code>&lt;a&gt;</code> tag. Note that the <code>trim=TRUE</code> option just removes any extraneous spaces at the beginning or end of the extracted string, and is mostly there just to show you how you can provide <em>optional</em> arguments to the tidyverse-style functions:</p>
+<pre class="r"><code>titles &lt;- blog_html %&gt;% html_nodes(&quot;.entry-title&quot;) %&gt;% html_nodes(&quot;a&quot;) %&gt;% html_text(trim=TRUE)
+titles</code></pre>
+<pre><code>## [1] &quot;Trump NLRB Smashed Google Guy&quot;                           
+## [2] &quot;Neoliberals Used to Refer to Themselves as New Democrats&quot;
+## [3] &quot;Alabama Part II&quot;</code></pre>
+<p>Woohoo! Titles acquired. Now you can try to do the same sort of process to try and extract just the text of the post <em>contents</em>… I’ll give you a few minutes to try.</p>
+<p>Now that you’ve tried, here’s one answer (out of many possible ways of doing it):</p>
+<pre class="r"><code>contents &lt;- blog_html %&gt;% html_nodes(&quot;.entry-content&quot;) %&gt;% html_text(trim=TRUE)
+contents %&gt;% substr(start=1,stop=80)</code></pre>
+<pre><code>## [1] &quot;In August of last year, I wrote that the new Republican-led NLRB would reject Ja&quot;
+## [2] &quot;Jonathan Chait is mad that people call him a “neoliberal” and so insists that th&quot;
+## [3] &quot;I wrote a post yesterday pointing out that the real story of Doug Jones’s upset &quot;</code></pre>
+<p>Last but not least, we’ll probably want the posted date as well, which looks to be inside a <code>&lt;time class=&quot;entry-date published&quot;&gt;</code> tag. This tag actually has two classes, <code>entry-date</code> and <code>published</code>, so we’ll search for nodes with <em>both</em> of these classes by just squishing the two class selectors together inside the <code>html_nodes()</code> argument (We could just search for the <code>entry-date</code> class for simplicity in this case, but in general it’s good to know how to search for multiple attributes):</p>
+<pre class="r"><code>dates &lt;- blog_html %&gt;%
+    html_nodes(&quot;.entry-date.published&quot;) %&gt;%
+    html_text(trim=TRUE)
+dates</code></pre>
+<pre><code>## [1] &quot;February 16, 2018&quot; &quot;December 21, 2017&quot; &quot;December 15, 2017&quot;</code></pre>
+<p>Good stuff. Now real quickly I do a final scrape of the <em>links</em> to each post, just in case we want to go back and check them later or something:</p>
+<pre class="r"><code>urls &lt;- 
+    blog_html %&gt;%
+    html_nodes(&quot;.entry-title&quot;) %&gt;%
+    html_nodes(&quot;a&quot;) %&gt;%
+    html_attr(&quot;href&quot;)
+urls</code></pre>
+<pre><code>## [1] &quot;http://mattbruenig.com/2018/02/16/trump-nlrb-smashed-google-guy/&quot;                           
+## [2] &quot;http://mattbruenig.com/2017/12/21/neoliberals-used-to-refer-to-themselves-as-new-democrats/&quot;
+## [3] &quot;http://mattbruenig.com/2017/12/15/alabama-part-ii/&quot;</code></pre>
+<p>Now we can do… whatever we want with our scraped data. For example, let’s make a data.frame out of it and then save it to a .csv file!</p>
+<pre class="r"><code>bruenig_df &lt;- data.frame(title=titles,content=contents,date=dates,url=urls)
+write.csv(bruenig_df, &quot;Web_Scraping_files/bruenig.csv&quot;)</code></pre>
+<p>Or, if we want to hop over to the tidyverse, we can use a Tibble:</p>
+<pre class="r"><code>library(tidyverse)
+bruenig_tibble &lt;- data_frame(title=titles,content=contents,date=dates,url=urls)
+glimpse(bruenig_tibble)</code></pre>
+<pre><code>## Observations: 3
+## Variables: 4
+## $ title   &lt;chr&gt; &quot;Trump NLRB Smashed Google Guy&quot;, &quot;Neoliberals Used to ...
+## $ content &lt;chr&gt; &quot;In August of last year, I wrote that the new Republic...
+## $ date    &lt;chr&gt; &quot;February 16, 2018&quot;, &quot;December 21, 2017&quot;, &quot;December 15...
+## $ url     &lt;chr&gt; &quot;http://mattbruenig.com/2018/02/16/trump-nlrb-smashed-...</code></pre>
+<pre class="r"><code>bruenig_tibble</code></pre>
+<pre><code>## # A tibble: 3 x 4
+##   title              content                 date    url                  
+##   &lt;chr&gt;              &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;                
+## 1 Trump NLRB Smashe… &quot;In August of last yea… Februa… http://mattbruenig.c…
+## 2 Neoliberals Used … &quot;Jonathan Chait is mad… Decemb… http://mattbruenig.c…
+## 3 Alabama Part II    &quot;I wrote a post yester… Decemb… http://mattbruenig.c…</code></pre>
+<pre class="r"><code>write_csv(bruenig_tibble,&quot;Web_Scraping_files/bruenig_tibble.csv&quot;)</code></pre>
+<p>Anyone notice the one difference?</p>
+</div>
+<div id="using-our-scraper-on-other-websites" class="section level3">
+<h3>Using Our Scraper on Other Websites</h3>
+<p>Just to show you how powerful this can be (especially if you restrict yourself to WordPress sites), here’s a one-line scrape of a much more “complicated” blog:</p>
+<pre class="r"><code>landis_html &lt;- 
+    read_html(&quot;https://www.joshualandis.com/blog/&quot;) 
+landis_titles &lt;- landis_html %&gt;%
+    html_nodes(xpath=&quot;//a[@rel=&#39;bookmark&#39;]&quot;) %&gt;%
+    html_text(trim=TRUE)
+landis_titles</code></pre>
+<pre><code>##  [1] &quot;Nationalism, War, and The Future of The Middle East – by S. Farah&quot;                                 
+##  [2] &quot;The Plight of the Druze Hostages Held by ISIS &amp; the War on the Islamic State – by Talal el-Atrache&quot;
+##  [3] &quot;Saudi Arabia, Shi’ism and the Illusion of Reform – by Robert G. Rabil&quot;                             
+##  [4] &quot;Interview with Lebanon’s Minister of Refugee Affairs, Mouin Merhebi&quot;                               
+##  [5] &quot;Idlib: The Game Above the Game – by David W. Lesch&quot;                                                
+##  [6] &quot;Loyalty over geography: Re-interpreting the notion of ‘Useful Syria’ — By Matthias Sulz&quot;           
+##  [7] &quot;60 years after Iraq’s 1958 July 14 Revolution by Christopher Solomon&quot;                              
+##  [8] &quot;Romancing Rojava: Rhetoric vs. Reality&quot;                                                            
+##  [9] &quot;Winning in Syria and the Middle East – By David W. Lesch and Kamal Alam&quot;                           
+## [10] &quot;Helsinki Meeting Does Little to Clarify America’s Syria Policy – By Joshua Landis&quot;</code></pre>
+<pre class="r"><code>landis_content &lt;- landis_html %&gt;%
+    html_nodes(&quot;.entry&quot;) %&gt;%
+    html_text(trim=TRUE) %&gt;%
+    gsub(&quot;,&quot;,&quot;;&quot;,.)
+landis_dates &lt;- landis_html %&gt;%
+    html_nodes(&quot;.post-date-title&quot;) %&gt;%
+    html_text(trim=TRUE)
+landis_urls &lt;- landis_html %&gt;%
+    html_nodes(xpath=&quot;//a[@rel=&#39;bookmark&#39;]&quot;) %&gt;%
+    html_attr(&quot;href&quot;)
+landis_tibble &lt;- data_frame(title=landis_titles,content=landis_content,date=landis_dates,url=landis_urls)
+landis_tibble</code></pre>
+<pre><code>## # A tibble: 10 x 4
+##    title              content             date           url              
+##    &lt;chr&gt;              &lt;chr&gt;               &lt;chr&gt;          &lt;chr&gt;            
+##  1 Nationalism, War,… &quot;Nationalism; War;… Posted by Jos… https://www.josh…
+##  2 The Plight of the… &quot;The plight of the… Posted by Jos… https://www.josh…
+##  3 Saudi Arabia, Shi… &quot;Saudi Arabia; Shi… Posted by Jos… https://www.josh…
+##  4 Interview with Le… &quot;By Michael Gerini… Posted by Mat… https://www.josh…
+##  5 Idlib: The Game A… &quot;David Lesch\nThe … Posted by Jos… https://www.josh…
+##  6 Loyalty over geog… &quot;Loyalty over geog… Posted by Jos… https://www.josh…
+##  7 60 years after Ir… &quot;60 years after Ir… Posted by Chr… https://www.josh…
+##  8 Romancing Rojava:… &quot;A billboard near … Posted by Mat… https://www.josh…
+##  9 Winning in Syria … &quot;David W. Lesch\nW… Posted by Jos… https://www.josh…
+## 10 Helsinki Meeting … &quot;Helsinki Meeting … Posted by Jos… https://www.josh…</code></pre>
+<pre class="r"><code>#write_csv(landis_tibble,&quot;landis.csv&quot;)
+#landis_df &lt;- data.frame(title=landis_titles,content=landis_content,date=landis_dates,url=landis_urls)
+write_csv(landis_tibble,&quot;Web_Scraping_files/landis.csv&quot;)</code></pre>
+<p>The .csv will look wonky if you try to open it in Excel, because of Excel reasons, but if you re-open it in R you’ll see that the data is preserved:</p>
+<pre class="r"><code>landis_data &lt;- read_csv(&quot;Web_Scraping_files/landis.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   title = col_character(),
+##   content = col_character(),
+##   date = col_character(),
+##   url = col_character()
+## )</code></pre>
+<pre class="r"><code>landis_data</code></pre>
+<pre><code>## # A tibble: 10 x 4
+##    title              content             date           url              
+##    &lt;chr&gt;              &lt;chr&gt;               &lt;chr&gt;          &lt;chr&gt;            
+##  1 Nationalism, War,… &quot;Nationalism; War;… Posted by Jos… https://www.josh…
+##  2 The Plight of the… &quot;The plight of the… Posted by Jos… https://www.josh…
+##  3 Saudi Arabia, Shi… &quot;Saudi Arabia; Shi… Posted by Jos… https://www.josh…
+##  4 Interview with Le… &quot;By Michael Gerini… Posted by Mat… https://www.josh…
+##  5 Idlib: The Game A… &quot;David Lesch\nThe … Posted by Jos… https://www.josh…
+##  6 Loyalty over geog… &quot;Loyalty over geog… Posted by Jos… https://www.josh…
+##  7 60 years after Ir… &quot;60 years after Ir… Posted by Chr… https://www.josh…
+##  8 Romancing Rojava:… &quot;A billboard near … Posted by Mat… https://www.josh…
+##  9 Winning in Syria … &quot;David W. Lesch\nW… Posted by Jos… https://www.josh…
+## 10 Helsinki Meeting … &quot;Helsinki Meeting … Posted by Jos… https://www.josh…</code></pre>
+<p>So that’s what I mean when I say “HTTP Request Scraping” – we simply ask the server to give us the webpage, and then we parse the HTML of that page directly.</p>
+<p>Some website aren’t as straightforward as this, however. Oftentimes, especially as web technology becomes more and more advanced, they’ll use things like</p>
+<ul>
+<li>JavaScript (JS): a programming language allowing on-the-fly modification (i.e., without requiring a reloading or refreshing of the page) of data on a webpage and</li>
+<li>Asynchronous Javascript and XML (AJAX): an extension to JavaScript allowing the page to make external web requests in the background and put the results of the request onto the page, again without the user havnig to reload or refresh the page.</li>
+</ul>
+<p>For an example of both, notice how on Twitter when you scroll down to the “bottom” of the page, you don’t have to click a “Next Page” button and wait for a whole new page to load. Instead it has “infinite scrolling”, which means that when you get to the bottom it executes an AJAX request and instantly places the next page of tweets immediately after the last tweet on the current page. In these types of cases, we won’t be able to use simple HTTP requests to get the data we want<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, since the data is <em>not</em> in the HTML itself – it’s added later via JS. So we instead have to simulate a user viewing the page inside an actual browser (which is the program that actually runs the JS code on a page).</p>
+<p>[Note, however, that this is <em>not</em> always the case if the page requires a username and password login. In these cases, you can often just send an HTTP POST request providing the username and password, rather than having to do the more arduous Browser Simulation Scrape method described next.]</p>
+</div>
+</div>
+<div id="browser-simulation-scraping" class="section level2">
+<h2>Browser Simulation Scraping</h2>
+<p>The program I use to simulate a user navigating via a browser is called Selenium. It has APIs (Application Programming Interfaces, which we’ll see more of later) in Python, Java, R, and many other languages you may use. In R, we’ll use the package <code>RSelenium</code>, so you’ll have to install that via <code>install.packages(&quot;RSelenium&quot;)</code> as we’ve done a few times now. Once it’s installed, we can see the basics of how it works by running the following code (since this tutorial is compiled into a static <code>.md</code> file, you won’t see the results here, but I’ll run the code in R Studio during the workshop as a demo):</p>
+<pre class="r"><code># Load the library
+library(RSelenium)
+# Create and open a Chrome window (controlled by R)
+driver &lt;- rsDriver(browser=&quot;Chrome&quot;)
+# &quot;client&quot; is the specific R variable we can use to navigate within and between pages
+client &lt;- driver[[&quot;client&quot;]]
+# Use client&#39;s navigate() function to go to a specific website
+client$navigate(&quot;http://www.jacobinmag.com&quot;)</code></pre>
+<div class="figure">
+<img src="Web_Scraping_files/img/jacobin.png" alt="First Selenium demo" />
+<p class="caption">First Selenium demo</p>
+</div>
+<p>The main things you’ll notice are (a) the bare-bones version of Chrome that it uses (to prevent any add-ons or other modifications from interfering with the browsing) and (b) the bar on the top that says “Chrome is being controlled by automated test software”, since Selenium was originally made for web developers to test their websites: for example, by writing a long series of selenium code blocks that test all the different ways a user would interact with the site.</p>
+<div id="scraping-an-open-government-data-portal" class="section level4">
+<h4>Scraping an “Open Government”&quot; Data Portal</h4>
+<p>So now, for actual data scraping, let’s say we’re trying to scrape data from <a href="http://nregarep2.nic.in/netnrega/dynamic2/DynamicReport_new4.aspx">this portal</a> which provides a range of statistics relevant to India’s <a href="https://en.wikipedia.org/wiki/National_Rural_Employment_Guarantee_Act,_2005">National Rural Employment Guarantee Act</a>. Viewing the source of the page and searching for the “View Data” or “Download Data” buttons, you’ll see the following scary-looking HTML:</p>
+<pre class="html"><code>&lt;input type=&quot;submit&quot; name=&quot;BtnSubmit&quot; value=&quot;View data&quot; onclick=&quot;javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&amp;quot;BtnSubmit&amp;quot;, &amp;quot;&amp;quot;, true, &amp;quot;&amp;quot;, &amp;quot;&amp;quot;, false, false))&quot; id=&quot;BtnSubmit&quot; class=&quot;submitbutton&quot; /&gt;
+                            &lt;input type=&quot;submit&quot; name=&quot;Button1&quot; value=&quot;Download data&quot; onclick=&quot;javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&amp;quot;Button1&amp;quot;, &amp;quot;&amp;quot;, true, &amp;quot;&amp;quot;, &amp;quot;&amp;quot;, false, false))&quot; id=&quot;Button1&quot; class=&quot;submitbutton&quot; /&gt;</code></pre>
+<p>To “reverse engineer” this and try to get the data via HTTP requests on their own, we would have to go in and find where the <code>WebForm_DoPostBackWithOptions()</code> function is, where the <code>WebForm_PostBackOptions</code> class lives, and so on and so forth. Thus this qualifies as a case where it’s probably easier to just simulate a browser loading the page and “clicking” the “Download Data” (or “View Data”) button. First we load:</p>
+<pre class="r"><code>client$navigate(&quot;http://nregarep2.nic.in/netnrega/dynamic2/DynamicReport_new4.aspx&quot;)</code></pre>
+<div class="figure">
+<img src="Web_Scraping_files/img/nrega.png" alt="The NREGA Data Portal" />
+<p class="caption">The NREGA Data Portal</p>
+</div>
+<p>And now we can use RSelenium functions to left-click, right-click, and type anywhere on the page, or just record what text/images appear in what spots on the page. In this case, we’ll just programmatically check the “Total job cards issued” indicator, the “Chhattisgarh”, “Kerala”, and “West Bengal” regions, and then “Download data” to obtain a .csv file with data on the number of cards for each of these three regions.</p>
+<p>For “Total job cards issued”, we search the source to find that its checkbox has id <code>&quot;ChkLstFieldsWorkerA_1&quot;</code>. We then use the <code>findElement()</code> and <code>clickElement()</code> functions to find this checkbox on the page and click it. Note that if <code>findElement()</code> does not return a big scary error, that means it successfully found the element.</p>
+<pre class="r"><code>num_cards_box &lt;- client$findElement(using=&quot;id&quot;,&quot;ChkLstFieldsWorkerA_1&quot;)
+num_cards_box$clickElement()</code></pre>
+<p>Now we find the three region checkboxes we want and click each of them as well (we’ll make a “clickRegion()” helper function so we don’t have to duplicate the same code three times):</p>
+<pre class="r"><code>clickRegion &lt;- function(region_name){
+    print(paste0(&quot;Clicking box for &quot;,region_name))
+    region_xpath = paste0(&quot;//label[contains(text(),&#39;&quot;,region_name,&quot;&#39;)]&quot;)
+    region_box &lt;- client$findElement(using=&quot;xpath&quot;,region_xpath)
+    region_box$clickElement()
+}
+clickRegion(&quot;Chhattisgarh&quot;)
+clickRegion(&quot;Kerala&quot;)
+clickRegion(&quot;West Bengal&quot;)</code></pre>
+<p>And now finally we can find and click the “Download data” button:</p>
+<pre class="r"><code>download_btn &lt;- client$findElement(using=&quot;id&quot;,&quot;dwnldDummy&quot;)
+download_btn$clickElement()</code></pre>
+<p>Oftentimes it won’t be that easy, however, since they usually won’t be nice enough to let you download a file containing all the data you want. The more common case will be that it gives you a new webpage with the data in some sort of tabular format, as is the case when we click “View data” instead of “Download data” here:</p>
+<pre class="r"><code>view_btn &lt;- client$findElement(using=&quot;id&quot;,&quot;viewDummy&quot;)
+view_btn$clickElement()</code></pre>
+<p>Viewing or inspecting the source, you’ll see that the rows of data are all in <code>&lt;tr&gt;</code> element (table rows) with class “GridNormalRow” or “GridAlternate”:</p>
+<div class="figure">
+<img src="Web_Scraping_files/img/nrega_report.png" alt="The result of clicking View data" />
+<p class="caption">The result of clicking “View data”</p>
+</div>
+<p>So we’ll just grab the contents</p>
+<pre class="r"><code>extract_row_data &lt;- function(row_object){
+    row_elts &lt;- row_object$findChildElements(&quot;tag name&quot;,&quot;td&quot;)
+    id &lt;- unlist(row_elts[[1]]$getElementText())
+    region &lt;- unlist(row_elts[[2]]$getElementText())
+    cards &lt;- unlist(row_elts[[3]]$getElementText())
+    return(setNames(c(id,region,cards),c(&quot;id&quot;,&quot;region&quot;,&quot;cards&quot;)))
+}
+norm_rows &lt;- client$findElements(using=&quot;xpath&quot;,&quot;//tr[@class=&#39;GridNormalRow&#39; or @class=&#39;GridAlternate&#39;]&quot;)
+all_data &lt;- t(sapply(norm_rows, extract_row_data))
+nrega_df &lt;- as_tibble(all_data)
+write_csv(nrega_df,&quot;Web_Scraping_files/nrega_data.csv&quot;)</code></pre>
+<p>And you can see the resulting .csv file within the <code>w2_files</code> directory. It looks like:</p>
+<pre class="r"><code>cat(readLines(&#39;Web_Scraping_files/nrega_data.csv&#39;), sep = &#39;\n&#39;)</code></pre>
+<pre><code>## id,region,cards
+## 1,CHHATTISGARH,&quot;40,07,110&quot;
+## 2,KERALA,&quot;28,22,008&quot;
+## 3,WEST BENGAL,&quot;1,17,42,605&quot;</code></pre>
+<p>Cool. When you’re done using the R-controlled client, you can use <code>client$close()</code> to close the window. [And if you need to start it up again, you can use <code>client$open()</code>!]:</p>
+<pre class="r"><code># Close the window
+client$close()
+# Uh oh I forgot something, need to re-open
+client$open()
+# Ok now I&#39;m good
+client$close()
+# Shut down the server as well... otherwise it slows your computer
+driver$server$stop()</code></pre>
+</div>
+</div>
+<div id="api-scraping" class="section level2">
+<h2>API Scraping</h2>
+<p>Now that we’ve learned the two somewhat “hackish” ways of scraping data, we can now move to a much nicer way of getting data from the web. When a website actually <em>wants</em> people to download and use their data, they’ll often provide an API – an “Application Programming Interface” – to make it easy for you to search their data, filter based on what particular attributes you want, and download in various data formats.</p>
+<p>For example, Wikipedia provides an API (actually multiple APIs – in this example we’ll use the “normal” Wikipedia API along with the WikiData API which allows you to query a database containing a bunch of more structured data derived from all the Wikipedia articles), which means that they give access to a special url that looks like:</p>
+<p><code>https://en.wikipedia.org/w/api.php?action=query&amp;titles=South_African_Border_War&amp;prop=images&amp;imlimit=20&amp;format=json</code></p>
+<p>which you can use to obtain a particular set of data you want. Remember that HTTP requests are just messages asking the server for a particular page. So in this case, we’re asking it for a page with the info specified after <code>prop=</code>, using the Wikipedia article specified after <code>titles=</code>, in the JSON (JavaScript Object Notation) format.</p>
+<!-- [TODO: Quick JSON explanation] -->
+<p>In R, the library <code>jsonlite</code> is awesome and provides a convenient <a href="https://www.rdocumentation.org/packages/jsonlite/versions/1.5/topics/toJSON%2C%20fromJSON"><code>fromJSON()</code></a> function which will automatically parse the resulting JSON if you pass it a URL. So we’ll be using that from here on out instead of <code>read_html()</code>.</p>
+<div id="wikidata-api" class="section level3">
+<h3>WikiData API</h3>
+<p>So let’s “run” the query (i.e., just request the page using that special URL) on (plain) Wikipedia and see what the JSON data it gives back looks like. First we’ll just ask for <code>templates</code>, which returns a list of templates included in the page:</p>
+<pre class="r"><code>library(jsonlite)
+json_result &lt;- fromJSON(&quot;https://en.wikipedia.org/w/api.php?action=query&amp;titles=South_African_Border_War&amp;prop=templates&amp;tllimit=25&amp;format=json&quot;)
+names(json_result)</code></pre>
+<pre><code>## [1] &quot;continue&quot; &quot;query&quot;</code></pre>
+<pre class="r"><code>names(json_result$query)</code></pre>
+<pre><code>## [1] &quot;normalized&quot; &quot;pages&quot;</code></pre>
+<pre class="r"><code>names(json_result$query$pages)</code></pre>
+<pre><code>## [1] &quot;4000830&quot;</code></pre>
+<pre class="r"><code>names(json_result$query$pages$`4000830`)</code></pre>
+<pre><code>## [1] &quot;pageid&quot;    &quot;ns&quot;        &quot;title&quot;     &quot;templates&quot;</code></pre>
+<pre class="r"><code># Finally we found interesting things. So we&#39;ll save this into a var
+wiki_data &lt;- json_result$query$pages$`4000830`
+# And start extracting
+wiki_id &lt;- wiki_data$pageid
+wiki_id</code></pre>
+<pre><code>## [1] 4000830</code></pre>
+<pre class="r"><code>wiki_title &lt;- wiki_data$title
+wiki_title</code></pre>
+<pre><code>## [1] &quot;South African Border War&quot;</code></pre>
+<pre class="r"><code>wiki_props &lt;- wiki_data$pageprops
+#claims_result &lt;- fromJSON(&quot;https://wikidata.org/w/api.php?action=wbgetclaims&amp;titles=South_African_Border_War&amp;sites=enwiki&amp;language=en&amp;format=json&quot;)
+#claims_result
+#db_result &lt;- fromJSON(&quot;https://wikidata.org/w/api.php?action=wbgetentities&amp;titles=South_African_Border_War&amp;sites=enwiki&amp;language=en&amp;format=json&quot;)
+#db_result</code></pre>
+<p>The claims we have are things like:</p>
+<ul>
+<li><a href="https://www.wikidata.org/wiki/Property:P910"><code>P910</code></a>: The article’s main category</li>
+<li><a href="https://www.wikidata.org/wiki/Property:P646"><code>P646</code></a>: The entity’s id in the Freebase DB (see below)</li>
+</ul>
+<p>Lastly, but obviously not leastly, we can get <em>just</em> the text of an article using the url in this code cell, which asks for output from the <a href="https://www.mediawiki.org/wiki/Extension:TextExtracts"><code>TextExtracts</code> <em>extension</em></a> to the API (“extension” here means that not all Wiki APIs support the <code>extracts</code> option):</p>
+<pre class="r"><code>text_json &lt;- fromJSON(&quot;https://en.wikipedia.org/w/api.php?action=query&amp;prop=extracts&amp;titles=South+African+Border+War&amp;explaintext&amp;format=json&amp;exlimit=1&quot;)
+full_text &lt;- text_json$query$pages$`4000830`$extract
+substr(full_text,0,1000)</code></pre>
+<pre><code>## [1] &quot;The South African Border War, also known as the Namibian War of Independence, and sometimes denoted in South Africa as the Angolan Bush War, was a largely asymmetric conflict that occurred in Namibia (then South West Africa), Zambia, and Angola from 26 August 1966 to 21 March 1990. It was fought between the South African Defence Force (SADF) and the People&#39;s Liberation Army of Namibia (PLAN), an armed wing of the South West African People&#39;s Organisation (SWAPO). The South African Border War resulted in some of the largest battles on the African continent since World War II and was closely intertwined with the Angolan Civil War.\nFollowing several decades of unsuccessful petitioning through the United Nations and the International Court of Justice for Namibian independence, SWAPO formed the PLAN in 1962 with material assistance from the Soviet Union, the People&#39;s Republic of China, and sympathetic African states such as Tanzania, Ghana, and Algeria. Fighting broke out between PLAN and th&quot;</code></pre>
+</div>
+<div id="knowledgegraph-freebase-api" class="section level3">
+<h3>KnowledgeGraph (Freebase) API</h3>
+<p>You know that box of helpful info that comes up when you search for a thing on Google? For example, the box telling you</p>
+<p>Since I don’t want to have my Google API Key saved in this tutorial, I load it from an external file (which is <em>not</em> pushed to GitHub). However, this means we’re going to have to “leave a blank” in the url which we fill in with the value loaded from the file. This is where the <a href="https://en.wikipedia.org/wiki/Printf_format_string"><code>sprintf()</code> function</a> comes in. Basically, anywhere in the string you want to leave a blank, just put:</p>
+<ul>
+<li><code>%s</code> if you’re going to fill it in with a string</li>
+<li><code>%d</code> if you’re going to fill it in with an integer</li>
+<li><code>%f</code> if you’re going to fill it in with a float (number with decimal points)</li>
+</ul>
+<pre class="r"><code>api_key &lt;- readLines(&quot;../gcloud/kgraph_api_teaching.secret&quot;)
+query_template &lt;- &quot;https://kgsearch.googleapis.com/v1/entities:search?query=%s&amp;key=%s&amp;limit=%d&quot;
+query_url &lt;- sprintf(query_template, &quot;south+african+border+war&quot;, api_key, 3)
+kg_json &lt;- fromJSON(query_url)
+kg_results &lt;- kg_json$itemListElement$result
+kg_scores &lt;- kg_json$itemListElement$resultScore
+names &lt;- unlist(kg_results[&quot;name&quot;])
+kg_ids &lt;- unlist(kg_results[&quot;@id&quot;])
+kg_df &lt;- tibble(name=names, score=kg_scores, kg_id=kg_ids)
+kg_df</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   name                     score kg_id        
+##   &lt;chr&gt;                    &lt;dbl&gt; &lt;chr&gt;        
+## 1 South African Border War  888. kg:/m/0bbx4h 
+## 2 Africa                    636. kg:/m/0dg3n1 
+## 3 Apartheid                 618. kg:/m/0hn9dw9</code></pre>
+<p>We see that of the three results, the first one has the highest <code>resultScore</code> value. So we pick this one and make another API request to obtain info about it:</p>
+<pre class="r"><code># Get just the id, stripping out the &quot;kg:&quot; prefix
+borderwar_id &lt;- kg_df %&gt;%
+    filter(name==&quot;South African Border War&quot;) %&gt;%
+    select(&quot;kg_id&quot;) %&gt;%
+    as.character() %&gt;%
+    gsub(&quot;kg:&quot;,&quot;&quot;,.)
+id_template &lt;- &quot;https://kgsearch.googleapis.com/v1/entities:search?ids=%s&amp;key=%s&quot;
+id_url &lt;- sprintf(id_template, borderwar_id, api_key)
+id_json &lt;- fromJSON(id_url)
+id_result &lt;- id_json$itemListElement$result
+# Use colnames() function to see what data we have
+colnames(id_result)</code></pre>
+<pre><code>## [1] &quot;@id&quot;                 &quot;name&quot;                &quot;@type&quot;              
+## [4] &quot;description&quot;         &quot;image&quot;               &quot;detailedDescription&quot;</code></pre>
+<pre class="r"><code># Print the detailed description
+id_result$detailedDescription$articleBody</code></pre>
+<pre><code>## [1] &quot;The South African Border War, also known as the Namibian War of Independence, and sometimes denoted in South Africa as the Angolan Bush War, was a largely asymmetric conflict that occurred in Namibia, Zambia, and Angola from 26 August 1966 to 21 March 1990. &quot;</code></pre>
+<pre class="r"><code># And get the image url
+image_url &lt;- id_result$image$contentUrl
+image_url</code></pre>
+<pre><code>## [1] &quot;http://t3.gstatic.com/images?q=tbn:ANd9GcSWitOf9Joen1CPcJEbxw-8Vy_Vw6zOyIV1dTI7gjcPhtufbgHB&quot;</code></pre>
+<p>The image looks like</p>
+<div class="figure">
+<img src="http://t3.gstatic.com/images?q=tbn:ANd9GcSWitOf9Joen1CPcJEbxw-8Vy_Vw6zOyIV1dTI7gjcPhtufbgHB" />
+
+</div>
+<p>And as in all the previous examples we could now go and make a tibble and export to a .csv file.</p>
+<p>Before we move to the Full Website Scrape, a quick final note: For some sites you may have to “trick” the server into thinking you’re sending a request from a normal browser, to avoid being blocked. Every time you send an HTTP request, the request message contains a <em>header</em> with information about you and your browser. For example, you send a “User-Agent String” which gives the server information about what browser and OS you’re using. Mine looks like</p>
+<p><code>Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0</code></p>
+<p>But an Android phone’s User-Agent String would look like:</p>
+<p><code>Mozilla/5.0 (Linux; Android 6.0.1; SM-G532G Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.83 Mobile Safari/537.36</code></p>
+<p>You can find the User-Agent that you’re sending out by visiting <a href="http://httpbin.org/user-agent">this helpful link</a>. For example let’s look at what gets sent when we use the <code>fromJSON()</code> and <code>read_html</code> functions:</p>
+<pre class="r"><code>my_ua_json &lt;- fromJSON(&quot;http://httpbin.org/user-agent&quot;)
+json_ua &lt;- my_ua_json$`user-agent`
+# Weird regular expression stuff, don&#39;t worry about it...
+ua_regex &lt;- &quot;\&quot;user-agent\&quot;: \&quot;(.+)\&quot;\n&quot;
+ua_response &lt;- read_html(&quot;http://httpbin.org/user-agent&quot;) %&gt;% html_text(trim=TRUE)
+readhtml_ua &lt;- str_match(ua_response,ua_regex)[,2]
+readhtml_ua</code></pre>
+<pre><code>## [1] &quot;R (3.5.0 x86_64-redhat-linux-gnu x86_64 linux-gnu)&quot;</code></pre>
+<p>Most importantly, in R while we can’t use the very simple <code>read_html()</code> to “spoof” a User-Agent String (i.e., replace it with a custom string before sending), this function is really just a simplifying wrapper around the function <a href="https://www.rdocumentation.org/packages/httr/versions/1.3.1/topics/GET"><code>GET()</code></a> from the library <code>httr</code><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>. So we now load that library and use <code>GET()</code> to send a custom header:</p>
+<pre class="r"><code>library(httr)
+new_ua &lt;- &quot;Secret Underground Hacker Lair Browser 2.0&quot;
+httr_response &lt;- GET(&quot;http://httpbin.org/user-agent&quot;, user_agent(new_ua))
+httr_ua &lt;- httr::content(httr_response)$`user-agent`
+httr_ua</code></pre>
+<pre><code>## [1] &quot;Secret Underground Hacker Lair Browser 2.0&quot;</code></pre>
+</div>
+</div>
+<div id="full-website-scraping" class="section level2">
+<h2>Full Website Scraping</h2>
+<p>In this final scraping method our goal is not to download data from a page or an API, but to actually copy the <em>entire</em> website for offline use. I personally don’t know how to do this in R. But I <em>have</em> used the <a href="https://www.httrack.com/">HTTrack Website Copier</a> to scrape a ton of websites, so I highly recommend checking that out. So… yeah. Short section here. Onwards and upwards to <em>doing</em> things with our scraped data!</p>
+</div>
+<div id="bibliography" class="section level2">
+<h2>Bibliography</h2>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>I only scrape the first page for the sake of time, but scraping all pages usually just requires going on the blog, looking at how the URL in your URL bar changes as you click “Next Page”, and then replicating that pattern in code. For example, if the homepage is <code>coolblog.com</code>, maybe as you click “Next Page” you see it changing to <code>coolblog.com/?p=1</code>, <code>coolblog.com/?p=2</code>, and so on. What this means is that clicking “Next Page” just makes your browser request the same “page” but with a different <code>p</code> parameter, which probably stands for “page”. Once you know this pattern, you can just write a loop in R that scrapes each page individually as we do for the home page above.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Technically it’s possible in some cases – for example you could figure out how the JavaScript code works and then just HTTP request the pages that it AJAX-requests in the background – but it’s not at all trivial.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Unrelated to the DC football team…<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jeff Jacobs" />
+
+
+<title>Text-As-Data Resource Extravaganza</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CU Text-as-Data Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workshop Sessions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="01_Introduction_to_R.html">Week 1: Intro to R</a></li>
+            <li><a href="02_Web_Scraping.html">Week 2: Web Scraping</a></li>
+            <li><a href="03_Frequency_Analysis.html">Week 3: Frequency Analysis</a></li>
+            <li><a href="04_Topic_Modeling_ggplot2.html">Week 4: Topic Modeling and Visualization</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
+            <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
+            <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
+            <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="TAD_Resource_Extravaganza.html">Resources</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://textlab.econ.columbia.edu/">CU TextLab</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Text-As-Data Resource Extravaganza</h1>
+<h4 class="author"><em>Jeff Jacobs</em></h4>
+
+</div>
+
+
+<p>The question that motivated this list was: <em>What is “Text-As-Data”? Why should I care?</em></p>
+<p>My lazy answer was originally: there are entire excursuses<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> on exactly this question, in basically whatever field you could imagine, at this point. Then I decided I’d better give a quick overview of these resources (to show that I’m standing on the shoulders of giants), and that led to this list, which I will only skim in the workshop:</p>
+<div id="social-science" class="section level1">
+<h1>Social Science</h1>
+<ul>
+<li><em>Overviews</em>
+<ul>
+<li>The paper that, in my mind, <em>solidified</em> text-as-data as a “legitimate” social-scientific tool is <span class="citation">Roberts, Stewart, and Airoldi (2016)</span><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</li>
+<li>However, slides from a slightly more novice-friendly presentation of the work are available <a href="https://mimno.infosci.cornell.edu/nips2013ws/slides/stm.pdf">here</a>.</li>
+<li>These are probably less cited than they should be…</li>
+<li>As for actual works rather than just surveys, my favorite text-as-data paper in social science is unquestionably <span class="citation">Blaydes, Grimmer, and McQueen (2018)</span> (noticing a trend in these authors?), but I’m biased as a political theorist doing text-as-data stuff…</li>
+</ul></li>
+<li><em>Political Science</em>
+<ul>
+<li>A canonical citation for text-as-data work in Political Science is <span class="citation">Grimmer and Stewart (2013)</span>. More recently, I like <span class="citation">Wilkerson and Casas (2017)</span>, it actually has an interestingly different take on the philosophy and “scientific” basis of TAD.</li>
+<li>If you’re a political theorist (99% chance you’re not but… dare to dream) then I’d <em>highly</em> recommend <span class="citation">London (2016)</span>. That’s the paper I cite in basically all of my work, along with <span class="citation">Skinner (1969)</span>, to try and explain what a “Text-as-data approach to Cambridge School historiography” means.</li>
+<li>Then for International Relations there’s a lot of cool stuff. I have two papers on this front that I can talk about, but for a sampling of what’s out there see <span class="citation">Nielsen (2013)</span>.</li>
+</ul></li>
+<li><em>Sociology</em>
+<ul>
+<li>I’m less aware of “canonical” citations in Sociology, obviously, but there are a couple of Annual Review of Sociology articles that give great overviews, e.g., <span class="citation">Evans and Aceves (2016)</span>.</li>
+<li>And there is a ton of amazing text-as-data work in Sociology, but my favorite is probably <span class="citation">Rule, Cointet, and Bearman (2015)</span>. Full disclosure I’m friends with the first author Alix :P.</li>
+</ul></li>
+<li><em>Videos</em>
+<ul>
+<li>Short-term option: I attended the first annual <a href="https://compsocialscience.github.io/summer-institute/2017/">Summer Institute for Computational Social Science</a> so I can vouch for <a href="https://www.youtube.com/watch?v=AGIzIasTuLM">Brandon Stewart’s lecture at SICSS 2017</a> (Bonus: you’ll see me awkwardly scurry out of frame at the beginning of the video).</li>
+<li>Medium-term option: <a href="https://www.youtube.com/playlist?list=PL9UNgBC7ODr4qxGwCB_5f1A_1NQyiGCuP">YouTube playlist of five lectures on text analysis</a>, again from SICSS 2017 so again I vouch.</li>
+<li>Long-term option: If you really wanna go HAM, Justin Grimmer (the author of that survey) has videos of his entire Text-As-Data course at Stanford <a href="https://stanford.app.box.com/v/Text-As-Data">hiding in plain sight in a Box folder</a>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="humanities" class="section level1">
+<h1>Humanities</h1>
+<ul>
+<li>Skipping over a more detailed rant about the history (can an AI be trained to do GADAMERIAN HERMENEUTICS?), I’ll condense to just saying that <span class="citation">Moretti (2013)</span> is the book I always turn to for an “interface” and a vocabulary for “translating” between the humanities and text-as-data worlds<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>.</li>
+<li>Nowadays, however, I’m geeking out about the work coming out of <a href="https://mimno.infosci.cornell.edu/">David Mimno’s group</a>, for example <span class="citation">Baumer et al. (2017)</span>. You can watch a brilliant video presentation of it by David himself <a href="https://www.youtube.com/watch?v=fkzKfK2eEqs">here</a>.</li>
+</ul>
+</div>
+<div id="stem-computer-science" class="section level1">
+<h1>STEM (Computer Science)</h1>
+<ul>
+<li>I won’t spend too much time on this, but if you’re interested in the algorithmic and statistical “roots” of text-as-data the foundational works for different methods are as follows:
+<ul>
+<li>Topic Modeling: <span class="citation">Blei, Ng, and Jordan (2003)</span> (the paper that “mainstreamed” topic modeling and thus text-as-data more generally<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>).</li>
+<li>Word Embeddings: <span class="citation">Mikolov et al. (2013)</span>, though the REAL foundation is JR Firth’s 1957 exclamation “You shall know a word by the company it keeps!” (<span class="citation">Firth (1957)</span>, or see <a href="http://cs.brown.edu/courses/csci2952d/readings/lecture1-firth.pdf">here</a> on page 11), which gave rise to the “Firthian distributional hypothesis” that word embeddings simply… implement :P</li>
+<li>Neural Networks: This is the technology that… makes 2018 an interesting time to be alive. For example all of Google Translate’s improvements in translation accuracy over its first 12 years (with hundreds of full-time researchers and software engineers) <a href="https://www.youtube.com/watch?v=nR74lBO5M3s">were DWARFED</a> by simply switching the system from the complex statistical model they had developed to… dropping shit into a neural net and seeing what comes out. We still don’t know what they’re doing or why they’re so effective. I’ll leave you with Andrej Karpathy’s aptly-named <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">“The Unreasonable Effectiveness of Recurrent Neural Networks”</a> (Generate infinitely many new Neural Bibles! Neural Irish folk songs! Neural Stir-Fry Recipes! …a deep rabbithole for sure.)</li>
+</ul></li>
+</ul>
+</div>
+<div id="bibliography" class="section level1 unnumbered">
+<h1>Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-baumer_comparing_2017">
+<p>Baumer, Eric P. S., David Mimno, Shion Guha, Emily Quan, and Geri K. Gay. 2017. “Comparing Grounded Theory and Topic Modeling: Extreme Divergence or Unlikely Convergence?” <em>Journal of the Association for Information Science and Technology</em> 68 (6): 1397–1410. doi:<a href="https://doi.org/10.1002/asi.23786">10.1002/asi.23786</a>.</p>
+</div>
+<div id="ref-blaydes_mirrors_2018">
+<p>Blaydes, Lisa, Justin Grimmer, and Alison McQueen. 2018. “Mirrors for Princes and Sultans: Advice on the Art of Governance in the Medieval Christian and Islamic Worlds.” <em>The Journal of Politics</em> 80 (4): 1150–67. doi:<a href="https://doi.org/10.1086/699246">10.1086/699246</a>.</p>
+</div>
+<div id="ref-blei_latent_2003">
+<p>Blei, David M., Andrew Y. Ng, and Michael I. Jordan. 2003. “Latent Dirichlet Allocation.” <em>J. Mach. Learn. Res.</em> 3 (March): 993–1022. <a href="http://dl.acm.org/citation.cfm?id=944919.944937" class="uri">http://dl.acm.org/citation.cfm?id=944919.944937</a>.</p>
+</div>
+<div id="ref-evans_machine_2016">
+<p>Evans, James A., and Pedro Aceves. 2016. “Machine Translation: Mining Text for Social Theory.” <em>Annual Review of Sociology</em> 42 (1): 21–50. doi:<a href="https://doi.org/10.1146/annurev-soc-081715-074206">10.1146/annurev-soc-081715-074206</a>.</p>
+</div>
+<div id="ref-firth_papers_1957">
+<p>Firth, John Rupert. 1957. <em>Papers in Linguistics, 1934-1951</em>. Oxford University Press.</p>
+</div>
+<div id="ref-grimmer_text_2013">
+<p>Grimmer, Justin, and Brandon M. Stewart. 2013. “Text as Data: The Promise and Pitfalls of Automatic Content Analysis Methods for Political Texts.” <em>Political Analysis</em> 21 (3): 267–97. <a href="https://www.jstor.org/stable/24572662" class="uri">https://www.jstor.org/stable/24572662</a>.</p>
+</div>
+<div id="ref-london_re-imagining_2016">
+<p>London, Jennifer A. 2016. “Re-Imagining the Cambridge School in the Age of Digital Humanities.” <em>Annual Review of Political Science</em> 19 (1): 351–73. doi:<a href="https://doi.org/10.1146/annurev-polisci-061513-115924">10.1146/annurev-polisci-061513-115924</a>.</p>
+</div>
+<div id="ref-mikolov_distributed_2013">
+<p>Mikolov, Tomas, Ilya Sutskever, Kai Chen, Greg Corrado, and Jeffrey Dean. 2013. “Distributed Representations of Words and Phrases and Their Compositionality.” <em>arXiv:1310.4546 [Cs, Stat]</em>, October. <a href="http://arxiv.org/abs/1310.4546" class="uri">http://arxiv.org/abs/1310.4546</a>.</p>
+</div>
+<div id="ref-moretti_distant_2013">
+<p>Moretti, Franco. 2013. <em>Distant Reading</em>. London: Verso.</p>
+</div>
+<div id="ref-nielsen_lonely_2013">
+<p>Nielsen, Richard Alexander. 2013. “The Lonely Jihadist: Weak Networks and the Radicalization of Muslim Clerics,” September. <a href="https://dash.harvard.edu/handle/1/11124850" class="uri">https://dash.harvard.edu/handle/1/11124850</a>.</p>
+</div>
+<div id="ref-roberts_model_2016">
+<p>Roberts, Margaret E., Brandon M. Stewart, and Edoardo M. Airoldi. 2016. “A Model of Text for Experimentation in the Social Sciences.” <em>Journal of the American Statistical Association</em> 111 (515): 988–1003. doi:<a href="https://doi.org/10.1080/01621459.2016.1141684">10.1080/01621459.2016.1141684</a>.</p>
+</div>
+<div id="ref-rule_lexical_2015">
+<p>Rule, Alix, Jean-Philippe Cointet, and Peter S. Bearman. 2015. “Lexical Shifts, Substantive Changes, and Continuity in State of the Union Discourse, 1790–2014.” <em>Proceedings of the National Academy of Sciences</em> 112 (35): 10837–44. doi:<a href="https://doi.org/10.1073/pnas.1512221112">10.1073/pnas.1512221112</a>.</p>
+</div>
+<div id="ref-skinner_meaning_1969">
+<p>Skinner, Quentin. 1969. “Meaning and Understanding in the History of Ideas.” <em>History and Theory</em> 8 (1): 3–53. doi:<a href="https://doi.org/10.2307/2504188">10.2307/2504188</a>.</p>
+</div>
+<div id="ref-wilkerson_large-scale_2017">
+<p>Wilkerson, John, and Andreu Casas. 2017. “Large-Scale Computerized Text Analysis in Political Science: Opportunities and Challenges.” <em>Annual Review of Political Science</em> 20 (1): 529–44. doi:<a href="https://doi.org/10.1146/annurev-polisci-052615-025542">10.1146/annurev-polisci-052615-025542</a>.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Yes, apparently the plural of “excursus” is “excursuses”… I had been pretentiously saying “excursi” for years :(.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>You’ll probably quickly notice that this paper (and the presentation) are kind of auxiliary to the “main event”, their R package called <code>stm</code> (Structural Topic Modeling). I’ll talk about it in the workshop, but basically 1. I think <code>stm</code> provides a sort of semantic “framing”/vocabulary of text-as-data that I think is <em>perfect</em> for working at the intersection of social science and computer science, and yet 2. I have never been able to get <code>stm</code> to work :| so I’ll be using a different set of libraries. But just know that, IN THEORY, <code>stm</code> is the way I would recommend <em>thinking about</em> your models and their estimation.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>I actually probably spend more time reading papers and books from the Humanities than I do the Social Sciences. At the end of the day, in my view, there’s a lot more text (more importantly, a lot more <em>interesting</em> text) in the corpora of various Humanities subfields than in any social science… Not a sermon, just a thought. 10 points if you get that reference.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Actually, a graph of the frequency of text-as-data papers before and after this publication would be fascinating… 10 bonus points to anyone who does it!<a href="#fnref4">↩</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

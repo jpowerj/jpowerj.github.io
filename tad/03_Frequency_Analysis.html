@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jeff Jacobs" />
+
+<meta name="date" content="2018-11-15" />
+
+<title>Week 3: Frequency Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CU Text-as-Data Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workshop Sessions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="01_Introduction_to_R.html">Week 1: Intro to R</a></li>
+            <li><a href="02_Web_Scraping.html">Week 2: Web Scraping</a></li>
+            <li><a href="03_Frequency_Analysis.html">Week 3: Frequency Analysis</a></li>
+            <li><a href="04_Topic_Modeling_ggplot2.html">Week 4: Topic Modeling and Visualization</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
+            <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
+            <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
+            <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="TAD_Resource_Extravaganza.html">Resources</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://textlab.econ.columbia.edu/">CU TextLab</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Week 3: Frequency Analysis</h1>
+<h4 class="author"><em>Jeff Jacobs</em></h4>
+<h4 class="date"><em>November 15, 2018</em></h4>
+
+</div>
+
+
+<script src="code_fold2.js"></script>
+<div id="text-analysis-101" class="section level1">
+<h1>Text Analysis 101</h1>
+This session is essentially “Text Analysis 101”, in that it contains steps you’re going to perform basically no matter <em>what</em> particular text analysis method you’re hoping to use. The basic pipeline for a text-analysis project (at least, for a one-off text corpus analysis) looks like: [if you’re rendering this tutorial manually, you’ll need to install the <code>Gmisc</code> package to generate this diagram]
+<div id="diag1">
+<pre class="r"><code>library(grid)
+library(Gmisc)
+# Set arrow options
+options(connectGrobArrow = 
+          arrow(ends=&quot;last&quot;, type=&quot;closed&quot;,
+                length=unit(&quot;3&quot;,&quot;mm&quot;),
+                angle=&quot;20&quot;))
+# set some parameters to use repeatedly
+leftx &lt;- .25
+midx &lt;- .5
+rightx &lt;- .75
+width &lt;- .75
+height &lt;- 0.08
+box_opt &lt;- gpar(fill = &quot;lightgrey&quot;)
+txt_opt &lt;- gpar(cex=1.1, fontface=&quot;bold&quot;)
+# create boxes
+h_inc &lt;- 0.12
+
+(csv &lt;- boxGrob(&quot;Unstructured text (\&quot;out in the world\&quot;)&quot;, 
+ x=midx, y=0.82, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+
+(df &lt;- boxGrob(&quot;Organized text w/metadata&quot;, 
+ x=midx, y=0.70, box_gp = box_opt, txt_gp=txt_opt, width = width, height=height))
+# connect boxes like this
+connectGrob(csv, df, &quot;v&quot;)
+
+(corpus &lt;- boxGrob(&quot;Text and metadata loaded into an R variable&quot;, 
+ x=midx, y=0.58, box_gp = box_opt, txt_gp=txt_opt, width = width, height=height))
+connectGrob(df, corpus, &quot;N&quot;)
+
+(preproc &lt;- boxGrob(&quot;Text preprocessing&quot;, 
+ x=midx, y=0.46, box_gp = box_opt, txt_gp=txt_opt, width = width, height=height))
+connectGrob(corpus, preproc, &quot;v&quot;)
+
+(dtm &lt;- boxGrob(&quot;Conversion to numeric data\n(Document-Term Matrix (DTM))&quot;, 
+ x=midx, y=0.3, box_gp = box_opt, txt_gp=txt_opt, width = width, height=2*height))
+connectGrob(preproc, dtm, &quot;N&quot;)
+
+(freq &lt;- boxGrob(&quot;Text-as-data methods\n(Transformations of DTM)&quot;, 
+ x=midx, y=0.1, box_gp = box_opt, txt_gp=txt_opt, width = width, height=2*height))
+connectGrob(dtm, freq, &quot;v&quot;)</code></pre>
+<p><img src="03_Frequency_Analysis_files/figure-html/text-pipeline-1.png" width="672" /></p>
+</div>
+<p>With that said, there’s a more limited “easy way” and a more versatile “hard way” to do these basic steps.</p>
+The easy way will let you get up and running and learning some rudimentary things about your text corpus in… less than 30 minutes? This easy way is achieved using the <code>tm</code> package in R, short for “Text Mining”. In a nutshell, this package has a pipeline that looks like:
+<div id="diag2">
+<pre class="r"><code>library(grid)
+library(Gmisc)
+grid.newpage()
+# set some parameters to use repeatedly
+leftx &lt;- .25
+midx &lt;- .5
+rightx &lt;- .75
+width &lt;- .4
+box_opt &lt;- gpar(fill = &quot;lightgrey&quot;)
+txt_opt &lt;- gpar(cex=1.1, fontface=&quot;bold&quot;)
+# create boxes
+(csv &lt;- boxGrob(&quot;Corpus in csv format&quot;, 
+ x=midx, y=0.85, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+
+(df &lt;- boxGrob(&quot;data.frame&quot;, 
+ x=midx, y=0.7, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+# connect boxes like this
+connectGrob(csv, df, &quot;v&quot;)
+
+(corpus &lt;- boxGrob(&quot;Corpus object&quot;, 
+ x=midx, y=0.55, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+connectGrob(df, corpus, &quot;N&quot;)
+
+(preproc &lt;- boxGrob(&quot;Preprocessing&quot;, 
+ x=midx, y=0.4, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+connectGrob(corpus, preproc, &quot;v&quot;)
+
+(dtm &lt;- boxGrob(&quot;DocumentTermMatrix&quot;, 
+ x=midx, y=0.25, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+connectGrob(preproc, dtm, &quot;N&quot;)
+
+(freq &lt;- boxGrob(&quot;Frequency analysis&quot;, 
+ x=midx, y=0.1, box_gp = box_opt, txt_gp=txt_opt, width = width, height=0.08))
+connectGrob(dtm, freq, &quot;v&quot;)</code></pre>
+<p><img src="03_Frequency_Analysis_files/figure-html/tm-pipeline-1.png" width="672" /></p>
+</div>
+<p>In words: you start with your corpus in a basic data format and load it into a dataframe object using the functions you’ve learned (either R’s built-in <code>read.csv()</code> or the better alternative <code>fread()</code> from the <code>data.table</code> package). You then use <code>tm</code>’s <code>Corpus</code> function to convert the datatable into a <code>Corpus</code> object. Next you “convert” this <code>Corpus</code> into numerical form via <code>DocumentTermMatrix()</code> (again from <code>tm</code>), and perform whatever analysis you want on this Document-Term Matrix (DTM).</p>
+<p>Here I want to point out that most text-as-data methods can actually be boiled down to just fancy transformations on a DTM. Both <a href="https://en.wikipedia.org/wiki/Latent_semantic_analysis">Latent Semantic Analysis (LSA)</a>, one of the earliest text-as-data methods (and the precursor to topic models, which use a variant called <a href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet Allocation (LDA)</a>) and <a href="https://towardsdatascience.com/introduction-to-word-embedding-and-word2vec-652d0c2060fa">word embeddings</a>, for example, transform this matrix so that the rows of the resulting matrix represent <em>topics</em> (in the LSA case) or <em>words</em> (in the word embedding case). Onto the code!</p>
+</div>
+<div id="using-the-textmining-tm-package" class="section level1">
+<h1>Using the textmining (<code>tm</code>) package</h1>
+<p>First things first, you’re going to need to install <code>tm</code> by running <code>install.packages(&quot;tm&quot;)</code> from the Console. Once it’s installed, you can load it into R’s working memory at any time by including <code>library(tm)</code> at the top of your code.</p>
+<div id="loading-data-from-.csv" class="section level2">
+<h2>Loading data from .csv</h2>
+<p>Let’s begin by loading our <code>csv</code> file into an R dataframe. Just like last week, I use <code>fread(&lt;filename&gt;)</code> to load the data and store the resulting dataframe into a variable called <code>UN_speeches</code> (you’ll see why we’re using the <code>_ascii</code> version later on):</p>
+<pre class="r"><code>library(data.table)
+UN_speeches &lt;- fread(&quot;corpora/UNGDC_2017_ascii.csv&quot;)
+# Use -8 for the column filter to exclude column 8,
+# so that it doesn&#39;t print out all the (long) speeches
+head(UN_speeches[,-8])</code></pre>
+<pre><code>##      id       folder_name       file_name file_prefix session_num year
+## 1: 7701 Session 72 - 2017 AFG_72_2017.txt AFG_72_2017          72 2017
+## 2: 7702 Session 72 - 2017 AGO_72_2017.txt AGO_72_2017          72 2017
+## 3: 7703 Session 72 - 2017 ALB_72_2017.txt ALB_72_2017          72 2017
+## 4: 7704 Session 72 - 2017 AND_72_2017.txt AND_72_2017          72 2017
+## 5: 7705 Session 72 - 2017 ARE_72_2017.txt ARE_72_2017          72 2017
+## 6: 7706 Session 72 - 2017 ARG_72_2017.txt ARG_72_2017          72 2017
+##    country_code res res_count
+## 1:          AFG   1       196
+## 2:          AGO   1       196
+## 3:          ALB   1       196
+## 4:          AND   1       196
+## 5:          ARE   1       196
+## 6:          ARG   1       196</code></pre>
+</div>
+<div id="constructing-the-corpus-object" class="section level2">
+<h2>Constructing the Corpus object</h2>
+<p>Next we want to tell <code>tm</code> that the data in this dataframe is actually <em>text</em> data that we want it to work with. To do this, we use its <code>Corpus()</code> function, which requires a <em>source</em> argument. This source argument can be one of: <code>VectorSource</code>, <code>DataframeSource</code>, or <code>DirSource</code>. Hopefully these are fairly self-explanatory, but just in case:</p>
+<ul>
+<li><code>VectorSource</code> takes in <em>just</em> a vector of strings (e.g., <code>c(&quot;first text&quot;,&quot;here's the second text&quot;,&quot;a third text&quot;)</code>) and treats each string as a text document,</li>
+<li><code>DataframeSource</code> takes in an entire dataframe, with one column specified as the column holding your text documents, and treats the remaining columns as metadata, and</li>
+<li><code>DirSource</code> takes in the path to a directory (e.g., <code>&quot;C:\\Documents\\My_Corpus&quot;</code>), loads all <code>.txt</code> files within that directory into memory, and treats the contents of each file as a text document.</li>
+</ul>
+<p>In this case, we’re going to use <code>DataframeSource</code>, since it will let us tell <code>tm</code> about both the text data and the (numeric or categorical) metadata in one go. However, you’ll get an error trying to use the dataframe as-is:</p>
+<pre class="r"><code>library(tm)
+UN_corpus &lt;- Corpus(DataframeSource(UN_speeches))</code></pre>
+<pre><code>## Error in inherits(x, &quot;Source&quot;): all(!is.na(match(c(&quot;doc_id&quot;, &quot;text&quot;), names(x)))) is not TRUE</code></pre>
+<p>It looks scary, but all it’s saying is “I was looking for a column named <code>doc_id</code> and a column named <code>text</code>, and didn’t find them in your dataframe”. As the documentation for DataframeSource mentions: “The first column must be named ‘doc_id’ and contain a unique string identifier for each document. The second column must be named ‘text’”. It’s probably easiest to use <code>country_code</code> as our unique id variable, so we rename that column to <code>doc_id</code>, and we’re good:</p>
+<pre class="r"><code># Use 7 since country_code is the *seventh* column
+names(UN_speeches)[7] &lt;- &quot;doc_id&quot;
+# Check that our rename worked
+names(UN_speeches)</code></pre>
+<pre><code>##  [1] &quot;id&quot;          &quot;folder_name&quot; &quot;file_name&quot;   &quot;file_prefix&quot; &quot;session_num&quot;
+##  [6] &quot;year&quot;        &quot;doc_id&quot;      &quot;text&quot;        &quot;res&quot;         &quot;res_count&quot;</code></pre>
+<p>Now our above code should work:</p>
+<pre class="r"><code>UN_corpus &lt;- Corpus(DataframeSource(UN_speeches))
+UN_corpus</code></pre>
+<pre><code>## &lt;&lt;SimpleCorpus&gt;&gt;
+## Metadata:  corpus specific: 1, document level (indexed): 8
+## Content:  documents: 196</code></pre>
+<p>This tells us two things:</p>
+<ol style="list-style-type: decimal">
+<li>That our corpus contains 196 documents, and</li>
+<li>That we have 8 metadata variables, on top of the <code>doc_id</code> and <code>text</code> columns.</li>
+</ol>
+<p>So now our <code>Corpus</code> object is ready to use. Just as a sanity check (or, if this is the first time you’re looking at the corpus, to get your bearings), you can use the double-square-brackets notation <code>[[&lt;doc_num&gt;]]</code> on your Corpus object to access the text for a particular document. However, you will get an error if you try <em>just</em> the double-brackets:</p>
+<pre class="r"><code>UN_corpus[[5]]</code></pre>
+<pre><code>## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 13929</code></pre>
+<p>What this means is that R doesn’t understand <code>UN_corpus[[5]]</code> as a string. The issue is that <code>tm</code> is keeping track of additional information above and beyond just the text, and <em>all</em> of this data is given to you when you use the double-brackets. So what you need to do is “drill down” to just the text, which is stored in the <code>content</code> field <em>within</em> the object that the double-brackets gives you:</p>
+<pre class="r"><code>doc5_data &lt;- UN_corpus[[5]]
+doc5_text &lt;- doc5_data$content
+# Just show the first 500 characters in the document
+substr(doc5_text,1,500)</code></pre>
+<pre><code>## [1] &quot;I would like to begin by congratulating the President on his leadership of the General Assembly at its seventy-second session. We are confident that his deep experience in international affairs will contribute to the Assembly??s success, and we stand ready to provide him with all the support and cooperation he may need. I would also like to thank his predecessor, Mr. Peter Thomson, for his stewardship of the previous session. I would also like to take this opportunity to express my country??s ap&quot;</code></pre>
+<pre class="r"><code># And display our metadata
+doc5_data$meta</code></pre>
+<pre><code>##   author       : character(0)
+##   datetimestamp: 2019-02-20 22:24:52
+##   description  : character(0)
+##   heading      : character(0)
+##   id           : ARE
+##   language     : en
+##   origin       : character(0)</code></pre>
+<p>For sanity purposes, I define a simple <code>peek_textnum()</code> function now, so that we don’t have to worry about the square-bracket or <code>$content</code> or <code>substr()</code> stuff anymore:</p>
+<pre class="r"><code>peek_textnum &lt;- function(corpus, doc_num, start_char, end_char){
+  doc_data &lt;- corpus[[doc_num]]
+  doc_text &lt;- doc_data$content
+  doc_head &lt;- substr(doc_text, start_char, end_char)
+  return(doc_head)
+}</code></pre>
+<p>So now we can print (for example) the first 300 characters of the 10th document by running:</p>
+<pre class="r"><code>peek_textnum(UN_corpus, 10, 1, 300)</code></pre>
+<pre><code>## [1] &quot;The world has never felt more insecure, at least not in my lifetime. Three years ago, when I first spoke from this rostrum, I was concerned about three serious challenges. First, violent conflict had returned to Europe with the crisis in and around Ukraine. Secondly, with the success of Da??esh in I&quot;</code></pre>
+<p>Although this is useful for sanity checks, typically we’d like to be able to view the text for a <em>specific</em> country we are interested in. For this, I write a separate function <code>peek_country()</code>, which takes a <em>country code</em> as its first parameter, finds the document number for that country, and passes it onto <code>peek_textnum()</code>. Note that the <code>meta()</code> function, e.g. <code>meta(UN_corpus)</code>, “pulls out” just the metadata table for our corpus, which has a <code>country_code</code> variable:</p>
+<pre class="r"><code>peek_country &lt;- function(corpus, country_code, start_char, end_char){
+  country_data &lt;- corpus[[country_code]]
+  country_text &lt;- country_data$content
+  doc_head &lt;- substr(country_text, start_char, end_char)
+  return(doc_head)
+}</code></pre>
+<p>So now we can do things like:</p>
+<pre class="r"><code>peek_country(UN_corpus, &quot;VEN&quot;, 1, 280)</code></pre>
+<pre><code>## [1] &quot;We address the General Assembly at its seventy-second session in the name of the constitutional President of the Bolivarian Republic of Venezuela, Nicolas Maduro Moros, and thus in the name of a sovereign, peace-loving people that believes in respect among nations and compliance &quot;</code></pre>
+<p>One final thing: if you’re lazy like me and want to get a list of the country codes without having to open the .csv or click the spreadsheet icon in the Environment panel, just use <code>names()</code> to look at the names of each document:</p>
+<pre class="r"><code>names(UN_corpus)</code></pre>
+<pre><code>##   [1] &quot;AFG&quot; &quot;AGO&quot; &quot;ALB&quot; &quot;AND&quot; &quot;ARE&quot; &quot;ARG&quot; &quot;ARM&quot; &quot;ATG&quot; &quot;AUS&quot; &quot;AUT&quot; &quot;AZE&quot;
+##  [12] &quot;BDI&quot; &quot;BEL&quot; &quot;BEN&quot; &quot;BFA&quot; &quot;BGD&quot; &quot;BGR&quot; &quot;BHR&quot; &quot;BHS&quot; &quot;BIH&quot; &quot;BLR&quot; &quot;BLZ&quot;
+##  [23] &quot;BOL&quot; &quot;BRA&quot; &quot;BRB&quot; &quot;BRN&quot; &quot;BTN&quot; &quot;BWA&quot; &quot;CAF&quot; &quot;CAN&quot; &quot;CHE&quot; &quot;CHL&quot; &quot;CHN&quot;
+##  [34] &quot;CIV&quot; &quot;CMR&quot; &quot;COD&quot; &quot;COG&quot; &quot;COL&quot; &quot;COM&quot; &quot;CPV&quot; &quot;CRI&quot; &quot;CUB&quot; &quot;CYP&quot; &quot;CZE&quot;
+##  [45] &quot;DEU&quot; &quot;DJI&quot; &quot;DMA&quot; &quot;DNK&quot; &quot;DOM&quot; &quot;DZA&quot; &quot;ECU&quot; &quot;EC&quot;  &quot;EGY&quot; &quot;ERI&quot; &quot;ESP&quot;
+##  [56] &quot;EST&quot; &quot;ETH&quot; &quot;FIN&quot; &quot;FJI&quot; &quot;FRA&quot; &quot;FSM&quot; &quot;GAB&quot; &quot;GBR&quot; &quot;GEO&quot; &quot;GHA&quot; &quot;GIN&quot;
+##  [67] &quot;GMB&quot; &quot;GNB&quot; &quot;GNQ&quot; &quot;GRC&quot; &quot;GRD&quot; &quot;GTM&quot; &quot;GUY&quot; &quot;HND&quot; &quot;HRV&quot; &quot;HTI&quot; &quot;HUN&quot;
+##  [78] &quot;IDN&quot; &quot;IND&quot; &quot;IRL&quot; &quot;IRN&quot; &quot;IRQ&quot; &quot;ISL&quot; &quot;ISR&quot; &quot;ITA&quot; &quot;JAM&quot; &quot;JOR&quot; &quot;JPN&quot;
+##  [89] &quot;KAZ&quot; &quot;KEN&quot; &quot;KGZ&quot; &quot;KHM&quot; &quot;KIR&quot; &quot;KNA&quot; &quot;KOR&quot; &quot;KWT&quot; &quot;LAO&quot; &quot;LBN&quot; &quot;LBR&quot;
+## [100] &quot;LBY&quot; &quot;LCA&quot; &quot;LIE&quot; &quot;LKA&quot; &quot;LSO&quot; &quot;LTU&quot; &quot;LUX&quot; &quot;LVA&quot; &quot;MAR&quot; &quot;MCO&quot; &quot;MDA&quot;
+## [111] &quot;MDG&quot; &quot;MDV&quot; &quot;MEX&quot; &quot;MHL&quot; &quot;MKD&quot; &quot;MLI&quot; &quot;MLT&quot; &quot;MMR&quot; &quot;MNE&quot; &quot;MNG&quot; &quot;MOZ&quot;
+## [122] &quot;MRT&quot; &quot;MUS&quot; &quot;MWI&quot; &quot;MYS&quot; &quot;NAM&quot; &quot;NER&quot; &quot;NGA&quot; &quot;NIC&quot; &quot;NLD&quot; &quot;NOR&quot; &quot;NPL&quot;
+## [133] &quot;NRU&quot; &quot;NZL&quot; &quot;OMN&quot; &quot;PAK&quot; &quot;PAN&quot; &quot;PER&quot; &quot;PHL&quot; &quot;PLW&quot; &quot;PNG&quot; &quot;POL&quot; &quot;PRK&quot;
+## [144] &quot;PRT&quot; &quot;PRY&quot; &quot;PSE&quot; &quot;QAT&quot; &quot;ROU&quot; &quot;RUS&quot; &quot;RWA&quot; &quot;SAU&quot; &quot;SDN&quot; &quot;SEN&quot; &quot;SGP&quot;
+## [155] &quot;SLB&quot; &quot;SLE&quot; &quot;SLV&quot; &quot;SMR&quot; &quot;SOM&quot; &quot;SSD&quot; &quot;STP&quot; &quot;SUR&quot; &quot;SVK&quot; &quot;SVN&quot; &quot;SWE&quot;
+## [166] &quot;SWZ&quot; &quot;SYC&quot; &quot;SYR&quot; &quot;TCD&quot; &quot;TGO&quot; &quot;THA&quot; &quot;TJK&quot; &quot;TKM&quot; &quot;TLS&quot; &quot;TON&quot; &quot;TTO&quot;
+## [177] &quot;TUN&quot; &quot;TUR&quot; &quot;TUV&quot; &quot;TZA&quot; &quot;UGA&quot; &quot;UKR&quot; &quot;URY&quot; &quot;USA&quot; &quot;UZB&quot; &quot;VAT&quot; &quot;VCT&quot;
+## [188] &quot;VEN&quot; &quot;VNM&quot; &quot;VUT&quot; &quot;WSM&quot; &quot;YEM&quot; &quot;YUG&quot; &quot;ZAF&quot; &quot;ZMB&quot; &quot;ZWE&quot;</code></pre>
+<p>Before we can move to the step of constructing our Document-Term Matrix, however, we’ll need to do some initial <strong>preprocessing</strong> of the data.</p>
+</div>
+<div id="preprocessing-caveat-utilitor" class="section level2">
+<h2>Preprocessing: Caveat Utilitor</h2>
+<p>Preprocessing is probably the most-ignored part of the text processing pipeline. However, as <span class="citation">Denny and Spirling (2018)</span> has shown convincingly (and scarily), it’s possible to diminish or even <em>reverse</em> your results by using a sufficiently “bad” preprocessing pipeline:</p>
+<div class="figure">
+<img src="W3_files/img/spirling_preproc.gif" width="400" />
+
+</div>
+<p>So just keep this graph on the front of your mind whenever you are running the preprocessing step D: As a final point before we start coding, we need to understand what the <em>end goal</em> is. And to understanding <em>this</em> we need to understand how computers “read” text, which is where the “Bag-of-Words Assumption” comes in.</p>
+</div>
+<div id="the-bag-of-words-assumption-why" class="section level2">
+<h2>The Bag-of-Words Assumption (Why?)</h2>
+<p>Long story short, for most <em>social science</em> applications of text-as-data (the opposite is true for <em>linguistics</em> applications, so if you’re a linguist close the window right now), we make a scary but important simplifying assumption: the <strong>Bag-of-Words Assumption</strong>. What this means, as its name implies, is that we take all of the words out of a document and toss them into a “bag”: just as object lose their ordering when we toss them into a bag, the words in the document lose their ordering when we toss them into our metaphorical bag:</p>
+<div class="figure">
+<img src="W3_files/img/bag_of_words.jpg" />
+
+</div>
+<p>The rationale here is basically that whatever semantic information we <em>lose</em> by tossing word order out the window, we more than make up for it with what we <em>gain</em> in terms of the computer’s ability to draw general semantic inferences. To understand why, let’s take the example of a computer trying to make an inference regarding the similarity between the sentence “I love cats!” and “Cats are lovely.”. To humans, obviously, these are quite semantically “close”, only differing in that the former is being <em>exclaimed</em> while the latter is just being stated.</p>
+<p>Now think about how the computer would have to represent these sentences if we wanted it to retain order. It would need a way to represent information about both the words <em>and</em> their order. Due to the architecture of a computer, all information eventually boils down to vectors – lists of numbers<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. The first sentence would then need to be stored in such a way that the computer retains all of the word-order information, for example via:</p>
+<pre class="r"><code>sentence1 &lt;- c(&quot;I_1&quot;,&quot;love_2&quot;,&quot;cats_3&quot;,&quot;!_4&quot;)
+sentence1</code></pre>
+<pre><code>## [1] &quot;I_1&quot;    &quot;love_2&quot; &quot;cats_3&quot; &quot;!_4&quot;</code></pre>
+<pre class="r"><code>sentence2 &lt;- c(&quot;Cats_1&quot;,&quot;are_2&quot;,&quot;lovely_3&quot;,&quot;._4&quot;)
+sentence2</code></pre>
+<pre><code>## [1] &quot;Cats_1&quot;   &quot;are_2&quot;    &quot;lovely_3&quot; &quot;._4&quot;</code></pre>
+<p>Now if you look closely at these two lists, you’ll realize that they actually have <em>nothing</em> in common as-is. The computer, in this example, can only take its “units” of meaning – the elements of the lists – and test their overlap (remember that a word+order is a <em>unit</em> here. If we wanted it to look at the <em>letters</em> we’d need a different encoding, say <code>sentence1 &lt;- &quot;I_1&quot;,&quot; _2&quot;,&quot;l_3&quot;,&quot;o_4&quot;,&quot;v_5&quot;,&quot;e_6&quot;,...</code>, and this would be even worse if you think through it…). Using a standard vector distance metric, the <a href="https://en.wikipedia.org/wiki/Jaccard_index">Jaccard index</a>, here’s what we get:</p>
+<pre class="r"><code>compute_jaccard &lt;- function(A, B){
+  numerator &lt;- length(intersect(A,B))
+  denominator &lt;- length(union(A,B))
+  jaccard &lt;- numerator / denominator
+  return(jaccard)
+}
+compute_jaccard(sentence1,sentence2)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>But this means something is wrong, since we definitely want the computer to detect the semantic similarity here. But no matter what, if we require the computer to retain order, it can’t detect any similarities. For example, let’s do some standard preprocessing steps (lowercasing, removing punctuation, and stemming, i.e., reducing words down to their “root” forms: <code>&quot;jumping&quot;</code> and <code>&quot;jumper&quot;</code> both get transformed to <code>&quot;jump&quot;</code>):</p>
+<pre class="r"><code>sentence1 &lt;- c(&quot;i_1&quot;,&quot;love_2&quot;,&quot;cats_3&quot;)
+sentence1</code></pre>
+<pre><code>## [1] &quot;i_1&quot;    &quot;love_2&quot; &quot;cats_3&quot;</code></pre>
+<pre class="r"><code>sentence2 &lt;- c(&quot;cats_1&quot;,&quot;are_2&quot;,&quot;love_3&quot;)
+sentence2</code></pre>
+<pre><code>## [1] &quot;cats_1&quot; &quot;are_2&quot;  &quot;love_3&quot;</code></pre>
+<pre class="r"><code>compute_jaccard(sentence1,sentence2)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>Still no matches. But now let’s remove the word order:</p>
+<pre class="r"><code>sentence1 &lt;- c(&quot;i&quot;,&quot;love&quot;,&quot;cats&quot;)
+sentence1</code></pre>
+<pre><code>## [1] &quot;i&quot;    &quot;love&quot; &quot;cats&quot;</code></pre>
+<pre class="r"><code>sentence2 &lt;- c(&quot;cats&quot;,&quot;are&quot;,&quot;love&quot;)
+sentence2</code></pre>
+<pre><code>## [1] &quot;cats&quot; &quot;are&quot;  &quot;love&quot;</code></pre>
+<pre class="r"><code>compute_jaccard(sentence1,sentence2)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p>Awesome. Now even with just <em>three</em> words per sentence, and <em>two</em> sentences total, we were able to derive some meaningful inference about the semantics of the sentences. I know this is a toy example, but its what’s at the heart of the bag-of-words assumption: that processing a bag-of-words is a <em>farrrr</em> more efficient use of the information in the sentence than if we treat (for example) “cats” in the first slot as a completely different unit from “cats” in the third slot.</p>
+<p>Also, now you can hopefully see why this would be a <em>bad</em> assumption for linguists: if you’re trying to parse a sentence, for example to derive its <a href="https://en.wikipedia.org/wiki/Parse_tree#Dependency-based_parse_trees">dependency tree</a>, we have the opposite situation: now we use the information in the sentence in a <em>maximally</em> efficient way by retaining word order, and if we <em>remove</em> order we get no information we can use to obtain the outcome we want. So the moral of the whole story is that bag-of-words is not a “universal” assumption in linguistics or anything like that, just a heuristic used in computer science and computational social science to allow us to efficiently draw the inferences that we want to draw. Dependency trees are less social-scientifically useful than, for example, a distribution of policy positions derived from <a href="https://manifesto-project.wzb.eu/">a corpus of political manifestos</a>.</p>
+</div>
+<div id="the-preprocessing-pipeline-how" class="section level2">
+<h2>The Preprocessing Pipeline (How?)</h2>
+<p>In the figure from <span class="citation">Denny and Spirling (2018)</span> above, each tiny row represents one of 128 different combinations of preprocessing steps. Each preprocessing step can either be “turned on” or “turned off”, i.e., there are two choices for each slot in the pipeline, which means that they use <span class="math inline">\(\log_2(128) = 7\)</span> different preprocessing steps. Looking inside the paper (Section 2, pages 170-172), we see that the steps are:</p>
+<ul>
+<li><strong>Punctuation Removal</strong>: Self-explanatory</li>
+<li><strong>Number Removal</strong>: Any digits, from 0 to 9, are removed.</li>
+<li><strong>Lowercasing</strong>: Self-explanatory</li>
+<li><p><strong>Stemming</strong>: As mentioned above, words are “reduced” to their linguistic root form. Note however that the transformations are often extremely unintuitive. When I was doing my Bayanat (Communiques from the First Intifada) project, the stemmer collapsed “uniting”, “united”, and “unites” down to “uniti”, but “unite” down to “unit”, making (for example):</p>
+<p><span class="math inline">\(\textsf{Similarity}(\texttt{&quot;units of measurement&quot;},\texttt{&quot;let us unite!&quot;}) &gt; \textsf{Similarity}(\texttt{&quot;we must unite!&quot;},\texttt{&quot;we must be united!&quot;})\)</span></p>
+So yeah, be careful about this step.</li>
+<li><p><strong>Stopword Removal</strong>: Possibly the most “controversial” step. In fact there are <a href="https://aclanthology.coli.uni-saarland.de/papers/E17-2069/e17-2069">whole papers by well-respected text-as-data experts</a> (<span class="citation">Schofield, Magnusson, and Mimno (2017)</span>) saying that you <em>shouldn’t</em> remove stopwords. I personally don’t buy their argument (it does improve literally all the metrics across the board and they’re making an arbitrary distinction between “small” and “large” improvements) but you should definitely think about it when you’re on this step.</p></li>
+<li><p><strong>N-Gram Inclusion</strong>: An “n-gram” is an ordered sequence of <span class="math inline">\(n\)</span> words pulled out of a sentence. Including these – say 1-grams (words), 2-grams (pairs of words), and 3-grams (triples of words) – does mitigate some of the fears of people who think we <em>need</em> to include word order. However, it can also exponentiate the amount of (text) data you need to process: Including 2-grams adds an order of magnitude more “tokens”:</p>
+<p><span class="math display">\[\binom{n}{2} = \frac{n^2-n}{2} = O(n^2)\]</span></p>
+<p>while including <em>3-grams</em> adds an additional order of magnitude:</p>
+<p><span class="math display">\[\binom{n}{3} = \frac{n^3-3n^2+2n}{6} = O(n^3)\]</span>.</p>
+So I personally usually <em>don’t</em> include n-grams unless my corpus is really really big… like (say) over 50,000 documents. Also note that tweets don’t count as full “documents”, since a “good” document length for topic modeling (to choose just one popular text-as-data method) is about 1000 words. See <span class="citation">Boyd-Graber, Hu, and Mimno (2017)</span> or <span class="citation">Jockers (2013)</span> for why.</li>
+<li><p><strong>Removing Infrequent Terms</strong>: Unlike the stopword removal step, where you specify the <em>words</em> you want to remove, here you just define a <em>threshold</em> – a minimum word frequency – below which the word gets thrown out. So, for example, if you use a 1% threshold (the “commonly used rule of thumb” mentioned in the paper), any word appearing in less than 1% of the documents in the corpus will be thrown out.</p></li>
+</ul>
+<p>So let’s (finally) implement this pipeline in code! The first step in our pipeline will be to remove punctuation via the <code>tm_map()</code> function from the <code>tm</code> package, which we’ll use throughout the preprocessing stage. All it does is take a <strong>content transformer</strong> that you give it (e.g., the <code>removePunctuation()</code> function) and run it on every document in your corpus separately. However, before we start, there are a few quirks with our data:</p>
+<p>The original <a href="http://www.smikhaylov.net/ungdc/">UNGDC Corpus</a> files used a text encoding called <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a> which allowed it to contain accented letters and “fancy” punctuation marks. UTF-8, however, does not play well with <code>tm</code>, which was made to work with the ASCII (“standard” characters) encoding. Thus I made an ASCII-formatted version of the corpus, which replaces all “fancy” characters with two question marks <code>??</code>, so that they get removed when we remove punctuation. The problem, however, is that if you have a word like <code>&quot;yesterday??s&quot;</code>, which is <em>extremely</em> common since the UTF-8 character those <code>?</code>s replaced was a “curly apostrophe”, this will turn into <code>&quot;yesterdays&quot;</code>, which has a completely different meaning. So to avoid this I write a content transformer that removes any <code>&quot;s&quot;</code> characters occurring right after the two question marks:</p>
+<pre class="r"><code>removeFinalS &lt;- function(x){
+  # fixed = TRUE is there because we want gsub() to read &quot;??&quot;
+  # as a string with two question marks rather than a regular
+  # expression (don&#39;t worry about it :/)
+  return (gsub(&quot;??s&quot;, &quot;??&quot;, x, fixed = TRUE))
+}
+# And a quick check that it works
+removeFinalS(&quot;ABC??s&quot;)</code></pre>
+<pre><code>## [1] &quot;ABC??&quot;</code></pre>
+<p>All this does is take in a string <code>x</code>, look for the sequence <code>&quot;??s&quot;</code>, and replace it with <code>&quot;??&quot;</code> if found. So now we use <code>tm_map()</code> to apply it to every document in our corpus (using <code>content_transformer()</code> just to tell <code>tm_map</code> that we want it to “import” <code>removeFinalS</code> into its set of content transformers). I store the result in a new <code>UN_clean</code> variable so that we can compare the output and make sure it filtered correctly:</p>
+<pre class="r"><code># Apply removeFinalS() to every document in the corpus
+UN_clean &lt;- tm_map(UN_corpus, content_transformer(removeFinalS))
+# Check that it worked
+peek_country(UN_corpus, &quot;PRT&quot;, 1, 200)</code></pre>
+<pre><code>## [1] &quot;Let me start by expressing Portugal??s condolences to and solidarity with the people and the Government of Mexico for yesterday??s violent tragedy. I wish to congratulate you, Mr. President, on your e&quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean, &quot;PRT&quot;, 1, 200)</code></pre>
+<pre><code>## [1] &quot;Let me start by expressing Portugal?? condolences to and solidarity with the people and the Government of Mexico for yesterday?? violent tragedy. I wish to congratulate you, Mr. President, on your ele&quot;</code></pre>
+<p>Now we have one more quick cleanup task: hyphenated words like “peace-keeper” appear a lot in this corpus, so here I create another custom function <code>breakHyphens</code> that just replaces the <code>&quot;-&quot;</code> character with a space, so that e.g. “peace-keeper” becomes the two words “peace” and “keeper” (which, if we included 2-grams, would get “picked up” as an important two-word phrase later in the pipeline):</p>
+<pre class="r"><code>breakHyphens &lt;- function(x){
+  # fixed = TRUE is there because we want gsub() to read &quot;??&quot;
+  # as a string with two question marks rather than a regular
+  # expression (don&#39;t worry about it :/)
+  return (gsub(&quot;-&quot;, &quot; &quot;, x, fixed = TRUE))
+}
+# And a quick check that it works before
+breakHyphens(&quot;peace-keeper&quot;)</code></pre>
+<pre><code>## [1] &quot;peace keeper&quot;</code></pre>
+<pre class="r"><code># Applying it to the whole corpus
+UN_clean &lt;- tm_map(UN_clean,content_transformer(breakHyphens))</code></pre>
+<p>And we again quickly check that it worked:</p>
+<pre class="r"><code>peek_country(UN_corpus, &quot;AFG&quot;, 10500, 10800)</code></pre>
+<pre><code>## [1] &quot;ruction; the Turkmen railway has reached our border; and the Turkmenistan- Afghanistan-Pakistan-India pipeline for natural gas is under construction. As a central part of our plan for economic advancement, we continue to work with our regional partners to seek avenues of collaboration. We can see now&quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean, &quot;AFG&quot;, 10500, 10800)</code></pre>
+<pre><code>## [1] &quot;the Turkmen railway has reached our border; and the Turkmenistan  Afghanistan Pakistan India pipeline for natural gas is under construction. As a central part of our plan for economic advancement, we continue to work with our regional partners to seek avenues of collaboration. We can see now, amid th&quot;</code></pre>
+<p>Now that we’ve applied these custom functions, we’re ready to begin the “standard” pipeline and <strong>remove punctuation</strong> using one of <code>tm</code>’s built-in content transformer, <code>removePunctuation</code>:</p>
+<pre class="r"><code>UN_clean &lt;- tm_map(UN_clean, removePunctuation)</code></pre>
+<p>It’s a bit underwhelming, since (if it worked) <code>tm</code> doesn’t display anything, so let’s sample a document to make sure that it really did remove all the punctuation:</p>
+<pre class="r"><code>peek_country(UN_corpus, &quot;PRT&quot;, 1, 200)</code></pre>
+<pre><code>## [1] &quot;Let me start by expressing Portugal??s condolences to and solidarity with the people and the Government of Mexico for yesterday??s violent tragedy. I wish to congratulate you, Mr. President, on your e&quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean, &quot;PRT&quot;, 1, 200)</code></pre>
+<pre><code>## [1] &quot;Let me start by expressing Portugal condolences to and solidarity with the people and the Government of Mexico for yesterday violent tragedy I wish to congratulate you Mr President on your election I &quot;</code></pre>
+<p>By the way, the reason I knew we could use <code>removePunctuation</code> as a valid content transformer for <code>tm_map</code> was by looking at the valid transformations list, which you can see by using this function:</p>
+<pre class="r"><code>getTransformations()</code></pre>
+<pre><code>## [1] &quot;removeNumbers&quot;     &quot;removePunctuation&quot; &quot;removeWords&quot;      
+## [4] &quot;stemDocument&quot;      &quot;stripWhitespace&quot;</code></pre>
+<p>Next, we <strong>remove numbers</strong> and check that it worked again:</p>
+<pre class="r"><code>UN_clean &lt;- tm_map(UN_clean, removeNumbers)
+peek_country(UN_corpus,&quot;RUS&quot;,1,100)</code></pre>
+<pre><code>## [1] &quot;In December of last year, the General Assembly adopted resolution 71/190, on the promotion of a demo&quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean,&quot;RUS&quot;,1,100)</code></pre>
+<pre><code>## [1] &quot;In December of last year the General Assembly adopted resolution  on the promotion of a democratic a&quot;</code></pre>
+<p><strong>Lowercasing all letters</strong>. This one is a bit weird since <code>tm</code> doesn’t have a built-in lowercaser – so we could try to “import” R’s built-in <code>tolower()</code> function into <code>tm_map()</code>. But here we can be a little “safer”: <code>tolower()</code> is unable to handle “special” (unicode) characters, like the accents in tokens like <a href="https://en.wikipedia.org/wiki/Miroslav_Laj%C4%8D%C3%A1k">“Miroslav Lajčák”</a>, the last President of the UNGA. So instead (in case we decide to enter “hard mode” in the future by using the full fancy-characters version) we import the special-character-friendly <code>stri_trans_tolower()</code> function from the <code>stringi</code> library (<code>install.packages(&quot;stringi&quot;)</code> if you haven’t downloaded it):</p>
+<pre class="r"><code>library(stringi)
+UN_clean &lt;- tm_map(UN_clean, content_transformer(stri_trans_tolower))
+peek_country(UN_corpus, &quot;YEM&quot;, 1, 200)</code></pre>
+<pre><code>## [1] &quot;On behalf of the Government and the people of Yemen, I sincerely congratulate the President and his friendly nation, Slovakia, on assuming the presidency of the General Assembly at its seventy-second &quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean, &quot;YEM&quot;, 1, 200)</code></pre>
+<pre><code>## [1] &quot;on behalf of the government and the people of yemen i sincerely congratulate the president and his friendly nation slovakia on assuming the presidency of the general assembly at its seventy second ses&quot;</code></pre>
+<p>Note that this function doesn’t complain when it sees “Miroslav Lajčák”, and it will even smoothly capitalize the accented characters as appropriate:</p>
+<pre class="r"><code>stri_trans_tolower(&quot;Miroslav Lajčák&quot;)</code></pre>
+<pre><code>## [1] &quot;miroslav lajčák&quot;</code></pre>
+<pre class="r"><code>stri_trans_toupper(&quot;Miroslav Lajčák&quot;)</code></pre>
+<pre><code>## [1] &quot;MIROSLAV LAJČÁK&quot;</code></pre>
+<p><strong>Stemming</strong> comes next. For this step we also import a function, this time the <code>stemDocument()</code> function from the <code>SnowballC</code> library. This library implements a “standard” widely-used English stemmer created using the broader <a href="https://en.wikipedia.org/wiki/Snowball_(programming_language)">Snowball stemmer-programming language</a>. Stemmers exist for tons of different languages, so if you’re not working in English you should still be fine here (just import the <code>stem()</code> function from your particular stemmer):</p>
+<pre class="r"><code>library(SnowballC)
+UN_clean &lt;- tm_map(UN_clean,stemDocument)
+peek_country(UN_corpus,&quot;JAM&quot;,1,250)</code></pre>
+<pre><code>## [1] &quot;I am delighted to extend the warm congratulations of Jamaica to the President for assuming the presidency of the General Assembly at the seventy-second session and to assure him of our support. We are particularly pleased to note his selection of a t&quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean,&quot;JAM&quot;,1,250)</code></pre>
+<pre><code>## [1] &quot;i am delight to extend the warm congratul of jamaica to the presid for assum the presid of the general assembl at the seventi second session and to assur him of our support we are particular pleas to note his select of a theme that underscor the fund&quot;</code></pre>
+<p>And lastly, <strong>stopword removal</strong>. While the collection of stopwords you decide to use can get contentious (they range in size from ~100 to ~1000), here we’ll just use <code>tm</code>’s built in English stopword list, which you can access using <code>stopwords(&quot;english&quot;)</code>.</p>
+<pre class="r"><code>UN_clean &lt;- tm_map(UN_clean, removeWords, stopwords(&quot;english&quot;))
+peek_country(UN_corpus,&quot;DNK&quot;,1,250)</code></pre>
+<pre><code>## [1] &quot;This session of the General Assembly opens during a period of unprecedented change. Threats and challenges such as poverty, terrorism, climate change, violations of human rights, gender inequality, armed conflict, displacement and irregular migration&quot;</code></pre>
+<pre class="r"><code>peek_country(UN_clean,&quot;DNK&quot;,1,250)</code></pre>
+<pre><code>## [1] &quot; session   general assembl open dure  period  unpreced chang threat  challeng   poverti terror climat chang violat  human right gender inequ arm conflict displac  irregular migrat  ever  interconnect  respons   challeng must reflect  complex  respons&quot;</code></pre>
+<p>It’s barely human-readable anymore, but it’s in <em>exactly</em> the format that the computer can best extract information from, due to the issues we discussed above. So we’re finally ready to construct our Document-Term Matrix!</p>
+</div>
+<div id="the-document-term-matrix" class="section level2">
+<h2>The Document-Term Matrix</h2>
+<pre class="r"><code>UN_dtm &lt;- DocumentTermMatrix(UN_clean)
+UN_dtm</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 196, terms: 7574)&gt;&gt;
+## Non-/sparse entries: 109564/1374940
+## Sparsity           : 93%
+## Maximal term length: 20
+## Weighting          : term frequency (tf)</code></pre>
+<p>This tells us that we have 196 documents (rows) and 8259 terms (columns), that 93% of the entries are zero, and that the largest term is 30 characters long. From the computer’s perspective, this is the first object we’ve made that it can actually work with, derive inferences from, and so on. So let’s quickly explore its properties.</p>
+<p>First quiz question: what information would a <em>row sum</em> (a vector where each entry <span class="math inline">\(i\)</span> is the sum of all elements in row <span class="math inline">\(i\)</span> of the matrix) give us here?</p>
+<p>The answer is: nothing that exciting, sadly, just a listing of how many words are in each document. To take the row sums in R, we’ll have to use a special library called <code>slam</code>, since <code>UN_dtm</code> is a <em>sparse-format</em> matrix, not a standard R matrix. This sparse format is super important for the DTM, since a standard R matrix holding the same information would require</p>
+<pre class="r"><code>sparsity &lt;- (1 - length(UN_dtm$v) / prod(dim(UN_dtm))) * 100
+sparsity</code></pre>
+<pre><code>## [1] 92.61949</code></pre>
+<pre class="r"><code>space_saved &lt;- sparsity * (nrow(UN_dtm)*ncol(UN_dtm))
+space_saved</code></pre>
+<pre><code>## [1] 137494000</code></pre>
+<p>or about 150 million more “memory slots” to hold numbers. In other words, a non-sparse DTM is completely intractable for anything besides extremely tiny corpora. So now let’s use <code>slam</code>, instead of the standard R matrix operations, to compute row sums:</p>
+<pre class="r"><code>library(slam)
+rsums &lt;- row_sums(UN_dtm)
+rsums</code></pre>
+<pre><code>##  AFG  AGO  ALB  AND  ARE  ARG  ARM  ATG  AUS  AUT  AZE  BDI  BEL  BEN  BFA 
+## 1031  981 1103 1386 1189 1138  890 1248  970  706 1041  964 1017  626  944 
+##  BGD  BGR  BHR  BHS  BIH  BLR  BLZ  BOL  BRA  BRB  BRN  BTN  BWA  CAF  CAN 
+##  962  993 2014 1330 1199  909 1495 1168 1068 1425  772  992 1341 1378 1725 
+##  CHE  CHL  CHN  CIV  CMR  COD  COG  COL  COM  CPV  CRI  CUB  CYP  CZE  DEU 
+##  698 1311 1374  820  640  740  704  863 1084  961 2702 1962 1220  330 1387 
+##  DJI  DMA  DNK  DOM  DZA  ECU   EC  EGY  ERI  ESP  EST  ETH  FIN  FJI  FRA 
+##  835  891 1004  656  943  886  622 1481  632 1200 1127  808  757 1152 2212 
+##  FSM  GAB  GBR  GEO  GHA  GIN  GMB  GNB  GNQ  GRC  GRD  GTM  GUY  HND  HRV 
+##  869  975 1651 1197  806  985  964  920  723  961  904  997  900  876 1231 
+##  HTI  HUN  IDN  IND  IRL  IRN  IRQ  ISL  ISR  ITA  JAM  JOR  JPN  KAZ  KEN 
+## 1378  907  831 1379 1783 1109 1560  969 1348 1225 1430  749  955 1637 1206 
+##  KGZ  KHM  KIR  KNA  KOR  KWT  LAO  LBN  LBR  LBY  LCA  LIE  LKA  LSO  LTU 
+## 1409  888 1205 1443 1397 1210  939 1062  898  831 1007  943  766 1342  306 
+##  LUX  LVA  MAR  MCO  MDA  MDG  MDV  MEX  MHL  MKD  MLI  MLT  MMR  MNE  MNG 
+## 1532  995  969  919  870 1003 1709 1216 1116  924 1360  680  959  787 1205 
+##  MOZ  MRT  MUS  MWI  MYS  NAM  NER  NGA  NIC  NLD  NOR  NPL  NRU  NZL  OMN 
+## 1440  797 1116  710  973  892 1193  566 1022 1104  932 1262 1036  850  642 
+##  PAK  PAN  PER  PHL  PLW  PNG  POL  PRK  PRT  PRY  PSE  QAT  ROU  RUS  RWA 
+## 1351 1080  473 1905  975  927 1214 1702 1053 1278 2125 1565  623 1593  290 
+##  SAU  SDN  SEN  SGP  SLB  SLE  SLV  SMR  SOM  SSD  STP  SUR  SVK  SVN  SWE 
+##  529 1261  622 1139 1714 1423  772 1334 1007 1311 1191 1594  751  842 1280 
+##  SWZ  SYC  SYR  TCD  TGO  THA  TJK  TKM  TLS  TON  TTO  TUN  TUR  TUV  TZA 
+##  963  718 1301  909 1340  848 1097  749 1088 1005 1174  965 1423 1542 1194 
+##  UGA  UKR  URY  USA  UZB  VAT  VCT  VEN  VNM  VUT  WSM  YEM  YUG  ZAF  ZMB 
+##  452 1480 1410 2418 1083 1770 1379 1862  844 1381 1499 1044 1090 1004  846 
+##  ZWE 
+##  799</code></pre>
+<pre class="r"><code># CRI = Costa Rica
+names(which.max(rsums))</code></pre>
+<pre><code>## [1] &quot;CRI&quot;</code></pre>
+<pre class="r"><code>max(rsums)</code></pre>
+<pre><code>## [1] 2702</code></pre>
+<pre class="r"><code>names(which.min(rsums))</code></pre>
+<pre><code>## [1] &quot;RWA&quot;</code></pre>
+<pre class="r"><code>min(rsums)</code></pre>
+<pre><code>## [1] 290</code></pre>
+<pre class="r"><code>mean(rsums)</code></pre>
+<pre><code>## [1] 1109.48</code></pre>
+<p>But that’s kinda boring. Quiz question 2 is the fun one: what do <em>column</em> sums represent here?</p>
+<p>The answer is: a vector where each entry <span class="math inline">\(j\)</span> is the <em>total</em> number of times that the word of column <span class="math inline">\(j\)</span> appears in the corpus:</p>
+<pre class="r"><code>csums &lt;- col_sums(UN_dtm)
+csums[1:10]</code></pre>
+<pre><code>## accomplish    account     achiev        act     action      activ 
+##         23        136        646        221        492        248 
+##      actor        add    address     advanc 
+##         67         21        418        119</code></pre>
+<pre class="r"><code># CRI = Costa Rica
+names(which.max(csums))</code></pre>
+<pre><code>## [1] &quot;nation&quot;</code></pre>
+<pre class="r"><code>cmax &lt;- max(csums)
+paste0(&quot;Maximum colsum: &quot;,cmax)</code></pre>
+<pre><code>## [1] &quot;Maximum colsum: 3046&quot;</code></pre>
+<pre class="r"><code>names(which.min(csums))</code></pre>
+<pre><code>## [1] &quot;birthplac&quot;</code></pre>
+<pre class="r"><code>cmin &lt;- min(csums)
+paste0(&quot;Minimum colsum: &quot;,cmin)</code></pre>
+<pre><code>## [1] &quot;Minimum colsum: 1&quot;</code></pre>
+<pre class="r"><code>all_singletons &lt;- names(which(csums == cmin))
+print(&quot;Some singleton words:&quot;)</code></pre>
+<pre><code>## [1] &quot;Some singleton words:&quot;</code></pre>
+<pre class="r"><code># NOTE since this is a random function, I&#39;m &quot;seeding&quot; the
+# random number generator with a value so that my results
+# will match with yours (i.e., making it *not* random)
+set.seed(1948)
+sample(all_singletons, 20)</code></pre>
+<pre><code>##  [1] &quot;domino&quot;     &quot;nineveh&quot;    &quot;taiz&quot;       &quot;testifi&quot;    &quot;neonat&quot;    
+##  [6] &quot;bade&quot;       &quot;cumbersom&quot;  &quot;omiss&quot;      &quot;lengthen&quot;   &quot;unbear&quot;    
+## [11] &quot;cheat&quot;      &quot;democratiz&quot; &quot;presumpt&quot;   &quot;detractor&quot;  &quot;percent&quot;   
+## [16] &quot;cashew&quot;     &quot;policeman&quot;  &quot;skin&quot;       &quot;cosmet&quot;     &quot;malleabl&quot;</code></pre>
+<pre class="r"><code>num_singletons &lt;- length(all_singletons)
+paste0(&quot;There are &quot;,num_singletons,&quot; singletons in total&quot;)</code></pre>
+<pre><code>## [1] &quot;There are 2416 singletons in total&quot;</code></pre>
+<pre class="r"><code>paste0(&quot;Average colsum: &quot;,mean(csums))</code></pre>
+<pre><code>## [1] &quot;Average colsum: 28.7111169791392&quot;</code></pre>
+<p>So the word “nation” appears 3,026 times, while “birthplace” (stemmed version “birthplac”) appears only once (though it’s only one of 2,416 such “singleton words”). Let’s find out which country said it!</p>
+<pre class="r"><code># What column is &quot;birthplac&quot;?
+bplace_colnum &lt;- which(UN_dtm$dimnames$Terms == &quot;birthplac&quot;)
+# What row has a nonzero entry in this column?
+bplace_rownum &lt;- UN_dtm$i[bplace_colnum]
+# Finally, what country does this row correspond to?
+bplace_country &lt;- UN_dtm$dimnames$Docs[bplace_rownum]
+bplace_country</code></pre>
+<pre><code>## [1] &quot;AFG&quot;</code></pre>
+<p>And indeed a search confirms it’s Afghanistan:</p>
+<pre class="r"><code># Full (non-preprocessed) text
+afg_text &lt;- UN_speeches$text[1]
+# Search for &quot;birthplace&quot;
+afg_results &lt;- gregexpr(&quot;\\s+birthplace\\s+&quot;, afg_text)
+# How many matches?
+length(afg_results)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code># Cool. Take the first (and only) match out of the list
+bp_pos &lt;- afg_results[[1]]
+# And look at a window around it in the doc
+bp_window &lt;- substr(afg_text, bp_pos-150, bp_pos+150)
+bp_window</code></pre>
+<pre><code>## [1] &quot;ar too long, we also have enormous potential to be the regional brokers of peace, a hub for economic prosperity and a beacon of democratic values. The birthplace of Rumi still resounds with messages of love, peace and hope. Afghanistan will yet again be the Asian crossroads for dialogue among civiliz&quot;</code></pre>
+<p>Here’s a quick function you can use to look at who said a singleton word. It’s also your first example of a (badly) “vectorized” function – a function where one or more of the arguments (in this case, <code>term</code>) can be either a single value or a vector of values, and the function will handle either case smoothly. For example here it produces an answer for each element in <code>term</code> and returns a corresponding list of country codes.</p>
+<pre class="r"><code>who_said_it &lt;- function(dtm, term){
+  answers &lt;- c()
+  for (cur_term in term){
+    term_colnum &lt;- which(dtm$dimnames$Terms == cur_term)
+    term_rownum &lt;- dtm$i[term_colnum]
+    # Finally, what country does this row correspond to?
+    term_country &lt;- dtm$dimnames$Docs[term_rownum]
+    answers &lt;- c(answers, term_country)
+  }
+  return(answers)
+}
+# Check that it works
+sing_terms &lt;- c(&quot;birthplac&quot;,&quot;hizb&quot;,&quot;neonat&quot;,&quot;domino&quot;)
+who_said_it(UN_dtm, sing_terms)</code></pre>
+<pre><code>## [1] &quot;AFG&quot; &quot;AFG&quot; &quot;ATG&quot; &quot;BDI&quot;</code></pre>
+<p>Another way to get a feel for your corpus is to make a <em>wordcloud</em>, where the most frequent words are displayed with a larger font size than less frequent words (you’ll need to install the <code>wordcloud</code> package for this to run):</p>
+<pre class="r"><code>#d &lt;- data.frame(word = names(v),freq=v)
+library(wordcloud)
+wordcloud(words = names(csums), freq = csums, min.freq = 1,
+          max.words=150, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, &quot;Dark2&quot;))</code></pre>
+<p><img src="03_Frequency_Analysis_files/figure-html/wordcloud-1.png" width="672" /></p>
+<p>Last but not least, let’s make a <em>histogram</em> of the frequency values. This will be your first of many encounters with <code>ggplot</code>, the “official” (and amazing) graphics library of the “tidyverse”:</p>
+<pre class="r"><code># Using the data_frame function (*not* data.frame) from dplyr
+library(dplyr)
+# And the graphics library ggplot
+library(ggplot2)
+csum_df &lt;- data_frame(term=names(csums),freq=csums,lfreq=log(csums))
+ggplot(csum_df, aes(x=lfreq)) + geom_histogram(binwidth = 1) + xlim(0,10)</code></pre>
+<p><img src="03_Frequency_Analysis_files/figure-html/term-freq-1.png" width="672" /> Raise your hand if you’ve <a href="https://en.wikipedia.org/wiki/Zipf%27s_law">seen this before…</a></p>
+<p>Now let’s look back at the info we get when we print out the <code>UN_dtm</code> real quick:</p>
+<pre class="r"><code>UN_dtm</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 196, terms: 7574)&gt;&gt;
+## Non-/sparse entries: 109564/1374940
+## Sparsity           : 93%
+## Maximal term length: 20
+## Weighting          : term frequency (tf)</code></pre>
+<p>Notice the last item: it says that the weighting scheme here is basically <em>no</em> weighting: term frequency (tf) is just the number of times each term appears in each document. If you think about it, though, this will just give high “weight” (viewing the entries as weights) to really common words, so we’ve just made a glorified common-word detector. The real magic comes from the <em>tf-idf</em> transformation, which we perform and store in <code>UN_wdtm</code> (<code>wdtm</code> for “Weighted Document-Term Matrix”) as follows:</p>
+<pre class="r"><code>UN_wdtm &lt;- DocumentTermMatrix(UN_clean, control = list(weighting = weightTfIdf))
+UN_wdtm</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 196, terms: 7574)&gt;&gt;
+## Non-/sparse entries: 108976/1375528
+## Sparsity           : 93%
+## Maximal term length: 20
+## Weighting          : term frequency - inverse document frequency (normalized) (tf-idf)</code></pre>
+<p><em>Now</em> a really interesting thing we can look at is the <em>maximum</em> value in each row. Quiz 3: what will this tell us?</p>
+<p>The answer is that it will tell us the word that is most “unique” to each document. e.g., what word is most “characteristic” of the DPRK’s speech? The word that maximizes the tf-idf score in a row will be a word that they mention <em>a lot</em> but that gets mentioned very <em>little</em> in all the other speeches:</p>
+<pre class="r"><code>getMostUnique &lt;- function(wdtm, country_code){
+  country_i &lt;- which(wdtm$dimnames$Docs == country_code)
+  country_slots &lt;- which(wdtm$i == country_i)
+  country_colnames &lt;- names(wdtm$j[country_slots])
+  country_tfidfs &lt;- wdtm$v[country_slots]
+  country_maxval &lt;- max(country_tfidfs)
+  country_maxslot &lt;- which.max(country_tfidfs)
+  names(country_maxval) &lt;- wdtm$dimnames$Terms[country_maxslot]
+  return(country_maxval)
+}
+getMostUnique(UN_wdtm, &quot;AFG&quot;)</code></pre>
+<pre><code>##     afghan 
+## 0.04390662</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;RUS&quot;)</code></pre>
+<pre><code>##    conduct 
+## 0.03034268</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;USA&quot;)</code></pre>
+<pre><code>##     enjoy 
+## 0.0165426</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;ISR&quot;)</code></pre>
+<pre><code>##     mechan 
+## 0.07089234</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;PSE&quot;)</code></pre>
+<pre><code>##       new 
+## 0.0460166</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;UKR&quot;)</code></pre>
+<pre><code>##       east 
+## 0.08044917</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;SAU&quot;)</code></pre>
+<pre><code>## government 
+## 0.04002103</code></pre>
+<pre class="r"><code>getMostUnique(UN_wdtm, &quot;IRN&quot;)</code></pre>
+<pre><code>##      littl 
+## 0.04809715</code></pre>
+<pre class="r"><code># You can use this code to check ALL of the countries, if you
+# want. I&#39;m just randomly sampling 10 of them
+random_10 &lt;- sample(rownames(UN_wdtm), 10)
+for (cur_code in random_10){
+  print(cur_code)
+  print(getMostUnique(UN_wdtm, cur_code))
+}</code></pre>
+<pre><code>## [1] &quot;HRV&quot;
+##   decreas 
+## 0.1299016 
+## [1] &quot;SAU&quot;
+## government 
+## 0.04002103 
+## [1] &quot;LSO&quot;
+##    ourselv 
+## 0.09078641 
+## [1] &quot;MYS&quot;
+##    labour 
+## 0.1549267 
+## [1] &quot;BRN&quot;
+##       bank 
+## 0.08877252 
+## [1] &quot;CYP&quot;
+##     denial 
+## 0.07907865 
+## [1] &quot;SEN&quot;
+##     london 
+## 0.06785889 
+## [1] &quot;DNK&quot;
+##   crucial 
+## 0.1383555 
+## [1] &quot;BLZ&quot;
+##      born 
+## 0.1492312 
+## [1] &quot;YEM&quot;
+##      three 
+## 0.06744872</code></pre>
+<pre class="r"><code># You can use this commented-out code to manually verify
+# the getMostUnique() function (it&#39;s how I tested it)
+#isr_row &lt;- UN_wdtm[&quot;ISR&quot;,]
+#max_score &lt;- max(isr_row)
+#max_slot &lt;- which(isr_row$v == max(isr_row))
+#max_term &lt;- colnames(UN_wdtm)[max_slot]
+#max_term</code></pre>
+<p>And with <code>ggplot2</code>, a visualization package we’ll learn how to use in the next tutorial, you can visualize the tf-idf scores of different subsets of your data like this: <img src="Frequency_Analysis_files/prop_differences.png" /></p>
+</div>
+</div>
+<div id="bibliography" class="section level1 unnumbered">
+<h1>Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-boyd-graber_applications_2017">
+<p>Boyd-Graber, Jordan, Yuening Hu, and David Mimno. 2017. “Applications of Topic Models.” <em>Foundations and Trends® in Information Retrieval</em> 11 (2-3): 143–296. doi:<a href="https://doi.org/10.1561/1500000030">10.1561/1500000030</a>.</p>
+</div>
+<div id="ref-denny_text_2018">
+<p>Denny, Matthew J., and Arthur Spirling. 2018. “Text Preprocessing for Unsupervised Learning: Why It Matters, When It Misleads, and What to Do About It.” <em>Political Analysis</em> 26 (2): 168–89. doi:<a href="https://doi.org/10.1017/pan.2017.44">10.1017/pan.2017.44</a>.</p>
+</div>
+<div id="ref-jockers_macroanalysis:_2013">
+<p>Jockers, Matthew Lee. 2013. <em>Macroanalysis: Digital Methods and Literary History</em>. Urbana: University of Illinois Press.</p>
+</div>
+<div id="ref-schofield_pulling_2017">
+<p>Schofield, Alexandra, M\a ans Magnusson, and David Mimno. 2017. “Pulling Out the Stops: Rethinking Stopword Removal for Topic Models.” In <em>Proceedings of the 15th Conference of the European Chapter of the Association for Computational Linguistics: Volume 2, Short Papers</em>, 432–36. Valencia, Spain: Association for Computational Linguistics. <a href="http://aclweb.org/anthology/E17-2069" class="uri">http://aclweb.org/anthology/E17-2069</a>.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>At the processor level you literally just have a stream of 0s and 1s, but by “generalizing up” we can think of letters as lists of 0s and 1s, words as lists of letters, sentences as lists of words, documents as lists of sentences, and corpora as lists of documents. For example, we can perform the first generalization by encoding each letter using a combination of 0s and 1s in some systematic way. If you’ve seen the term <a href="https://en.wikipedia.org/wiki/ASCII">“ASCII”</a>, that’s actually exactly what ASCII is: a codebook mapping all the letters into short combinations of 0 and 1… If this is interesting to you you should take a Computer Systems class :P<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

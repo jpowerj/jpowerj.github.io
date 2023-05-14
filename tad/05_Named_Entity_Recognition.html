@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jeff Jacobs" />
+
+<meta name="date" content="2018-11-26" />
+
+<title>Named Entity Recognition</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CU Text-as-Data Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workshop Sessions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="01_Introduction_to_R.html">Week 1: Intro to R</a></li>
+            <li><a href="02_Web_Scraping.html">Week 2: Web Scraping</a></li>
+            <li><a href="03_Frequency_Analysis.html">Week 3: Frequency Analysis</a></li>
+            <li><a href="04_Topic_Modeling_ggplot2.html">Week 4: Topic Modeling and Visualization</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
+            <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
+            <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
+            <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="TAD_Resource_Extravaganza.html">Resources</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://textlab.econ.columbia.edu/">CU TextLab</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Named Entity Recognition</h1>
+<h4 class="author"><em>Jeff Jacobs</em></h4>
+<h4 class="date"><em>11/26/2018</em></h4>
+
+</div>
+
+
+<div id="what-types-of-information-can-we-extract-from-a-sentence" class="section level1">
+<h1>What Types of Information Can We Extract from a Sentence?</h1>
+<p>The answer to this question is actually illustrated by the results that the <a href="https://cloud.google.com/natural-language/">Google Cloud Natural Language API</a> gives back when you send it a sentence:</p>
+<ul>
+<li><img src="W3_files/img/tree.png" title="fig:" /></li>
+</ul>
+<p>In this tutorial, we’ll be talking about this final method, Named Entity Recognition.</p>
+<pre class="r"><code>library(googleLanguageR)
+gl_auth(&quot;../gcloud/nlp_api_teaching.json&quot;)
+gramsci &lt;- &quot;The subaltern classes, by definition, are not unified and cannot unite until they are able to become a &#39;State&#39;: their history, therefore, is intertwined with that of civil society, and thereby with the history of States and groups of States&quot;
+greenwald &lt;- c(&quot;If fighting Israeli occupying forces is barred as &#39;terrorism,&#39; and nonviolent boycotts against Israel are barred as &#39;anti-Semitism,&#39; then what is considered a legitimate means for Palestinians and their allies to resist and end the decades-long, illegal Israeli occupation?&quot;,&quot;The answer is: nothing.&quot;,&quot;Palestinians are obliged to submit to Israeli occupation in a way that none of the people demanding that would ever themselves submit to occupation of their land.&quot;,&quot;All forms of resistance to Israeli occupation are deemed illegitimate.&quot;,&quot;That, manifestly, is the whole point of all of this.&quot;)
+wiki &lt;- &quot;In June 1982, the Israel Defense Forces invaded Lebanon with the intention of rooting out the PLO.&quot;
+
+
+
+wiki2 &lt;- &quot;By mid-1982, under the supervision of the Multinational Force, the Palestine Liberation Organization withdrew from Lebanon following weeks of battles in West Beirut and shortly before the massacre took place very long ago.&quot;
+yarmouk &lt;- &quot;The largest Palestinian refugee camp in Syria has been &#39;transformed into a death camp&#39; as Assad regime forces press ahead with a major offensive against Islamic State of Iraq and the Levant fighters who control the area, the United Nations has warned.&quot;
+combined &lt;- &quot;By mid-1982, under the supervision of the Multinational Force, the Palestine Liberation Organization withdrew from Lebanon following weeks of battles in West Beirut and shortly before the massacre took place.&quot;
+
+nlp_result &lt;- gl_nlp(c(wiki2,yarmouk,combined))</code></pre>
+<pre><code>## 2019-02-20 17:25:20 -- annotateText: 222 characters</code></pre>
+<pre><code>## 2019-02-20 17:25:20 -- annotateText: 251 characters</code></pre>
+<pre><code>## 2019-02-20 17:25:21 -- annotateText: 208 characters</code></pre>
+<pre class="r"><code>nlp_result$entities</code></pre>
+<pre><code>## [[1]]
+## # A tibble: 8 x 9
+##   name  type  salience mid   wikipedia_url magnitude score beginOffset
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+## 1 batt… EVENT   0.149  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         142
+## 2 Leba… LOCA…   0.0978 /m/0… https://en.w…       0     0           115
+## 3 mass… EVENT   0.128  &lt;NA&gt;  &lt;NA&gt;                0     0           188
+## 4 Mult… ORGA…   0.141  &lt;NA&gt;  &lt;NA&gt;                0     0            42
+## 5 Pale… ORGA…   0.0978 /m/0… https://en.w…       0     0            67
+## 6 place OTHER   0.125  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         202
+## 7 supe… OTHER   0.231  &lt;NA&gt;  &lt;NA&gt;                0     0            23
+## 8 West… LOCA…   0.0303 /m/0… https://en.w…       0     0           153
+## # ... with 1 more variable: mention_type &lt;chr&gt;
+## 
+## [[2]]
+## # A tibble: 11 x 9
+##    name  type  salience mid   wikipedia_url magnitude score beginOffset
+##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+##  1 area  LOCA…   0.0466 &lt;NA&gt;  &lt;NA&gt;                0     0           215
+##  2 Assad PERS…   0.0395 /m/0… https://en.w…       0     0            90
+##  3 deat… LOCA…   0.0746 &lt;NA&gt;  &lt;NA&gt;                0     0            75
+##  4 figh… PERS…   0.216  &lt;NA&gt;  &lt;NA&gt;                0.1   0           190
+##  5 Isla… ORGA…   0.0123 /m/0… https://en.w…       0     0           153
+##  6 offe… OTHER   0.0613 &lt;NA&gt;  &lt;NA&gt;                0.4  -0.4         135
+##  7 Pale… LOCA…   0.145  /m/0… https://en.w…       0     0            12
+##  8 refu… LOCA…   0.260  &lt;NA&gt;  &lt;NA&gt;                0.7   0.7          24
+##  9 regi… PERS…   0.0666 &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1          96
+## 10 Syria LOCA…   0.0580 /m/0… https://en.w…       0     0            40
+## 11 Unit… ORGA…   0.0196 /m/0… https://en.w…       0.1  -0.1         225
+## # ... with 1 more variable: mention_type &lt;chr&gt;
+## 
+## [[3]]
+## # A tibble: 8 x 9
+##   name  type  salience wikipedia_url mid   magnitude score beginOffset
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+## 1 batt… EVENT   0.0657 &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         142
+## 2 Leba… LOCA…   0.116  https://en.w… /m/0…       0     0           115
+## 3 mass… EVENT   0.117  &lt;NA&gt;          &lt;NA&gt;        0     0           188
+## 4 Mult… ORGA…   0.125  &lt;NA&gt;          &lt;NA&gt;        0     0            42
+## 5 Pale… ORGA…   0.126  https://en.w… /m/0…       0     0            67
+## 6 place OTHER   0.114  &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         202
+## 7 supe… OTHER   0.297  &lt;NA&gt;          &lt;NA&gt;        0     0            23
+## 8 West… LOCA…   0.0391 https://en.w… /m/0…       0     0           153
+## # ... with 1 more variable: mention_type &lt;chr&gt;</code></pre>
+<pre class="r"><code>nlp_result$tokens</code></pre>
+<pre><code>## [[1]]
+##          content beginOffset   tag         aspect         case
+## 1             By           0   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 2       mid-1982           3  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 3              ,          11 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN
+## 4          under          13   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 5            the          19   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 6    supervision          23  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 7             of          35   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 8            the          38   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 9  Multinational          42   ADJ ASPECT_UNKNOWN CASE_UNKNOWN
+## 10         Force          56  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 11             ,          61 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN
+## 12           the          63   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 13     Palestine          67  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 14    Liberation          77  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 15  Organization          88  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 16      withdrew         101  VERB ASPECT_UNKNOWN CASE_UNKNOWN
+## 17          from         110   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 18       Lebanon         115  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 19     following         123  VERB ASPECT_UNKNOWN CASE_UNKNOWN
+## 20         weeks         133  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 21            of         139   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 22       battles         142  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 23            in         150   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 24          West         153  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 25        Beirut         158  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 26           and         165  CONJ ASPECT_UNKNOWN CASE_UNKNOWN
+## 27       shortly         169   ADV ASPECT_UNKNOWN CASE_UNKNOWN
+## 28        before         177   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 29           the         184   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 30      massacre         188  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 31          took         197  VERB ASPECT_UNKNOWN CASE_UNKNOWN
+## 32         place         202  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 33          very         208   ADV ASPECT_UNKNOWN CASE_UNKNOWN
+## 34          long         213   ADV ASPECT_UNKNOWN CASE_UNKNOWN
+## 35           ago         218   ADV ASPECT_UNKNOWN CASE_UNKNOWN
+## 36             .         221 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN
+##            form         gender         mood         number         person
+## 1  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 2  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 3  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 4  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 5  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 6  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 7  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 8  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 9  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 10 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 11 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 12 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 13 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 14 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 15 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 16 FORM_UNKNOWN GENDER_UNKNOWN   INDICATIVE NUMBER_UNKNOWN PERSON_UNKNOWN
+## 17 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 18 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 19 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 20 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN         PLURAL PERSON_UNKNOWN
+## 21 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 22 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN         PLURAL PERSON_UNKNOWN
+## 23 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 24 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 25 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 26 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 27 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 28 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 29 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 30 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 31 FORM_UNKNOWN GENDER_UNKNOWN   INDICATIVE NUMBER_UNKNOWN PERSON_UNKNOWN
+## 32 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 33 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 34 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 35 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 36 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+##            proper         reciprocity         tense         voice
+## 1  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 2  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 3  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 4  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 5  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 6  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 7  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 8  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 9  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 10 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 11 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 12 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 13         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 14         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 15         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 16 PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST VOICE_UNKNOWN
+## 17 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 18         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 19 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 20 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 21 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 22 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 23 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 24         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 25         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 26 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 27 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 28 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 29 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 30 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 31 PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST VOICE_UNKNOWN
+## 32 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 33 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 34 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 35 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 36 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+##    headTokenIndex  label         value
+## 1              15   PREP            By
+## 2               0   POBJ      mid-1982
+## 3              15      P             ,
+## 4              15   PREP         under
+## 5               5    DET           the
+## 6               3   POBJ   supervision
+## 7               5   PREP            of
+## 8               9    DET           the
+## 9               9   AMOD Multinational
+## 10              6   POBJ         Force
+## 11             15      P             ,
+## 12             14    DET           the
+## 13             14     NN     Palestine
+## 14             14     NN    Liberation
+## 15             15  NSUBJ  Organization
+## 16             15   ROOT      withdraw
+## 17             15   PREP          from
+## 18             16   POBJ       Lebanon
+## 19             15   PREP        follow
+## 20             18   POBJ          week
+## 21             19   PREP            of
+## 22             20   POBJ        battle
+## 23             21   PREP            in
+## 24             24     NN          West
+## 25             22   POBJ        Beirut
+## 26             19     CC           and
+## 27             30 ADVMOD       shortly
+## 28             30   MARK        before
+## 29             29    DET           the
+## 30             30  NSUBJ      massacre
+## 31             19   CONJ          take
+## 32             30   DOBJ         place
+## 33             33 ADVMOD          very
+## 34             34 ADVMOD          long
+## 35             30 ADVMOD           ago
+## 36             15      P             .
+## 
+## [[2]]
+##        content beginOffset   tag         aspect         case         form
+## 1          The           0   DET ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 2      largest           4   ADJ ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 3  Palestinian          12   ADJ ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 4      refugee          24  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 5         camp          32  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 6           in          37   ADP ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 7        Syria          40  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 8          has          46  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 9         been          50  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 10           &#39;          55 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 11 transformed          56  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 12        into          68   ADP ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 13           a          73   DET ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 14       death          75  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 15        camp          81  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 16           &#39;          85 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 17          as          87   ADP ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 18       Assad          90  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 19      regime          96  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 20      forces         103  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 21       press         110  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 22       ahead         116   ADV ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 23        with         122   ADP ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 24           a         127   DET ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 25       major         129   ADJ ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 26   offensive         135  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 27     against         145   ADP ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 28     Islamic         153  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 29       State         161  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 30          of         167   ADP ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 31        Iraq         170  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 32         and         175  CONJ ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 33         the         179   DET ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 34      Levant         183  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 35    fighters         190  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 36         who         199  PRON ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 37     control         203  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 38         the         211   DET ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 39        area         215  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 40           ,         219 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 41         the         221   DET ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 42      United         225  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 43     Nations         232  NOUN ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 44         has         240  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 45      warned         244  VERB ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+## 46           .         250 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN FORM_UNKNOWN
+##            gender         mood         number         person
+## 1  GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 2  GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 3  GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 4  GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 5  GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 6  GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 7  GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 8  GENDER_UNKNOWN   INDICATIVE       SINGULAR          THIRD
+## 9  GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 10 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 11 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 12 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 13 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 14 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 15 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 16 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 17 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 18 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 19 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 20 GENDER_UNKNOWN MOOD_UNKNOWN         PLURAL PERSON_UNKNOWN
+## 21 GENDER_UNKNOWN   INDICATIVE       SINGULAR PERSON_UNKNOWN
+## 22 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 23 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 24 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 25 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 26 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 27 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 28 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 29 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 30 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 31 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 32 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 33 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 34 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 35 GENDER_UNKNOWN MOOD_UNKNOWN         PLURAL PERSON_UNKNOWN
+## 36 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN          THIRD
+## 37 GENDER_UNKNOWN   INDICATIVE NUMBER_UNKNOWN PERSON_UNKNOWN
+## 38 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 39 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 40 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 41 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 42 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 43 GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 44 GENDER_UNKNOWN   INDICATIVE       SINGULAR          THIRD
+## 45 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 46 GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+##            proper         reciprocity         tense         voice
+## 1  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 2  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 3  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 4  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 5  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 6  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 7          PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 8  PROPER_UNKNOWN RECIPROCITY_UNKNOWN       PRESENT VOICE_UNKNOWN
+## 9  PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST VOICE_UNKNOWN
+## 10 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 11 PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST       PASSIVE
+## 12 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 13 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 14 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 15 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 16 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 17 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 18         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 19 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 20 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 21 PROPER_UNKNOWN RECIPROCITY_UNKNOWN       PRESENT VOICE_UNKNOWN
+## 22 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 23 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 24 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 25 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 26 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 27 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 28         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 29         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 30 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 31         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 32 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 33 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 34         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 35 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 36 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 37 PROPER_UNKNOWN RECIPROCITY_UNKNOWN       PRESENT VOICE_UNKNOWN
+## 38 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 39 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 40 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 41 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 42         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 43         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 44 PROPER_UNKNOWN RECIPROCITY_UNKNOWN       PRESENT VOICE_UNKNOWN
+## 45 PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST       PASSIVE
+## 46 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+##    headTokenIndex     label       value
+## 1               4       DET         The
+## 2               4      AMOD       large
+## 3               4      AMOD Palestinian
+## 4               4        NN     refugee
+## 5              10 NSUBJPASS        camp
+## 6               4      PREP          in
+## 7               5      POBJ       Syria
+## 8              10       AUX        have
+## 9              10   AUXPASS          be
+## 10             10         P           &#39;
+## 11             10      ROOT   transform
+## 12             10      PREP        into
+## 13             14       DET           a
+## 14             14        NN       death
+## 15             11      POBJ        camp
+## 16             14         P           &#39;
+## 17             20      MARK          as
+## 18             19        NN       Assad
+## 19             19        NN      regime
+## 20             20     NSUBJ       force
+## 21             10     ADVCL       press
+## 22             20    ADVMOD       ahead
+## 23             20      PREP        with
+## 24             25       DET           a
+## 25             25      AMOD       major
+## 26             22      POBJ   offensive
+## 27             25      PREP     against
+## 28             28        NN     Islamic
+## 29             26      POBJ       State
+## 30             28      PREP          of
+## 31             29      POBJ        Iraq
+## 32             28        CC         and
+## 33             34       DET         the
+## 34             34        NN      Levant
+## 35             28      CONJ     fighter
+## 36             36     NSUBJ         who
+## 37             34     RCMOD     control
+## 38             38       DET         the
+## 39             36      DOBJ        area
+## 40             38         P           ,
+## 41             42       DET         the
+## 42             42        NN      United
+## 43             44     NSUBJ     Nations
+## 44             44       AUX        have
+## 45             38     RCMOD        warn
+## 46             10         P           .
+## 
+## [[3]]
+##          content beginOffset   tag         aspect         case
+## 1             By           0   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 2       mid-1982           3  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 3              ,          11 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN
+## 4          under          13   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 5            the          19   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 6    supervision          23  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 7             of          35   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 8            the          38   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 9  Multinational          42   ADJ ASPECT_UNKNOWN CASE_UNKNOWN
+## 10         Force          56  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 11             ,          61 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN
+## 12           the          63   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 13     Palestine          67  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 14    Liberation          77  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 15  Organization          88  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 16      withdrew         101  VERB ASPECT_UNKNOWN CASE_UNKNOWN
+## 17          from         110   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 18       Lebanon         115  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 19     following         123  VERB ASPECT_UNKNOWN CASE_UNKNOWN
+## 20         weeks         133  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 21            of         139   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 22       battles         142  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 23            in         150   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 24          West         153  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 25        Beirut         158  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 26           and         165  CONJ ASPECT_UNKNOWN CASE_UNKNOWN
+## 27       shortly         169   ADV ASPECT_UNKNOWN CASE_UNKNOWN
+## 28        before         177   ADP ASPECT_UNKNOWN CASE_UNKNOWN
+## 29           the         184   DET ASPECT_UNKNOWN CASE_UNKNOWN
+## 30      massacre         188  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 31          took         197  VERB ASPECT_UNKNOWN CASE_UNKNOWN
+## 32         place         202  NOUN ASPECT_UNKNOWN CASE_UNKNOWN
+## 33             .         207 PUNCT ASPECT_UNKNOWN CASE_UNKNOWN
+##            form         gender         mood         number         person
+## 1  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 2  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 3  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 4  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 5  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 6  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 7  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 8  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 9  FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 10 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 11 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 12 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 13 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 14 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 15 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 16 FORM_UNKNOWN GENDER_UNKNOWN   INDICATIVE NUMBER_UNKNOWN PERSON_UNKNOWN
+## 17 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 18 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 19 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 20 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN         PLURAL PERSON_UNKNOWN
+## 21 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 22 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN         PLURAL PERSON_UNKNOWN
+## 23 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 24 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 25 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 26 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 27 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 28 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 29 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+## 30 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 31 FORM_UNKNOWN GENDER_UNKNOWN   INDICATIVE NUMBER_UNKNOWN PERSON_UNKNOWN
+## 32 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN       SINGULAR PERSON_UNKNOWN
+## 33 FORM_UNKNOWN GENDER_UNKNOWN MOOD_UNKNOWN NUMBER_UNKNOWN PERSON_UNKNOWN
+##            proper         reciprocity         tense         voice
+## 1  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 2  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 3  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 4  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 5  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 6  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 7  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 8  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 9  PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 10 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 11 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 12 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 13         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 14         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 15         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 16 PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST VOICE_UNKNOWN
+## 17 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 18         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 19 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 20 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 21 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 22 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 23 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 24         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 25         PROPER RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 26 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 27 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 28 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 29 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 30 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 31 PROPER_UNKNOWN RECIPROCITY_UNKNOWN          PAST VOICE_UNKNOWN
+## 32 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+## 33 PROPER_UNKNOWN RECIPROCITY_UNKNOWN TENSE_UNKNOWN VOICE_UNKNOWN
+##    headTokenIndex  label         value
+## 1              15   PREP            By
+## 2               0   POBJ      mid-1982
+## 3              15      P             ,
+## 4              15   PREP         under
+## 5               5    DET           the
+## 6               3   POBJ   supervision
+## 7               5   PREP            of
+## 8               9    DET           the
+## 9               9   AMOD Multinational
+## 10              6   POBJ         Force
+## 11             15      P             ,
+## 12             14    DET           the
+## 13             14     NN     Palestine
+## 14             14     NN    Liberation
+## 15             15  NSUBJ  Organization
+## 16             15   ROOT      withdraw
+## 17             15   PREP          from
+## 18             16   POBJ       Lebanon
+## 19             15   PREP        follow
+## 20             18   POBJ          week
+## 21             19   PREP            of
+## 22             20   POBJ        battle
+## 23             21   PREP            in
+## 24             24     NN          West
+## 25             22   POBJ        Beirut
+## 26             19     CC           and
+## 27             30 ADVMOD       shortly
+## 28             30   MARK        before
+## 29             29    DET           the
+## 30             30  NSUBJ      massacre
+## 31             19   CONJ          take
+## 32             30   DOBJ         place
+## 33             15      P             .</code></pre>
+<pre class="r"><code>nlp_result$classifyText</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   name                                       confidence
+##   &lt;chr&gt;                                           &lt;dbl&gt;
+## 1 /Sensitive Subjects                              0.91
+## 2 /People &amp; Society/Social Issues &amp; Advocacy       0.6</code></pre>
+<pre class="r"><code>nlp_result$sentences[[1]]$score</code></pre>
+<pre><code>## [1] -0.5</code></pre>
+<pre class="r"><code>nlp_result$sentences[[2]]$score</code></pre>
+<pre><code>## [1] -0.5</code></pre>
+<pre class="r"><code>y_trans &lt;- gl_translate(yarmouk, &quot;es&quot;)</code></pre>
+<pre><code>## 2019-02-20 17:25:21 -- Translating text: 251 characters -</code></pre>
+<pre class="r"><code>y_trans$translatedText</code></pre>
+<pre><code>## [1] &quot;El mayor campo de refugiados palestinos en Siria se ha &#39;transformado en un campo de muerte&#39; cuando las fuerzas del régimen de Assad siguen adelante con una ofensiva importante contra el Estado Islámico de Irak y los combatientes del Levante que controlan el área, advirtieron las Naciones Unidas.&quot;</code></pre>
+<pre class="r"><code># Using tidyverse (dplyr and readr) from this cell onwards
+library(tidyverse)
+doc_nouns &lt;- list()
+
+for (doc_num in c(1,2,3)) {
+  doc_nouns[[doc_num]] &lt;- nlp_result$entities[[doc_num]] %&gt;% filter(mention_type == &quot;PROPER&quot;) %&gt;% filter(salience &gt; 0.5)
+}
+
+docs_with_lebanon &lt;- c()
+for (doc_num in c(1,2,3)) {
+  docs_with_lebanon &lt;- c(docs_with_lebanon, &quot;Lebanon&quot; %in% doc_nouns[[doc_num]]$name)
+}</code></pre>
+<pre class="r"><code>nlp_result$entities</code></pre>
+<pre><code>## [[1]]
+## # A tibble: 8 x 9
+##   name  type  salience mid   wikipedia_url magnitude score beginOffset
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+## 1 batt… EVENT   0.149  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         142
+## 2 Leba… LOCA…   0.0978 /m/0… https://en.w…       0     0           115
+## 3 mass… EVENT   0.128  &lt;NA&gt;  &lt;NA&gt;                0     0           188
+## 4 Mult… ORGA…   0.141  &lt;NA&gt;  &lt;NA&gt;                0     0            42
+## 5 Pale… ORGA…   0.0978 /m/0… https://en.w…       0     0            67
+## 6 place OTHER   0.125  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         202
+## 7 supe… OTHER   0.231  &lt;NA&gt;  &lt;NA&gt;                0     0            23
+## 8 West… LOCA…   0.0303 /m/0… https://en.w…       0     0           153
+## # ... with 1 more variable: mention_type &lt;chr&gt;
+## 
+## [[2]]
+## # A tibble: 11 x 9
+##    name  type  salience mid   wikipedia_url magnitude score beginOffset
+##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+##  1 area  LOCA…   0.0466 &lt;NA&gt;  &lt;NA&gt;                0     0           215
+##  2 Assad PERS…   0.0395 /m/0… https://en.w…       0     0            90
+##  3 deat… LOCA…   0.0746 &lt;NA&gt;  &lt;NA&gt;                0     0            75
+##  4 figh… PERS…   0.216  &lt;NA&gt;  &lt;NA&gt;                0.1   0           190
+##  5 Isla… ORGA…   0.0123 /m/0… https://en.w…       0     0           153
+##  6 offe… OTHER   0.0613 &lt;NA&gt;  &lt;NA&gt;                0.4  -0.4         135
+##  7 Pale… LOCA…   0.145  /m/0… https://en.w…       0     0            12
+##  8 refu… LOCA…   0.260  &lt;NA&gt;  &lt;NA&gt;                0.7   0.7          24
+##  9 regi… PERS…   0.0666 &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1          96
+## 10 Syria LOCA…   0.0580 /m/0… https://en.w…       0     0            40
+## 11 Unit… ORGA…   0.0196 /m/0… https://en.w…       0.1  -0.1         225
+## # ... with 1 more variable: mention_type &lt;chr&gt;
+## 
+## [[3]]
+## # A tibble: 8 x 9
+##   name  type  salience wikipedia_url mid   magnitude score beginOffset
+##   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+## 1 batt… EVENT   0.0657 &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         142
+## 2 Leba… LOCA…   0.116  https://en.w… /m/0…       0     0           115
+## 3 mass… EVENT   0.117  &lt;NA&gt;          &lt;NA&gt;        0     0           188
+## 4 Mult… ORGA…   0.125  &lt;NA&gt;          &lt;NA&gt;        0     0            42
+## 5 Pale… ORGA…   0.126  https://en.w… /m/0…       0     0            67
+## 6 place OTHER   0.114  &lt;NA&gt;          &lt;NA&gt;        0.1  -0.1         202
+## 7 supe… OTHER   0.297  &lt;NA&gt;          &lt;NA&gt;        0     0            23
+## 8 West… LOCA…   0.0391 https://en.w… /m/0…       0     0           153
+## # ... with 1 more variable: mention_type &lt;chr&gt;</code></pre>
+<pre class="r"><code>UN_speeches &lt;- read_csv(&quot;corpora/UNGDC_2017_ascii.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   id = col_integer(),
+##   folder_name = col_character(),
+##   file_name = col_character(),
+##   file_prefix = col_character(),
+##   session_num = col_integer(),
+##   year = col_integer(),
+##   country_code = col_character(),
+##   text = col_character(),
+##   res = col_integer(),
+##   res_count = col_integer()
+## )</code></pre>
+<pre class="r"><code>entity_list = list()
+trump_list = list()
+num_speeches = nrow(UN_speeches)
+# could check *all* speeches, using: for (i in 1:num_speeches) {}
+# here we&#39;ll just check two (already could be fairly expensive
+# if you pass the free tier), and only send the first 500 chars
+for (speech_num in 3:4){
+  cur_speech &lt;- UN_speeches[speech_num,&quot;text&quot;]
+  cur_speech_head &lt;- substr(cur_speech, 1, 500)
+  cur_result &lt;- gl_nlp(cur_speech_head)
+  cur_entities &lt;- cur_result$entities
+  entity_list[[speech_num]] &lt;- cur_entities
+  has_trump &lt;- &quot;Trump&quot; %in% cur_entities
+  trump_list[[speech_num]] &lt;- has_trump
+}</code></pre>
+<pre><code>## 2019-02-20 17:25:23 -- annotateText: 499 characters</code></pre>
+<pre><code>## 2019-02-20 17:25:23 -- annotateText: 500 characters</code></pre>
+<pre class="r"><code>print(entity_list)</code></pre>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## [[3]][[1]]
+## # A tibble: 13 x 9
+##    name  type  salience mid   wikipedia_url magnitude score beginOffset
+##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+##  1 case  OTHER  0.0718  &lt;NA&gt;  &lt;NA&gt;                0     0           140
+##  2 chal… OTHER  0.0829  &lt;NA&gt;  &lt;NA&gt;                0.7  -0.7          87
+##  3 hand  OTHER  0.0191  &lt;NA&gt;  &lt;NA&gt;                0.2   0.2         392
+##  4 huma… PERS…  0.207   &lt;NA&gt;  &lt;NA&gt;                0.4  -0.4          36
+##  5 issu… OTHER  0.0255  &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         266
+##  6 prog… OTHER  0.0134  &lt;NA&gt;  &lt;NA&gt;                0.9   0.9         476
+##  7 pros… OTHER  0.00844 &lt;NA&gt;  &lt;NA&gt;                0.9  -0.9         369
+##  8 scie… OTHER  0.0134  &lt;NA&gt;  &lt;NA&gt;                0.8   0.8         488
+##  9 times OTHER  0.469   &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1           9
+## 10 times OTHER  0.469   &lt;NA&gt;  &lt;NA&gt;                0.1  -0.1         213
+## 11 times OTHER  0.0434  &lt;NA&gt;  &lt;NA&gt;                0.9   0.9           9
+## 12 times OTHER  0.0434  &lt;NA&gt;  &lt;NA&gt;                0.9   0.9         213
+## 13 world LOCA…  0.0454  &lt;NA&gt;  &lt;NA&gt;                1.3   0.2         414
+## # ... with 1 more variable: mention_type &lt;chr&gt;
+## 
+## 
+## [[4]]
+## [[4]][[1]]
+## # A tibble: 31 x 9
+##    name  type  salience mid   wikipedia_url magnitude score beginOffset
+##    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt;       &lt;int&gt;
+##  1 chal… OTHER  0.00459 &lt;NA&gt;  &lt;NA&gt;                0     0           319
+##  2 choi… OTHER  0.0428  &lt;NA&gt;  &lt;NA&gt;                0     0            83
+##  3 comm… OTHER  0.00432 &lt;NA&gt;  &lt;NA&gt;                0     0           354
+##  4 deve… OTHER  0.0310  &lt;NA&gt;  &lt;NA&gt;                1     0.4         275
+##  5 doubt OTHER  0.0143  &lt;NA&gt;  &lt;NA&gt;                0     0           213
+##  6 Gene… ORGA…  0.0173  /m/0… https://en.w…       0     0           137
+##  7 issu… OTHER  0.0131  &lt;NA&gt;  &lt;NA&gt;                0     0           235
+##  8 lif   OTHER  0.00686 &lt;NA&gt;  &lt;NA&gt;                0.1   0.1         497
+##  9 life  OTHER  0.0143  &lt;NA&gt;  &lt;NA&gt;                0.1   0.1         194
+## 10 link  OTHER  0.107   &lt;NA&gt;  &lt;NA&gt;                0     0           159
+## # ... with 21 more rows, and 1 more variable: mention_type &lt;chr&gt;</code></pre>
+<pre class="r"><code>trump_vec &lt;- unlist(trump_list)
+print(which(trump_vec))</code></pre>
+<pre><code>## integer(0)</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

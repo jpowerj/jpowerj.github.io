@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jeff Jacobs" />
+
+
+<title>Introduction to R for Future Text-As-Data Mavens</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CU Text-as-Data Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Workshop Sessions <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="01_Introduction_to_R.html">Week 1: Intro to R</a></li>
+            <li><a href="02_Web_Scraping.html">Week 2: Web Scraping</a></li>
+            <li><a href="03_Frequency_Analysis.html">Week 3: Frequency Analysis</a></li>
+            <li><a href="04_Topic_Modeling_ggplot2.html">Week 4: Topic Modeling and Visualization</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="05_Named_Entity_Recognition.html">Bonus: Named Entity Recognition</a></li>
+            <li><a href="06_Machine_Learning.html">Bonus: Machine Learning with Text</a></li>
+            <li><a href="07_Sentiment_Analysis.html">Bonus: Sentiment Analysis</a></li>
+            <li class="disabled"><a href="08_Stylometry">Bonus: Stylometry</a></li>
+            <li class="disabled"><a href="09_Word_Embeddings.html">Bonus: Word Embeddings</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="TAD_Resource_Extravaganza.html">Resources</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://textlab.econ.columbia.edu/">CU TextLab</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to R for Future Text-As-Data Mavens</h1>
+<h4 class="author"><em>Jeff Jacobs</em></h4>
+<h4 class="date"><em>November 8, 2018</em></h4>
+
+</div>
+
+
+<p>[Quick reminder if you’re reading this: before the workshop try to get as far in <a href="https://www.datacamp.com/courses/free-introduction-to-r">this interactive tutorial</a> as you can – we’re gonna recap the six topics there fairly quicky.]</p>
+<div id="what-is-text-as-data-why-should-i-care" class="section level1">
+<h1>What is “Text-As-Data”? Why should I care?</h1>
+<div id="standing-on-the-shoulders-of-giants" class="section level2">
+<h2>Standing on the Shoulders of Giants</h2>
+<p>The lazy answer: there are entire excursuses[^excurs] on exactly this question, in basically whatever field you could imagine, at this point. I originally was only going to write up a brief overview of other resources, but that eventually turned into a whole separate document, the <a href="TAD_Resource_Extravaganza.html">“Text-As-Data Resource Extravaganza”</a>. I’ll only briefly look at it in the workshop, but definitely keep it on the front of your mind, and I’ll probably refer back to it a lot (e.g., for examples of applications, and especially for citing the “founding documents” of various text-as-data methods without cluttering these tutorial files)</p>
+</div>
+<div id="picking-up-your-data-and-looking-at-it-from-weird-angles" class="section level2">
+<h2>Picking Up Your Data and Looking At It from Weird Angles</h2>
+<p>Now, to answer the second question: At its most basic level, the reason you should learn text-as-data methods is because they <em>transform</em> an unimaginably large body of salient but non-numeric information into salient numeric information, which can then be integrated into the “standard” processes of empirical analyses that social scientists have been using for decades: regressions, causal inference, even qualitative exploration and evaluation of field notes.</p>
+<p>However, there’s really a <em>two-way</em> symbiotic (might I even say… DIALECTICAL) relationship between text-as-data and social science, and that’s where things get really exciting IMO. In a nutshell, the epistemic frameworks and models of the social sciences bring clarity to the cold statistical quantities produced by text-as-data methods, while at the same time the text-as-data methods provide said quantities as completely new perspectives/angles from which to <em>view</em> social science problems. In other words, text-as-data methods have the potential to <em>exponentiate</em> the efficacy of Rawls’ “reflective equilibrium” approach to model-building (<span class="citation">Rawls (1951)</span>)</p>
+<p>In my <a href="https://cs.stanford.edu/~jjacobs3/#workingpapers">dissertation work</a> I’m trying to argue (by example) that these methods can enrich scholarship even <em>outside of</em> the standard empirical domains – specifically, in studies of intellectual history and the history of political/economic thought. So if that interests you definitely talk to me afterwards, but in this tutorial I’ll have empirical social scientists (i.e., people doing more straightforward independent-and-dependent-variables estimate-a-parameter-style work) in mind as my primary audience. Now to some pretty pictures – carrots to hang in front of your head in the coming weeks!</p>
+</div>
+<div id="pretty-pictures" class="section level2">
+<h2>Pretty Pictures</h2>
+<p><strong>Topic Modeling</strong></p>
+<div class="figure">
+<img src="W1_files/img/lda_clerics.png" alt="Test" />
+<p class="caption">Test</p>
+</div>
+<p>(Roberts et al’s <a href="https://mimno.infosci.cornell.edu/nips2013ws/slides/stm.pdf">presentation</a> cites <span class="citation">Nielsen (2013)</span> for this figure, but I can’t find it in there… Let me know if you see it!)</p>
+<p><strong>Word Embeddings</strong></p>
+<p><img src="W1_files/img/iraq.png" alt="Use of the word Iraq over time" /> This figure from <span class="citation">Rudolph and Blei (2018)</span> shows how the “meaning” of Iraq, in the world of Congressional debates, changed from 1858 to 2009. For now (until you learn <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal Component Analysis</a>!), you can roughly think of the y-axis as how close the meaning was to “some country in the Middle East” (the top) vs. “hotbed of terrorism” (the bottom) over that year.</p>
+<p><strong>When Text-As-Data Meets Information Theory</strong></p>
+<div class="figure">
+<img src="W1_files/img/resnov.png" alt="Innovation and influence of Marxist texts" />
+<p class="caption">Innovation and influence of Marxist texts</p>
+</div>
+<p>I couldn’t resist including one of my own plots. We may get to learn this method at the very end, but it combines <em>dynamic topic modeling</em> (how do emphases on different topics change over time?) and <em>information theory</em> (specifically, <em>Kullback-Leibler Divergence</em> which measures how surprised you are at time <span class="math inline">\(t+1\)</span> if you expected the same topic emphases as seen in time <span class="math inline">\(t\)</span>). See the <a href="https://cs.stanford.edu/~jjacobs3/Jacobs_SFI_Project_Presentation_Final.pdf">slides from my talk at the Santa Fe Institute</a> if you’re curious!</p>
+<p><strong>Neural Networks</strong></p>
+<div class="figure">
+<img src="W1_files/img/neural_art.png" alt="A neural network learning artistic style" />
+<p class="caption">A neural network learning artistic style</p>
+</div>
+<p><span class="citation">Gatys, Ecker, and Bethge (2015)</span> you absolutely wild for this one. And that’s all I have to say about that.</p>
+<p>And now to the main event!</p>
+</div>
+</div>
+<div id="installing-r-and-r-studio" class="section level1">
+<h1>Installing R and R Studio</h1>
+<div id="why-are-there-two-things-whats-the-difference-between-r-and-r-studio" class="section level2">
+<h2>Why are there two things? What’s the difference between R and R Studio?</h2>
+<p><strong><em>Deep breath…</em></strong></p>
+<p>So before we download stuff it’s actually important to understand the difference between R and R Studio. To me, the easiest way to think about it is: * R is the actual black-box <em>machine</em> that takes in R code and spits out… whatever the R code asked it to do * R <em>Studio</em> is just an <em>interface</em> (like a nice picture frame) built <em>around</em> R.</p>
+<p>To drive the point home, stare at this picture for a long time to see how it’s possible to do R programming (and even text-as-data in R) <em>entirely without R Studio</em>. Stare for an even longer time to see how this would be extremely tedious and… kind of like browsing the paintings at the Louvre by peeking through the keyhole on the front door (there’s no keyhole on the front door, but follow me on this one). <img src="W1_files/img/rterm_goat.png" alt="R in the Terminal" /> For example, just look at that first line after R started: the terminal cuts the code off after like 40 characters – there’s a LOT more code in that line overflowing past the righthand side, and it’s… not straightforward to go back and see what the full line was, after you’ve executed it :(</p>
+<p>Doesn’t this look much less… masochistic? <img src="W1_files/img/r_studio.png" alt="R Studio" /></p>
+<p>Now that you’re sold, let’s actually download and install both R (first) and R Studio (afterwards)!</p>
+<p>For (just) R, go <a href="https://cloud.r-project.org/">here</a>. You want the “base” version, in case they ask. Windows and Linux users I can help out here. Mac users you’re out of luck, I’ve never owned an Apple product…</p>
+<p>Now, for R <em>Studio</em>, go <a href="https://www.rstudio.com/products/rstudio/download/#download">here</a>. See above for Jeff-help possibilities.</p>
+<p>Now, if you successfully cloned the GitHub, you’ll see a file inside the <code>w1_files</code> folder called “first_program.r”. Double-click on that and if R Studio doesn’t open with the contents of that file in the upper-left corner, come talk to me… unless you have a Mac (jk you can still talk to me, sry I’m a saltboi): <img src="W1_files/img/r_studio_init.png" alt="R Studio Panels" /> If your screen looks like the above, you’re ready to move to the next section!</p>
+</div>
+<div id="the-four-panels-of-r-studio" class="section level2">
+<h2>The four panels of R studio</h2>
+<p>Before we start clicking and dragging and hacking, let’s look at what the four squares in front of you mean (in counterclockwise order for some reason):</p>
+<p><strong>Top Left: The <em>Editor</em></strong></p>
+<div class="figure">
+<img src="W1_files/img/editor.png" alt="The Editor" />
+<p class="caption">The Editor</p>
+</div>
+<p>This is where you will (or at least should) spend 90% of your time. It’s where any file you open will open “into”, and where buttons to save and run your code live.</p>
+<p><strong>Bottom Left: The <em>Console</em></strong></p>
+<div class="figure">
+<img src="W1_files/img/console.png" alt="The Console" />
+<p class="caption">The Console</p>
+</div>
+<p>I was serious when I said R Studio is just a fancy wrapper around R, and this is where that manifests: when you run whatever code is in your <em>Editor</em>, all that R Studio really does is copies it and then pastes it line-by-line into this Console. This doesn’t prevent you, however, from typing your own commands directly into the Console. You can test this out by clicking the panel to bring up the cursor and then typing <code>1+1</code>.</p>
+<p>The difference between being the next Mark Zuckerberg and the next Marky Mark (sans Funky Bunch) can boil down to knowing the following shortcut: if you type a command into the Console but want to change one thing about it (say, plot <span class="math inline">\(y = x+3\)</span> rather than <span class="math inline">\(y = x+2\)</span>), don’t retype it! Just click on the panel to bring up the cursor, then press the <em>up arrow</em> to browse through the last-entered commands. If you accidentally go past the command you want, you can use the <em>down arrow</em> to move to the subsequently-entered command.</p>
+<p><strong>Bottom Right: The <em>File Browser</em></strong></p>
+<div class="figure">
+<img src="W1_files/img/file_browser.png" alt="File Browser" />
+<p class="caption">File Browser</p>
+</div>
+<p>This is where you can look at files, just like you do in Windows Explorer (Windows), the <code>ls</code> command in Linux, and… “Finder” I think? in OSX. Here, however, you can single-click on the filename to open it into your Editor. Knowing how <em>Working Directories</em> work is integral to using this File Browser, so… don’t mess with it until you read that section below.</p>
+<p><strong>Top Right: The <em>Environment Browser</em></strong></p>
+<div class="figure">
+<img src="W1_files/img/environment.png" alt="Environment Browser" />
+<p class="caption">Environment Browser</p>
+</div>
+<p>This is where you will be able to see (and “browse”) all of the variables and functions you create during your R session. For example, if you load a dataset, this will tell you how many observations (rows) and variables (columns) your dataset has.</p>
+<p>I put “browse” in scare-quotes above because unlike files (which just open in the Editor regardless of their type), different types of variables have different ways of browsing them. For our purposes, the only important thing to know is that <em>data frames</em> (the variable type that R uses to hold loaded datasets) will have a tiny spreadsheet icon all the way on the right side of their row in the Environment Browser, and if you click this icon you will be able to see a “spreadsheet”-style view of the entries in your dataset. HOWEVER, note that this spreadsheet view is <em>read-only</em> – if you want to <em>edit</em> the data in your dataset, you’ll need to get through a few more sections.</p>
+</div>
+<div id="rmd-files-vs.-.r-files-vs.the-console" class="section level2">
+<h2><code>.Rmd</code> files vs. <code>.r</code> files vs. the console</h2>
+Now we can finally get down to details regarding the actual day-to-day “workflow” of an R coder hacker ninja.
+<center>
+<div class="figure">
+<img src="W1_files/img/hacking_in_progress.gif" alt="The power of hacking in R" />
+<p class="caption">The power of hacking in R</p>
+</div>
+</center>
+<p>For the remainder of the workshop, we’re <em>not</em> going to be using the <code>.r</code> format, the format of the <code>first_program.r</code> file that you loaded above. Although it beats the Console when it comes to ease-of-use, the <code>.Rmd</code> format leaves <code>.r</code> in the dust.</p>
+<p>Basically, while the bare-bones <code>.r</code> format just allows you to type lines of R code and then run them one-by-one, the <code>.Rmd</code> format (short for <em>R Markdown</em>) lets you</p>
+<ul>
+<li>Combine your code, its output, <em>and</em> your (formatted, hyperlinked, image-filled) documentation of the code/output into a single HTML, PDF, or MS Word document
+<ul>
+<li>As a quick example, this tutorial itself was written in R Markdown!</li>
+</ul></li>
+<li>Organize your code into named “cells”, for example to separate the different tasks you need to perform.
+<ul>
+<li>These cells also have a huge range of parameters, for example providing the ability to <em>cache</em> the results of a cell so that you don’t have to re-run it every time you re-generate your HTML/PDF/Word document.</li>
+</ul></li>
+<li>Customize the document output format however you want
+<ul>
+<li>For example, a block of code at the top of this tutorial’s <code>.Rmd</code> file tells R Studio to generate an HTML document with a particular title and author, format it so that it can be previewed on GitHub, auto-generate a table of contents, load the bibliographic data from a <code>.bib</code> file (<code>W1_files/TAD_Week_1.bib</code>), and so on.</li>
+</ul></li>
+</ul>
+<p>So, to see the <code>.Rmd</code> format in action, click on the <code>fancy_program.Rmd</code> file you’ll see in the <code>W1_files</code> directory within the File Browser, then click the “Knit” button at the top of the Editor to generate your first HTML-format R Markdown file!</p>
+<p>Real quick before moving on: any time you want to make a <em>new</em> R Markdown file, just click on the… paper-with-green-plus-sign icon (the icon all the way on the left, in the toolbar directly below the “File, Edit, Code, …” toolbar). R Studio will provide you with a Wizard allowing you to specify the title, author, and output format. Then, when you’re ready to save the file, you’ll want to save it in your <em>Working Directory</em>, which we explain… NOW</p>
+</div>
+<div id="the-working-directory" class="section level2">
+<h2>The Working Directory</h2>
+<p><strong>What Is It?</strong></p>
+<p>No joke, I genuinely think the idea of the “working directory” is the number-one stumbling block and source of headaches for people first learning R. So maybe pay attention to this section if you’ve zoned out for everything before this :P</p>
+<p>In theory, the Working Directory setting is a way for you to organize your folder+file structure such that everything is organized in a logical manner. For example, this week’s tutorial has a <code>w1_files</code> subfolder which itself has an <code>img</code> subfolder, so that we don’t have to wade through the image files when looking for a particular <code>.Rmd</code> or <code>.bib</code> file.</p>
+<p>In practice, however, the Working Directory (WD) is an opaque gatekeeper that gives you FATAL ERRORS if you try to run code when the WD is set to <span class="math inline">\(X\)</span>, but proceeds without any issues when the WD is set to a different directory <span class="math inline">\(Y\)</span>. In fact, this is the <em>best</em>-case scenario. In an even deeper layer of WD hell, your code gives some output <span class="math inline">\(O_X\)</span> when the WD is <span class="math inline">\(X\)</span>, and some completely different output <span class="math inline">\(O_Y\)</span> when it’s set to <span class="math inline">\(Y\)</span>. Which one is correct? Without understanding how the WD works, you’ll never know (and… paradoxically, once you <em>do</em> understand WDs, you’ll never run into this situation in the first place.)</p>
+<p>So, long story short, the Working Directory is just:</p>
+<p><em>a folder somewhere on your computer where R will look for code/images/datafiles/whatever whenever you click “Knit” (or “Run”, “Source”, anything of that nature)</em>.</p>
+<p>The problem is, though, that R Studio makes it <em>completely unclear</em> (in my opinion) <em>what</em> exactly your WD is set to. Obnoxiously, there’s no guarantee that the folder shown in the File Browser is the same as your WD. Even MORE obnoxiously, there’s no guarantee that the folder containing the <em>current <code>.Rmd</code> or <code>.r</code> file you’re editing</em> is the WD, or that the WD contains <em>any</em> file in your Editor panel.</p>
+<p>SO, as far as I can tell, the most straightforward way to find out our WD is to go to the Console panel, click so it displays the cursor, and then type:</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/home/jjacobs/tad_workshop&quot;</code></pre>
+<p>[Quick sidenote: that was the first example of an R Markdown “code cell” in this tutorial]</p>
+<p>If this is the folder containing all the files you want to work with in this session, you’re good. Otherwise, you’ll need to CHANGE IT…</p>
+<p><strong>How Do I Change It?</strong></p>
+<p>This is also not so straightforward, in the sense that there are multiple ways to do it, from mutiple panels/menus (specifically the “File, Edit, Code, …” toolbar, the Console, <em>and</em> the File Browser… oh and the keyboard too):</p>
+<ul>
+<li><em>“File, Edit, Code, …” Toolbar</em>: This is the way I would (highly) recommend doing it. Click “Session”, then “Set Working Directory”, and then “Choose Directory…”. Then just browse to the directory you want to work in, and click “Open”.</li>
+<li><em>Keyboard</em>: Press <code>Ctrl+Shift+H</code>. This is a keyboard shortcut that just does the same exact thing as the prior method. OSX/Linux users… sorry, I don’t know what your shortcut is, but if you do the prior method it should be written right next to “Choose Directory…” in the submenu.</li>
+<li><em>File Browser</em>: A two-parter.
+<ul>
+<li>First, browse to the folder you want to work in using the File Browser. Helpfully, you can click the button with the ellipsis (3 tiny dots) on it at the top right of the panel (underneath… the loopy arrow all the way at the top-right of the panel).</li>
+<li>Then, click on the “More” button with the gear icon at the top of the File Browser (it’s after the “New Folder”, “Delete”, and “Rename” buttons), then click “Set As Working Directory”.</li>
+</ul></li>
+<li><em>Console</em>: Probably the most complicated way to do it. You can use the command <code>setwd(&lt;path&gt;)</code>, replacing <code>&lt;path&gt;</code> with the actual path to the directory you want to work with. For example, on Windows you could use</li>
+</ul>
+<pre class="r"><code>setwd(&quot;C:\\Users\\jj\\Dropbox\\tad-workshop\\week-1&quot;)</code></pre>
+<p>[Quick note: for this code cell, I set the option <code>eval</code> to <code>FALSE</code>, since I don’t actually want R to run it (I like my WD as-is), just display it.]</p>
+<p>Why the double-backslashes, you ask? Programming languages interpret a single backslash <code>\</code> in a string as a note from the coder that they’re about to insert a “special”/non-standard character. For example, <code>\t</code> inserts a tab, while <code>\n</code> on Windows or <code>\r</code> on Linux/OSX moves the text down to the next line. So to tell it that we <em>actually</em> want a backslash, we have to say <code>\\</code>, i.e., “Hey R I’m about to put a special character” and then “Just kidding, I actually want a normal backslash for once”.)</p>
+<p>LAST THING regarding the Working Directory: the best way I’ve found to minimize WD issues overall is to <em>always</em> start R Studio by <em>double-clicking on my <code>.Rmd</code> file from within Windows Explorer/Finder</em>. The one reasonable thing R Studio does is set the WD to be the location of the file you just double-clicked if you start it this way. So yeah, do this instead of (for example) starting R Studio from the Start menu or… the little icon bar at the bottom of the screen in OSX. I’d actually recommend removing it from the Start menu or the bottom bar.</p>
+</div>
+</div>
+<div id="exploring-the-r-language-itself" class="section level1">
+<h1>Exploring the R language itself</h1>
+<div id="basic-syntax-and-the-five-main-data-structures" class="section level2">
+<h2>Basic Syntax and the Five Main Data Structures</h2>
+<p>Finally finally finally we get to do some code (see above .gif). If you did the <a href="https://www.datacamp.com/courses/free-introduction-to-r">Interactive R Tutorial</a> mentioned in the survey and at the very top of this page, you can… take a stretch break or something. But I’m going to really quickly zoom through the topics covered, in case people didn’t have time to do it or got stuck somewhere (don’t worry, getting stuck is a very normal experience for anyone at any skill level in R/in programming in general). Here we go.</p>
+<p><strong>Basics</strong></p>
+<p>R can be used as a glorified calculator!</p>
+<pre class="r"><code># You can type
+1+1</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code># or
+2^5</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre class="r"><code># or even
+sqrt(pi)</code></pre>
+<pre><code>## [1] 1.772454</code></pre>
+<p>Those <code>#</code> symbols at the beginning of a line tell R “this is just a comment (a note-to-self), not a line of code that you should try and run”. You should use them early and often in your code, so that when you go back to it the next month you remember why you did what you did…</p>
+<p>Values can be assigned to variables using the <code>&lt;-</code> operator:</p>
+<pre class="r"><code># The variable x will point to the value 3
+x &lt;- 3
+# The variable y will point to the value sqrt(2)
+y &lt;- sqrt(2)
+# The variable z will point to the string &quot;Hello&quot;
+z &lt;- &quot;Hello&quot;</code></pre>
+<p>And then the variable names can be used in the same way you used numbers in the arithmetic above:</p>
+<pre class="r"><code># Compute the sum of x and y
+x + y</code></pre>
+<pre><code>## [1] 4.414214</code></pre>
+<pre class="r"><code># Learn what sqrt(2)/2 is
+y / 2</code></pre>
+<pre><code>## [1] 0.7071068</code></pre>
+<pre class="r"><code># Adding numbers and strings doesn&#39;t make sense and makes R angry
+x + z</code></pre>
+<pre><code>## Error in x + z: non-numeric argument to binary operator</code></pre>
+<p>[Note that for this last cell to display I had to add <code>error=TRUE</code> to the code-cell settings. Otherwise the error stops the R Markdown document from compiling (which is good… usually you <em>don’t</em> want to make a document with errors in it)]</p>
+<p>R has a few very simple “basic data types” (though I learned to call these “primitives” in my CS classes…): * <code>numeric</code>: A number, like <code>1</code>, <code>0.338</code>, <code>pi</code>, etc. * <code>character</code>: A (potentially-empty string of) character(s). Like <code>&quot;Hello&quot;</code>, <code>&quot;?!?&quot;</code>, or <code>&quot;&quot;</code>. It can get a bit tricky since these strings can also hold numeric “characters”, so <code>1</code> is a <code>numeric</code> value but <code>&quot;1&quot;</code> is a <code>character</code> value! * <code>logical</code>: Either <code>TRUE</code> or <code>FALSE</code>. Usually used to control program logic (do something if <code>computer_temperature &gt; 100</code> is <code>TRUE</code>), but can also be used to “scoop out” rows from a dataset that match certain criteria. More on this later, but if you know Stata it works like the <code>drop if</code> and <code>keep if</code> statements.</p>
+<p>Why doesn’t R tell me anything when I press enter and store something in a variable? Good question. Very good question. Anyways, make sure you type the name of the variable <em>again</em>, if you want to display the <em>result</em> of the value-storing…</p>
+<p><strong>Vectors</strong></p>
+<p>Ordered collections of values! You create these by putting a <code>c</code> and then a parenthetical list of values, separated by commas. For example:</p>
+<pre class="r"><code># A numeric vector
+x &lt;- c(1,2,3)
+x</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code># A character vector
+y &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)
+y</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code># A logical vector
+z &lt;- c(TRUE, FALSE, TRUE)
+z</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+<p>Once again, you can do “arithmetic” on these vectors, and R will usually (though not always!!) do what you expect:</p>
+<pre class="r"><code># Produces a vector holding the *square* of every number in x
+x^2</code></pre>
+<pre><code>## [1] 1 4 9</code></pre>
+<pre class="r"><code># Appends an exclamation point to every character value in y. Now&#39;s as good a time as any to learn the paste() and paste0() functions
+paste0(y,&quot;!&quot;)</code></pre>
+<pre><code>## [1] &quot;a!&quot; &quot;b!&quot; &quot;c!&quot;</code></pre>
+<pre class="r"><code># Produces the *negation* of z. &quot;!&quot; is the &quot;NOT&quot; operator in R.
+!z</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE</code></pre>
+<p><strong>Matrices</strong></p>
+<p>From sequences of stuff to BOXES FILLED WITH STUFF wow! Matrices are a bit weird in R, since basically to make them you need to provide a <em>vector</em> of all the values first, and <em>then</em> tell R how to “convert” this vector into a matrix using the <code>nrow</code>, <code>ncol</code>, and <code>byrow</code> options to the <code>matrix()</code> function:</p>
+<pre class="r"><code>x &lt;- matrix(
+    c(1,2,3,4),
+    nrow=2,
+    ncol=2,
+    byrow=TRUE
+)
+# Display x
+x</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    1    2
+## [2,]    3    4</code></pre>
+<pre class="r"><code># See what is in row 2 column 1 of x
+x[2,1]</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>If yall remember your matrix multiplication rules, you can perform “normal” matrix multiplication using the new <code>%*%</code> operator:</p>
+<pre class="r"><code>y &lt;- matrix(
+    c(-1,-2,-3,-4),
+    nrow=2,
+    ncol=2,
+    byrow=TRUE
+)
+y</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -1   -2
+## [2,]   -3   -4</code></pre>
+<pre class="r"><code># Normal matrix multiplication, weird %*% thing
+x %*% y</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -7  -10
+## [2,]  -15  -22</code></pre>
+<pre class="r"><code># Weird matrix multiplication (the Hadamard Product), normal * thing
+x * y</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -1   -4
+## [2,]   -9  -16</code></pre>
+<p>So yeah, be <em>extremely</em> careful with matrices, since the multiplication you’re expecting is NOT <code>*</code> but <code>%*%</code>. Lastly the <code>t()</code> function gives you the transpose of a matrix:</p>
+<pre class="r"><code>t(x)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    1    3
+## [2,]    2    4</code></pre>
+<p><strong>Factors</strong></p>
+<p>Inching closer to working with (numeric) data, factors let us create and specify the different levels of <em>categorical variables</em>:</p>
+<pre class="r"><code>fav_color &lt;- factor(c(1,2,2,2,3,2,1,1),labels=c(&quot;Red&quot;,&quot;Black&quot;,&quot;Green&quot;))
+fav_color</code></pre>
+<pre><code>## [1] Red   Black Black Black Green Black Red   Red  
+## Levels: Red Black Green</code></pre>
+<p>Don’t get confused about the correspondence between the first and second arguments to the <code>factor()</code> function! The first (unnamed) argument, a vector, says “Here is my data”, while the second argument (named “<code>labels</code>”) says “A value of 1 means this, a value of 2 means this, …”:</p>
+<pre class="r"><code>goat_votes &lt;- c(4,4,4,3,4,1,2,1,4)
+goat_labels &lt;- c(&quot;MJ&quot;, &quot;LeBron&quot;, &quot;Kobe&quot;, &quot;Sabonis&quot;)
+goat_factor &lt;- factor(goat_votes, labels=goat_labels)
+goat_factor</code></pre>
+<pre><code>## [1] Sabonis Sabonis Sabonis Kobe    Sabonis MJ      LeBron  MJ      Sabonis
+## Levels: MJ LeBron Kobe Sabonis</code></pre>
+<p><strong>Data Frames</strong></p>
+<p>Probably (definitely) the most important data structure for social scientists. Basically everything you would expect from a spreadsheet, aka a glorified matrix with column names, which makes it easier to specify and “scoop out” particular observations of interest:</p>
+<pre class="r"><code>x &lt;- data.frame(
+    name=c(&quot;Ja Rule&quot;,&quot;Lenin&quot;,&quot;Mao&quot;,&quot;Marx&quot;),
+    born=c(1976,1870,1893,1818),
+    successful_rev=c(TRUE,TRUE,TRUE,FALSE)
+)
+# Display x, column names and all
+x</code></pre>
+<pre><code>##      name born successful_rev
+## 1 Ja Rule 1976           TRUE
+## 2   Lenin 1870           TRUE
+## 3     Mao 1893           TRUE
+## 4    Marx 1818          FALSE</code></pre>
+<pre class="r"><code># &quot;Scoop out&quot; observations of people born after 1890
+x[x$born &gt; 1890,]</code></pre>
+<pre><code>##      name born successful_rev
+## 1 Ja Rule 1976           TRUE
+## 3     Mao 1893           TRUE</code></pre>
+<p>That last statement is a bit hairy: the basic syntax for “scooping” is <code>x[&lt;rows you want&gt;,&lt;columns you want&gt;]</code>. And you leave <code>&lt;rows you want&gt;</code> blank if you want <em>all</em> rows, and <code>&lt;columns you want&gt;</code> blank if you want all columns. So then the statement boils down to: “I want to scoop out rows in <code>x</code> where the <code>born</code> column is greater than 1890, but keep all the columns for these rows”.</p>
+<p>Still, the syntax is super weird – why does <code>x</code> appear twice in succession (<code>x[x...]</code>)? It should make more sense if we break this “compound” statement apart, giving the “moving parts” separate names and lines:</p>
+<pre class="r"><code># First, we scoop out just the &quot;born&quot; column using the &quot;$&quot; operator
+born_vals &lt;- x$born
+born_vals</code></pre>
+<pre><code>## [1] 1976 1870 1893 1818</code></pre>
+<pre class="r"><code># Next, we generate a *logical* vector which is TRUE for slots where born is greater than 1890 and FALSE everywhere else
+born_after_1890 &lt;- born_vals &gt; 1890
+born_after_1890</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code># Finally we use this logical vector to *scoop out* just the TRUE rows
+obs_i_want &lt;- x[born_after_1890,]
+obs_i_want</code></pre>
+<pre><code>##      name born successful_rev
+## 1 Ja Rule 1976           TRUE
+## 3     Mao 1893           TRUE</code></pre>
+<p>Note, however, that you’re almost never going to be making a data frame from <em>within</em> R like I did above. Instead, you’ll usually have R create a data frame <em>automatically</em> from data you load in from a file… almost a beautiful segue into the next section, except we have to talk about Lists real quick. But AFTER THAT! loading data files.</p>
+<p><strong>Lists</strong></p>
+<p>Lists are basically like vectors <em>except</em> that they can hold <em>any</em> type of value (really, anything – including matrices, functions, and even MORE LISTS) in <em>any</em> slot, whereas the values in a vector have to all be of the same type:</p>
+<pre class="r"><code>boring_vector &lt;- c(1,2,3)
+boring_vector</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>exciting_list &lt;- list(1,&quot;Sabonis&quot;,c(-1,0,1),boring_vector,diag(3),list(&quot;we&quot;,&quot;need&quot;,&quot;to&quot;,&quot;go&quot;,&quot;deeper&quot;))
+exciting_list</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] &quot;Sabonis&quot;
+## 
+## [[3]]
+## [1] -1  0  1
+## 
+## [[4]]
+## [1] 1 2 3
+## 
+## [[5]]
+##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    1    0
+## [3,]    0    0    1
+## 
+## [[6]]
+## [[6]][[1]]
+## [1] &quot;we&quot;
+## 
+## [[6]][[2]]
+## [1] &quot;need&quot;
+## 
+## [[6]][[3]]
+## [1] &quot;to&quot;
+## 
+## [[6]][[4]]
+## [1] &quot;go&quot;
+## 
+## [[6]][[5]]
+## [1] &quot;deeper&quot;</code></pre>
+<p>See how exciting that is? The problem is that they require an entirely different syntax from vectors/matrices to pull things out:</p>
+<pre class="r"><code>exciting_list[[3]]</code></pre>
+<pre><code>## [1] -1  0  1</code></pre>
+<pre class="r"><code>exciting_list[[5]]</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    1    0
+## [3,]    0    0    1</code></pre>
+<p><strong>Functions</strong></p>
+<p>Here I’m adding one of two “bonus” R constructs on top of the five covered in the interactive tutorial. Namely, the function construct. If you haven’t noticed, a lot of parentheses start popping up as soon as you start on even the simplest task in R (even the “Hello world” program has parentheses: <code>print(&quot;Hello world!&quot;)</code>). Which raises the question,</p>
+<p><em>Why do I always need to type these parentheses?</em></p>
+<p>And the answer is that the parentheses are a way of sending data to a special type of R variable, called a <em>function</em>. While “normal” variable names just point to a value, like how <code>x &lt;- 3</code> makes the name <code>x</code> point to the numerical value <code>3</code>, <em>function</em> variables actually point to another block of R code, that either you or somebody else has already written. So when you type <code>print(&quot;blah&quot;)</code>, you’re basically telling R “go to the code block someone wrote that’s called <code>print()</code>, and give it the character string <code>&quot;blah&quot;</code> so it can do its thing and figure out how to display that down in the R Console.</p>
+<p>So, what that means is that there are <em>two separate parts</em> of a function in R, though often people just say “function” despite the fact that they’re only talking about one <em>part</em> (metonymy is a hell of a drug):</p>
+<ol style="list-style-type: decimal">
+<li>The actual named block of code, which can take in any number of <em>arguments</em> (variables that get passed to it) and return the result of its computations. This looks like the following:</li>
+</ol>
+<pre class="r"><code># Define the function
+my_sqrt &lt;- function(number, positive=TRUE){
+  if (positive){
+    return(sqrt(number))
+  } else {
+    return(-sqrt(number))
+  }
+}</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><em>Other</em> points in the code where you <em>call</em> the function, via (say) <code>result &lt;- function_name(arguments)</code> and thus tell R “give these variables to the code block and when it has produced an output, store it in the <code>result</code> variable”:</li>
+</ol>
+<pre class="r"><code>x &lt;- 5
+
+#
+# ...other code...
+#
+
+# Now call the function from above *without* the optional keyword arg
+my_sqrt(x)</code></pre>
+<pre><code>## [1] 2.236068</code></pre>
+<pre class="r"><code># And *with* the keyword arg
+my_sqrt(x, positive=FALSE)</code></pre>
+<pre><code>## [1] -2.236068</code></pre>
+<p>As the comments here suggest, there’s one other important thing to know about R functions, which is that you don’t have to send them <em>all</em> of the arguments every time you call them: there are <em>positional</em> arguments that are <em>required</em> for any call to the function, whereas there are separate <em>keyword</em> arguments that are optional, and that typically have sensible default values. For example, even the basic <code>print()</code> function has a <a href="https://www.rdocumentation.org/packages/base/versions/3.5.1/topics/print.default">secret keyword argument</a>, <code>na.print</code>, that you can send to change the way R prints <code>NA</code> values in numeric variables. Otherwise, though, it uses the sensible default value of just printing the two characters <code>&quot;NA&quot;</code>.):</p>
+<pre class="r"><code>print(c(1,2,NA,4))</code></pre>
+<pre><code>## [1]  1  2 NA  4</code></pre>
+<pre class="r"><code>print(c(1,2,NA,4),na.print = &quot;SOMETHING HAS GONE HORRIBLY WRONG&quot;)</code></pre>
+<pre><code>## [1]                                 1                                 2
+## [3] SOMETHING HAS GONE HORRIBLY WRONG                                 4</code></pre>
+<p>Lastly, just note that you can “string” functions together, by plugging the output of one in as an argument to another. For example, this line calls <code>my_sqrt</code> <em>first</em>, then takes its output and sends it as an argument to <code>print</code>:</p>
+<pre class="r"><code>print(my_sqrt(5))</code></pre>
+<pre><code>## [1] 2.236068</code></pre>
+<p>And you can still include optional arguments to either function in these compound statements:</p>
+<pre class="r"><code>print(my_sqrt(c(4,9,NA), positive=FALSE), na.print = &quot;UH OH&quot;)</code></pre>
+<pre><code>## [1]    -2    -3 UH OH</code></pre>
+<pre class="r"><code># Note that NA is *not* the same as NaN:
+print(my_sqrt(c(-4,9,NA), positive=FALSE), na.print=&quot;NA_But_*Not*_NaN&quot;)</code></pre>
+<pre><code>## Warning in sqrt(number): NaNs produced</code></pre>
+<pre><code>## [1]              NaN               -3 NA_But_*Not*_NaN</code></pre>
+<div id="if-statements-and-loops" class="section level3">
+<h3>If Statements and Loops</h3>
+<p>This is the last thing I can think of that’s absolutely necessary for you to be able to utilize the core functionality of R. Basically an <em>if statement</em> and a <em>for loop</em> are two fundamental constructs which 1. Allow your code to produce <em>different</em> results based on the contents of some variable or output of some function (the if statement):</p>
+<pre class="r"><code># This is necessary so you get the same results as me (it ensures that our computers&#39; random number generators produce the same series of numbers)
+set.seed(1948)
+# Flip a (fair) coin, where 0 is tails and 1 is heads
+coinflip_result &lt;- rbinom(n=1, size=1, prob=0.5)
+print(coinflip_result)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code># Now let the user know what the result *means*
+if (coinflip_result == 0){
+  print(&quot;Tails&quot;)
+} else {
+  print(&quot;Heads&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;Heads&quot;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Allow you to repeat some code a specified number of times, eliminating the need to ever copy-and-paste code to handle (for example) multi-dimensional data:</li>
+</ol>
+<pre class="r"><code>my_numbers &lt;- 1:20
+for (current_number in my_numbers){
+  # Print the (positive) square root of the number
+  print(my_sqrt(current_number))
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 1.414214
+## [1] 1.732051
+## [1] 2
+## [1] 2.236068
+## [1] 2.44949
+## [1] 2.645751
+## [1] 2.828427
+## [1] 3
+## [1] 3.162278
+## [1] 3.316625
+## [1] 3.464102
+## [1] 3.605551
+## [1] 3.741657
+## [1] 3.872983
+## [1] 4
+## [1] 4.123106
+## [1] 4.242641
+## [1] 4.358899
+## [1] 4.472136</code></pre>
+</div>
+</div>
+<div id="loading-data-.csv.dta.rdata" class="section level2">
+<h2>Loading Data: <code>.csv</code>,<code>.dta</code>,<code>.RData</code></h2>
+<p>Alright! Now that we’ve got the basics down, and we understand the 5 most-used data structures in R (to refresh your memory: Vectors, Matrices, Factors, Data Frames, and Lists), let’s load our first real (numeric) data file! Specifically, we’re going to load <code>.csv</code> (comma-separated values), <code>.RData</code> (R’s default format), and <code>.dta</code> (Stata-formatted) data files.</p>
+<p><strong><code>.csv</code></strong></p>
+<p>We’ll start with the most common format, <code>.csv</code>. The built-in R function <code>read.csv()</code> is the “standard” way to load a <code>.csv</code> file:</p>
+<pre class="r"><code>unga_res &lt;- read.csv(&quot;datasets/UNGA_votes/DescriptionsUN1-72.csv&quot;)
+head(unga_res)</code></pre>
+<pre><code>##   session rcid abstain yes no importantvote     date   unres amend para
+## 1       1    3       4  29 18             0 1/1/1946  R/1/66     1    0
+## 2       1    4       8   9 34             0 1/2/1946  R/1/79     0    0
+## 3       1    5       1  28 22             0 1/4/1946  R/1/98     0    0
+## 4       1    6      10  12 27             0 1/4/1946 R/1/107     0    0
+## 5       1    7       0  25 18             0 1/2/1946 R/1/295     1    0
+## 6       1    8       2  38  1             0 1/5/1946 R/1/297     1    0
+##                            short
+## 1 AMENDMENTS, RULES OF PROCEDURE
+## 2     SECURITY COUNCIL ELECTIONS
+## 3               VOTING PROCEDURE
+## 4    DECLARATION OF HUMAN RIGHTS
+## 5     GENERAL ASSEMBLY ELECTIONS
+## 6                  ECOSOC POWERS
+##                                                                                                                                                                                                                                                  descr
+## 1  TO ADOPT A CUBAN AMENDMENT TO THE UK PROPOSAL REFERRING THE PROVISIONAL RULES OF PROCEDURE AND ANY AMENDMENTS THEREOF TO THE 6TH COMMITTEE, SAID AMENDMENT PRESCRIBING A 1-WEEK TIME LIMIT WITHIN WHICH THE 6TH COMM. MUST SUBMIT ITS REPORT ON THE
+## 2                                                                                                   TO ADOPT A USSR PROPOSAL ADJOURNING DEBATE ON AND POSTPONINGELECTIONS OF THE NON-PERMANENT MEMBERS OF THE SECURITY COUNCIL, TO THE FOLLOWING WEEK.
+## 3                                                                                         TO ADOPT THE KOREAN PROPOSAL THAT INVALID BALLOTS BE INCLUDED IN THE TOTAL NUMBER OF \\MEMBERS PRESENT AND VOTING\\\\, IN CALCULATING THE MAJORITY VOTE.\\&quot;&quot;
+## 4                                                                                                                                           TO ADOPT A CUBAN PROPOSAL (A/3-C) THAT AN ITEM ON A DECLARATION OF THE RIGHTS AND DUTIES OF MAN BE TABLED.
+## 5                                                       TO ADOPT A 6TH COMMITTEE AMENDMENT (A/14) TO THE PROVISIONAL RULES OF PROCEDURE, WHICH AMENDMENT PROVIDES THAT RULE 73 SHOULD END WITH:\\THERE SHALL BE NO NOMINATIONS.\\\\&quot;\t0\t0\t0\t0\t0\t0
+## 6 TO ADOPT A SECOND 6TH COMM. AMENDMENT (A/14) TO THE PROVISIONAL RULES OF PROCEDURE, WHICH AMENDMENT EPLACES PROVISIONAL RULE T WITH A NEW TEXT AUTHORIZING THE ECONOMIC &amp; SOC. COUNCIL TO CALL INTERNATIONAL CONFERENCES ON ANY MATTER WITHIN ITS CO
+##   me nu di hr co ec
+## 1  0  0  0  0  0  0
+## 2  0  0  0  0  0  0
+## 3  0  0  0  0  0  0
+## 4  0  0  0  1  0  0
+## 5 NA NA NA NA NA   
+## 6  0  0  0  0  0  1</code></pre>
+<p>[As you can see, this is also your first experience with malformed <code>.csv</code> files that you’ll never be able to fix no matter how hard you try. I spent ~30 minutes trying to fix the <code>NA</code> entries to no avail.]</p>
+<p>Now we can do cool stuff, like scoop out only the votes pertaining to the Israeli ethnic cleansing of Palestine:</p>
+<pre class="r"><code>isr_pal_res &lt;- unga_res[unga_res$me == 1,]
+head(isr_pal_res)</code></pre>
+<pre><code>##      session rcid abstain yes no importantvote      date     unres amend
+## NA        NA   NA      NA  NA NA            NA      &lt;NA&gt;      &lt;NA&gt;    NA
+## 28         1   30       6  41  5             0 12/6/1946 R/1/1288A     0
+## 32         1   34       5  41  6             0 12/6/1946 R/1/1288E     0
+## 75         2   77      10  33 13             0 11/6/1947  R/2/1424     0
+## NA.1      NA   NA      NA  NA NA            NA      &lt;NA&gt;      &lt;NA&gt;    NA
+## 77         2 9002       7   7 39             0  5/6/1947  SS/1/114     1
+##      para                        short
+## NA     NA                         &lt;NA&gt;
+## 28      0  FRENCH TOGOLAND TRUSTEESHIP
+## 32      0 BRITISH TOGOLAND TRUSTEESHIP
+## 75      0    PALESTINE, ECONOMIC UNION
+## NA.1   NA                         &lt;NA&gt;
+## 77      0     PALESTINE, JEWISH AGENCY
+##                                                                                                                                                                                                                                    descr
+## NA                                                                                                                                                                                                                                  &lt;NA&gt;
+## 28                                                          TO ADOPT THE TRUSTEESHIP AGREEMENT FOR FRENCH TOGOLAND SUBMITTED BY FRANCE; SAID AGREEMENT APPROVED IN 4TH COMM DRAFT RESOL. (A/258 AND ADD. 1, CORR. 2, CORR. 3 AND REV.1).
+## 32                                                          TO ADOPT THE TRUSTEESHIP AGREEMENT FOR BRITISH TOGOLAND SUBMITTED BY THE U.K.; AGREEMENT WAS APPROVED IN 4TH COMM. DRAFT RESOL. (A/258 AND ADD. 1, CORR. 2, CORR. 3, REV.1).
+## 75                                                    TO ADOPT THE REPORT AND RESOLUTIONS A AND B (A/516) OF THE AD HOC COMM. ON THE PALESTINE QUESTION, PROVIDING AND APPROVING A PLAN OF PARTITION WITH ECONOMIC UNION, FOR PALESTINE.
+## NA.1                                                                                                                                                                                                                                &lt;NA&gt;
+## 77   TO ADOPT POLISH RESOLUTION (A/BUR/80) AS AMENDED BY CZECHOSLOVAKIA, DECIDING TO INVITE THE JEWISH AGENCY FOR PALESTINE TO STATE THE POINT OF VIEW OF THE JEWISH PEOPLE ON PALESTINE BEFORE THE GENERAL ASSEMBLY IN PLENARY MEETING.
+##      me nu di hr co   ec
+## NA   NA NA NA NA NA &lt;NA&gt;
+## 28    1  0  0  0  1    0
+## 32    1  0  0  0  1    0
+## 75    1  0  0  0  0    1
+## NA.1 NA NA NA NA NA &lt;NA&gt;
+## 77    1  0  0  0  0    0</code></pre>
+<p>I personally never use the <code>read.csv()</code> function, however, since there is an alternative function called <code>fread()</code> that works literally about 1000 times faster than <code>read.csv()</code>. BUT since <code>fread()</code> is not a “built-in” R function, it requires us to download, install, and load the <code>data.table</code> package. Thus we start our first foray into downloading non-built-in R packages…</p>
+<p>The general procedure, if you <em>know</em> which package contains the function you want, is as follows: 1. In the Console (<em>not</em> in a <code>.r</code> or <code>.Rmd</code> file, since we’ll only ever have to do this once whereas those files are for storing code you may want to run multiple times) type <code>install.packages(&lt;package name&gt;)</code>, replacing <code>&lt;package name&gt;</code> with the name of the package you want to download. R Studio should automatically start downloading, and (hopefully) let you know when everything is complete. This means that the package is <em>downloaded</em> and <em>installed</em> onto your hard drive, BUT you still need to tell R that you actually want to <em>use</em> the package (if it wasn’t set up like this, R would have to have <em>all</em> packages on your hard drive loaded into memory at all times, which would make your computer slow to a crawl… thus we tell it specifically which packages to “activate”) 2. To actually load the package into memory, in (either the console <em>or</em> a code file) type and run <code>library(&lt;package name&gt;)</code>. Once this has been run in a session, you don’t need to run it again, but you <em>will</em> have to run it each time you close and re-open R.</p>
+<p>Lastly, if there is a newer version of a package you’ve already downloaded, you can update it using <code>update.package(&lt;package name&gt;)</code>. If you want to update <em>all</em> of your packages at once, just run <code>update.packages()</code>.</p>
+</div>
+<div id="viewing-and-editing-your-dataset" class="section level2">
+<h2>Viewing and Editing Your Dataset</h2>
+<p>The viewing part is easy: just click the little spreadsheet icon on the righthand side of the Environment Browser, in the row corresponding to your dataframe.</p>
+<p>Editing, on the other hand, is far less straightforward, but R Studio provides a (very) bare-bones interface allowing you to both view <em>and</em> modify the data frame: the <code>edit()</code> function:</p>
+<pre class="r"><code>my_data &lt;- data.frame(x=c(1,2,3),y=c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;))
+my_data &lt;- edit(my_data)</code></pre>
+<p>Note that if you <em>don’t</em> take the output of <code>edit(my_data)</code> and store it <em>back</em> into <code>my_data</code>, you will be editing the values in the spreadsheet but literally <strong>everything you do will be thrown out</strong> right when you close the spreadsheet window… Another great R Studio design choice.</p>
+</div>
+<div id="last-but-not-least-clearing-the-workspace" class="section level2">
+<h2>Last But Not Least: Clearing the Workspace</h2>
+<pre class="r"><code>rm(list = ls())</code></pre>
+<p>[Note that I’ve set the <code>eval</code> code-cell option to <code>FALSE</code>, since I don’t actually need/want R to clear out all my variables at the moment.]</p>
+<p>To understand this line we need to break it into two parts: first, we note that the <code>ls()</code> function simply gives a list of all the variables R is keeping track of – in other words, all of the variables you’ve made since you started your R session (or even before that if you chose to load the workspace from the prior session). So then the <code>rm()</code> function takes a single <em>keyword</em> argument, <code>list</code>, and then clears out everything you give it from the workspace. Thus, if we give it <em>all</em> the variables in our workspace, as produced by <code>ls()</code>, we clear the entire thing.</p>
+</div>
+</div>
+<div id="bibliography" class="section level1 unnumbered">
+<h1>Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-gatys_neural_2015">
+<p>Gatys, Leon A., Alexander S. Ecker, and Matthias Bethge. 2015. “A Neural Algorithm of Artistic Style.” <em>arXiv:1508.06576 [Cs, Q-Bio]</em>, August. <a href="http://arxiv.org/abs/1508.06576" class="uri">http://arxiv.org/abs/1508.06576</a>.</p>
+</div>
+<div id="ref-nielsen_lonely_2013">
+<p>Nielsen, Richard Alexander. 2013. “The Lonely Jihadist: Weak Networks and the Radicalization of Muslim Clerics,” September. <a href="https://dash.harvard.edu/handle/1/11124850" class="uri">https://dash.harvard.edu/handle/1/11124850</a>.</p>
+</div>
+<div id="ref-rawls_outline_1951">
+<p>Rawls, John. 1951. “Outline of a Decision Procedure for Ethics.” <em>The Philosophical Review</em> 60 (2): 177–97. doi:<a href="https://doi.org/10.2307/2181696">10.2307/2181696</a>.</p>
+</div>
+<div id="ref-rudolph_dynamic_2018">
+<p>Rudolph, Maja, and David Blei. 2018. “Dynamic Embeddings for Language Evolution.” In <em>Proceedings of the 2018 World Wide Web Conference</em>, 1003–11. WWW ’18. Republic; Canton of Geneva, Switzerland: International World Wide Web Conferences Steering Committee. doi:<a href="https://doi.org/10.1145/3178876.3185999">10.1145/3178876.3185999</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
