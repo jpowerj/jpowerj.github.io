@@ -2,7 +2,10 @@
   url: /
 #- title: Categories
 #  url: /categories/
+- title: About
+  url: /about/
 - title: Search
-  url: /search.html
+  url: /search/
 - title: "Academic Homepage"
   url: https://cs.stanford.edu/~jjacobs3
+  external: true

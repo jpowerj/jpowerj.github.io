@@ -55,7 +55,7 @@ footer_links:
 #  - title: Feed
 #    url: atom.xml
 #    icon: fas fa-rss-square
-copyright: "&copy; 2023 [Jeff Jacobs](https://cs.stanford.edu/~jjacobs3). Powered by [Jekyll](https://jekyllrb.com/) &amp; [So Simple](https://github.com/mmistakes/so-simple-theme)."
+copyright: "&copy; 2023 <a href=\"https://cs.stanford.edu/~jjacobs3\" target=\"blank\">Jeff Jacobs</a>. Powered by <a href=\"https://jekyllrb.com\" target=\"blank\">Jekyll</a> &amp; <a href=\"https://github.com/mmistakes/so-simple-theme\" target=\"_blank\">So Simple</a>."
 exclude: ["*.qmd"]
 kramdown:
   parse_block_html: true
