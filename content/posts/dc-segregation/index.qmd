@@ -1,0 +1,48 @@
+---
+title: "Visualizing Segregation in DC"
+date: 2023-11-27
+categories: 
+  - Matplotlib
+  - Coordinates
+format: hugo-md
+# weight: 1
+aliases: ["/dc-segregation"]
+# tags: ["first"]
+author: "Jeff Jacobs"
+# author: ["Me", "You"] # multiple authors
+showToc: true
+TocOpen: false
+draft: false
+hidemeta: false
+comments: false
+# description: "Desc Text."
+# canonicalURL: "https://canonical.url/to/page"
+disableHLJS: true # to disable highlightjs
+disableShare: false
+hideSummary: false
+searchHidden: true
+ShowReadingTime: false
+ShowBreadCrumbs: true
+ShowPostNavLinks: true
+ShowWordCount: false
+ShowRssButtonInSectionTermList: false
+UseHugoToc: false
+# cover:
+#     image: "<image path/url>" # image path/url
+#     alt: "<alt text>" # alt text
+#     caption: "<text>" # display caption under cover
+#     relative: true # when using page bundles set this to true
+#     hidden: true # only hide on current single page
+# editPost:
+#     URL: "https://github.com/<path_to_repo>/content"
+#     Text: "Suggest Changes" # edit text
+#     appendFilePath: true # to append file path to Edit link
+---
+
+Long story short, Pew Research used to have an incredible set of maps visualizing how extreme segregation is in DC, race-wise as well as socioeconomic. A screenshot from this old visualization shows what it looked like:
+
+![Pew's visualization of socioeconomic segregation in DC](images/dc_income.jpeg)
+
+Unfortunately, all of these visualizations used MapBox, which seems to just totally not exist anymore (at least, these particular maps are long gone), so that when you try to [view these visualizations](https://www.pewresearch.org/social-trends/income-segregation/washington-dc/){target='_blank'} on Pew's website nowadays, you just get a blank page.
+
+So, in this document, I recreate the above maps, using open-source libraries in R to (hopefully) allow interactive visualization of this important information that will last longer than the previous versions in MapBox's proprietary format!
