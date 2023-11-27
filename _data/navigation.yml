@@ -6,6 +6,6 @@
   url: /about/
 - title: Search
   url: /search/
-- title: "Academic Homepage"
+- title: "Academic Homepage<i class='bi bi-box-arrow-up-right ps-1'></i>"
   url: https://cs.stanford.edu/~jjacobs3
   external: true

@@ -1,9 +1,11 @@
 .active {
     /* border-color: #fff !important; */
+    color: white !important;
     border-color: #c0c0c0 !important;
 }
 
 .active:hover {
+    color: white !important;
     border-color: #fff !important;
 }
 
@@ -81,6 +83,11 @@
 
 .moresmall {
     font-size: 80% !important;
+}
+
+.site-nav a:hover {
+    color: white !important;
+    border-color: #fff;
 }
 
 .smallmath .math.inline {

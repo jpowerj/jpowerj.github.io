@@ -97,36 +97,6 @@ dists %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | iso_o | iso_d |       dist |    distcap | distw              | distwces           |  distw_num |
 |:------|:------|-----------:|-----------:|:-------------------|:-------------------|-----------:|
 | ABW   | AFG   | 13257.8100 | 13257.8100 | 13168.219999999999 | 13166.370000000001 | 13168.2200 |
@@ -189,36 +159,6 @@ dists %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country_o | country_d   | iso_o | iso_d |       dist |    distcap | distw              | distwces           |  distw_num |
 |:----------|:------------|:------|:------|-----------:|-----------:|:-------------------|:-------------------|-----------:|
 | Aruba     | Afghanistan | ABW   | AFG   | 13257.8100 | 13257.8100 | 13168.219999999999 | 13166.370000000001 | 13168.2200 |
@@ -272,36 +212,6 @@ mean_dists %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country     | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw        | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:--------------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
 | Afghanistan |  7490.292 |    6351.646 | 16353.90 | Chile       | 374.6522 | Pakistan        |   7442.843 |     6443.254 |  16262.29 | Chile        |  13290.70 |  498.4332 | Tajikistan          |     7480.183 |       6351.646 |    16353.90 | Chile          |    374.6522 | Pakistan        |
@@ -347,36 +257,6 @@ sorted_mean %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country    | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:-----------|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
 | Albania    |  6383.108 |    5795.587 | 17971.90 | New Zealand | 155.9628 | North Macedonia |   6328.318 |     5625.398 |  17853.96 | New Zealand  |  11658.82 |  168.1648 | North Macedonia |     6370.987 |       5747.847 |    17971.90 | New Zealand    |    155.9628 | North Macedonia |
@@ -401,36 +281,6 @@ sorted_mean %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country     | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|----------:|------------:|---------:|:------------|----------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -462,36 +312,6 @@ sorted_median %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country | median_dist | mean_dist | max_dist | argmax_dist |  min_dist | argmin_dist       | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw      | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:--------|------------:|----------:|---------:|:------------|----------:|:------------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:------------------|-------------:|---------------:|------------:|:---------------|------------:|:---------------|
 | Sudan   |    5018.948 |  6848.041 | 17618.83 | Niue        |  681.6393 | Eritrea           |   6830.272 |     4954.066 |  17620.83 | Niue         |  12608.62 |  818.3794 | Eritrea           |     6836.581 |       5014.771 |    17618.83 | Niue           |    681.6393 | Eritrea        |
@@ -516,36 +336,6 @@ sorted_median %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country         | median_dist | mean_dist | max_dist | argmax_dist    | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw   | p90_distw | min_distw | argmin_distw  | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|------------:|----------:|---------:|:---------------|---------:|:----------------|-----------:|-------------:|----------:|:---------------|----------:|----------:|:--------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -580,36 +370,6 @@ sorted_mean_distw %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country    | mean_distw | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:-----------|-----------:|----------:|------------:|---------:|:------------|---------:|:----------------|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
 | Albania    |   6328.318 |  6383.108 |    5795.587 | 17971.90 | New Zealand | 155.9628 | North Macedonia |     5625.398 |  17853.96 | New Zealand  |  11658.82 |  168.1648 | North Macedonia |     6370.987 |       5747.847 |    17971.90 | New Zealand    |    155.9628 | North Macedonia |
@@ -634,36 +394,6 @@ sorted_mean_distw %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country     | mean_distw | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|-----------:|----------:|------------:|---------:|:------------|----------:|:----------------|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -696,36 +426,6 @@ sorted_median_distw %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country      | median_distw | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist | mean_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:-------------|-------------:|----------:|------------:|---------:|:------------|----------:|:------------|-----------:|----------:|:-------------|----------:|----------:|:-------------|-------------:|---------------:|------------:|:---------------|------------:|:---------------|
 | Sudan        |     4954.066 |  6848.041 |    5018.948 | 17618.83 | Niue        | 681.63930 | Eritrea     |   6830.272 |  17620.83 | Niue         |  12608.62 | 818.37940 | Eritrea      |     6836.581 |       5014.771 |    17618.83 | Niue           |   681.63930 | Eritrea        |
@@ -750,36 +450,6 @@ sorted_median_distw %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country         | median_distw | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|-------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -819,36 +489,6 @@ sorted_meanmed_distw %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country | meanmed_distw | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:--------|--------------:|----------:|------------:|---------:|:------------|----------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
 | Egypt   |      5823.270 |  6526.851 |    5247.417 | 17570.36 | Niue        | 346.61500 | Palestine       |   6478.056 |     5168.484 |  17581.45 | Niue         |  12184.41 | 410.32890 | Palestine       |     6513.576 |       5247.417 |    17570.36 | Niue           |   346.61500 | Palestine       |
@@ -873,36 +513,6 @@ sorted_meanmed_distw %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country | meanmed_distw | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:--------|--------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -947,36 +557,6 @@ sorted_meancap %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country    | mean_distcap | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:-----------|-------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|---------------:|------------:|:---------------|------------:|:----------------|
 | Albania    |     6370.987 |  6383.108 |    5795.587 | 17971.90 | New Zealand | 155.9628 | North Macedonia |   6328.318 |     5625.398 |  17853.96 | New Zealand  |  11658.82 |  168.1648 | North Macedonia |       5747.847 |    17971.90 | New Zealand    |    155.9628 | North Macedonia |
@@ -1001,36 +581,6 @@ sorted_meancap %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country     | mean_distcap | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:------------|-------------:|----------:|------------:|---------:|:------------|----------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|---------------:|------------:|:---------------|------------:|:----------------|
@@ -1062,36 +612,6 @@ sorted_mediancap %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country | median_distcap | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist       | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw      | mean_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:--------|---------------:|----------:|------------:|---------:|:------------|----------:|:------------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:------------------|-------------:|------------:|:---------------|------------:|:---------------|
 | Sudan   |       5014.771 |  6848.041 |    5018.948 | 17618.83 | Niue        |  681.6393 | Eritrea           |   6830.272 |     4954.066 |  17620.83 | Niue         |  12608.62 |  818.3794 | Eritrea           |     6836.581 |    17618.83 | Niue           |    681.6393 | Eritrea        |
@@ -1116,36 +636,6 @@ sorted_mediancap %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country         | median_distcap | mean_dist | median_dist | max_dist | argmax_dist    | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw   | p90_distw | min_distw | argmin_distw  | mean_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|---------------:|----------:|------------:|---------:|:---------------|---------:|:----------------|-----------:|-------------:|----------:|:---------------|----------:|----------:|:--------------|-------------:|------------:|:---------------|------------:|:----------------|
@@ -1179,36 +669,6 @@ sorted_meanmed_distcap %>% head(disp_n)
 
 <div class="table-wrapper" markdown="block">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 | country   | meanmed_capdist | mean_dist | median_dist | max_dist | argmax_dist |  min_dist | argmin_dist | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap |
 |:----------|----------------:|----------:|------------:|---------:|:------------|----------:|:------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:-------------|-------------:|---------------:|------------:|:---------------|------------:|:---------------|
 | Egypt     |        5880.496 |  6526.851 |    5247.417 | 17570.36 | Niue        | 346.61500 | Palestine   |   6478.056 |     5168.484 |  17581.45 | Niue         |  12184.41 | 410.32890 | Palestine    |     6513.576 |       5247.417 |    17570.36 | Niue           |   346.61500 | Palestine      |
@@ -1233,36 +693,6 @@ sorted_meanmed_distcap %>% tail(disp_n)
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 | country         | meanmed_capdist | mean_dist | median_dist | max_dist | argmax_dist | min_dist | argmin_dist     | mean_distw | median_distw | max_distw | argmax_distw | p90_distw | min_distw | argmin_distw    | mean_distcap | median_distcap | max_distcap | argmax_distcap | min_distcap | argmin_distcap  |
 |:----------------|----------------:|----------:|------------:|---------:|:------------|---------:|:----------------|-----------:|-------------:|----------:|:-------------|----------:|----------:|:----------------|-------------:|---------------:|------------:|:---------------|------------:|:----------------|
@@ -1301,36 +731,6 @@ write_csv(mean_dists, "../assets/data/country_dists.csv")
 </details>
 
 <div class="table-wrapper" markdown="block">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 [^1]: Officially called [*départements et régions
     d’outre-mer*](https://en.wikipedia.org/wiki/Overseas_departments_and_regions_of_France)
