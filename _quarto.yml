@@ -1,9 +1,16 @@
 project:
-  type: hugo
+  type: website
+  output-dir: docs
       
 format: 
-  hugo-md:
-    code-fold: true
+  html:
+    theme: cosmo
+    css: styles.css
+website:
+  title: "Jeff's Rants"
+  navbar:
+    right:
+      - ""
   
 execute: 
   warning: false

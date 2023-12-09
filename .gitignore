@@ -11,3 +11,5 @@ vendor
 *.dbf
 *.prj
 *.shx
+.RData
+.Rhistory
