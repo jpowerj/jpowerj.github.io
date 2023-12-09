@@ -71,9 +71,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -127,7 +127,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="GIS">GIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Inequality">Inequality <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Segregation">Segregation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Urban Studies">Urban Studies <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -139,25 +139,45 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1702093063544" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="0" data-categories="Urban Studies,GIS,Segregation,Inequality" data-listing-date-sort="1701061200000" data-listing-file-modified-sort="1702093371413" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
 <div class="thumbnail">
 <p><a href="./posts/dc-segregation/index.html"> <p class="card-img-top"><img src="posts/dc-segregation/images/dc_income.jpeg"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
 <div class="body">
 <a href="./posts/dc-segregation/index.html">
 <h3 class="no-anchor listing-title">
-Data Overview
+Visualizing Segregation in DC
 </h3>
 <div class="listing-subtitle">
 
 </div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Urban Studies'); return false;">
+Urban Studies
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('GIS'); return false;">
+GIS
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Segregation'); return false;">
+Segregation
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Inequality'); return false;">
+Inequality
+</div>
+</div>
+<a href="./posts/dc-segregation/index.html">
 <div class="listing-description">
-Long story short, Pew Research used to…
+About ten years ago, Pew Research released an incredible…
 </div>
 </a>
 </div>
 <div class="metadata">
-<a href="./posts/dc-segregation/index.html"> </a>
+<a href="./posts/dc-segregation/index.html">
+<div class="listing-date">
+Nov 27, 2023
+</div>
+</a>
 </div>
 </div>
 </div>
