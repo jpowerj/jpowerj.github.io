@@ -5,3 +5,9 @@ _site
 vendor
 
 /.quarto/
+*.csv
+*.shp
+*.cpg
+*.dbf
+*.prj
+*.shx
