@@ -16,6 +16,7 @@ website:
   title: "Jeff's Rants"
   favicon: favicon.png
   navbar:
+    pinned: true
     right:
       - text: "GU Homepage"
         icon: house
