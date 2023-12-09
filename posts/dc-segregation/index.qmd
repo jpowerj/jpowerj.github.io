@@ -1,5 +1,18 @@
+---
+title: "Visualizing Segregation in DC"
+date: 2023-11-27
+categories: 
+  - Urban Studies
+  - GIS
+  - Segregation
+  - Inequality
+aliases: ["/dc-segregation"]
+format:
+  html:
+    df-print: kable
+---
 
-Long story short, Pew Research used to have an incredible set of maps visualizing how extreme segregation is in DC, race-wise as well as socioeconomic. A screenshot from this old visualization shows what it looked like:
+About ten years ago, Pew Research released an incredible set of maps visualizing how extreme segregation is in DC, race-wise as well as socioeconomic. A screenshot from this old set of visualizations shows what they used to look like:
 
 ![Pew's visualization of socioeconomic segregation in DC](images/dc_income.jpeg)
 
