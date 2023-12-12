@@ -135,6 +135,8 @@ geo_df = gpd.GeoDataFrame(geo_df_pd)
 geo_df.set_index('GEOID', inplace=True)
 ```
 
+## Visualizing with Plotly
+
 And now, finally, we can make use of Plotly's `Cloropethmapbox` object to create a **Cloropeth map** of the different income levels:
 
 ```{python}
