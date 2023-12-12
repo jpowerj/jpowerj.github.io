@@ -18,8 +18,8 @@ website:
   navbar:
     pinned: true
     right:
-      - text: "GU Homepage"
-        icon: house
+      - text: "GU Homepage<i class='bi bi-box-arrow-up-right ps-2'></i>"
+        #icon: box-arrow-up-right
         href: "https://jpj.georgetown.domains"
       # - text: "<dark-mode-toggle id='theme-toggle' class='slider' appearance='toggle' permanent='true'></dark-mode-toggle>"
       #   href: "#"
