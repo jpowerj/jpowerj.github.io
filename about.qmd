@@ -3,6 +3,16 @@ title: "Jeff Jacobs"
 format:
   html:
     toc: false
+about:
+  template: jolla
+  image: website_crop.jpg
+  links:
+    - icon: house
+      text: "Academic Homepage"
+      href: https://cs.stanford.edu/~jjacobs3
+    - icon: github
+      text: Github
+      href: https://github.com/jpowerj
 ---
 
 Hi, I'm Jeff Jacobs! I am an Assistant Teaching Professor of Data Science and Analytics at Georgetown University.
