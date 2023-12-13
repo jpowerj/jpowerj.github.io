@@ -1,0 +1,12 @@
+- name: "Power in Equilibrium: An Economic Measure of Secured Non-Domination"
+  authors: ["Jeff Jacobs", "Suresh Naidu"]
+  is_chapter: True
+  journal: "Liberty: Philosophical, Political, and Economic Perspectives \\normalfont{(forthcoming)}"
+  publisher: "Cambridge University Press"
+  year: 2023
+- authors: ["Jeff Jacobs"]
+  name: "Automated Content Analysis and the 1789 \\textit{Cahiers de Dol\\'{e}ances}"
+  journal: "Phenomenal World \\normalfont{Blog}"
+  vol_info: "Jain Family Institute"
+  year: 2022
+  link: "https://phenomenalworld.org/"

@@ -1,0 +1,62 @@
+<!-- Publications -->
+
+<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="publications" name="publications">
+    <div class="my-auto">
+        <h2 class="mb-5">Publications</h2>
+        <!--<h3 class="mb-1">2020</h3>-->
+        {% for pub in site.data.publications %}
+        {% if forloop.last %}
+          {% assign div_mb = 5 %}
+        {% else %}
+          {% assign div_mb = 3 %}
+        {% endif %}
+        <div class="resume-item d-flex flex-column col-md-12 flex-md-row mb-{{ div_mb }} bg-primary-very-opaque">
+            <div class="w-100 text-light">
+                <h4 class="mb-0">{{ pub.name }}</h4>
+                <p class="mb-0 text-dark">
+                    {% for auth in pub.authors %}
+                        {% if auth == "Jeff Jacobs" %}
+                          {% assign authname = "<b>Jeff Jacobs</b>" %}
+                        {% else %}
+                          {% assign authname = auth %}
+                        {% endif %}
+                        {% if forloop.last and forloop.length > 1 %}and {% endif %}{{ authname }}{% unless forloop.last %}{% unless forloop.length == 2 %}, {% endunless %}{% endunless %}
+                    {% endfor %}
+                </p>
+                <p class="mb-1 text-dark"><i>{{ pub.journal }}</i>{%if pub.vol_info %}, {{ pub.vol_info }}{% endif %}. {{ pub.year }}.</p>
+                <p class="mb-0"><a
+                        href="{{ pub.link }}"
+                        class="paper-link" title="PDF" target="_blank" rel="noopener noreferrer"><i
+                            class="fas fa-file-pdf fa-2x"></i></a></p>
+            </div>
+        </div>
+        {% endfor %}
+
+        <h3 class="mb-1">Working Papers</h3>
+
+        <div class="resume-item d-flex flex-column col-md-12 flex-md-row mb-3 bg-primary-very-opaque">
+            <div class="w-100 text-light">
+                <h4 class="mb-0">How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation
+                    Analysis</h4>
+                <p class="mb-1 text-dark">Last Updated September 1, 2018</p>
+                <p class="mb-0"><a href="https://cs.stanford.edu/~jjacobs3/Jacobs-Translations_Paper_2018-09-01.pdf"
+                        class="paper-link" title="PDF" target="_blank" rel="noopener noreferrer"><i
+                            class="fas fa-file-pdf fa-2x"></i></a></p>
+            </div>
+        </div>
+
+        <div class="resume-item d-flex flex-column col-md-12 flex-md-row mb-5 bg-primary-very-opaque">
+            <div class="w-100 text-light">
+                <h4 class="mb-0">"Simultaneous and Systematic Abolition": Automated Content Analysis of the 1789 Cahiers de Doleances</h4>
+                <p class="mb-1 text-dark">Last Updated June 1, 2018</p>
+                <p class="mb-0"><a href="https://cs.stanford.edu/~jjacobs3/Jacobs-Cahiers_Paper_2018-06-01.pdf"
+                        class="paper-link" title="PDF" target="_blank" rel="noopener noreferrer"><i
+                            class="fas fa-file-pdf fa-2x"></i></a></p>
+            </div>
+        </div>
+
+        <h3 class="mb-1">Invited Talks</h3>
+
+        {% include talks.html %}
+    </div>
+</section>

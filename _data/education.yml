@@ -1,0 +1,18 @@
+schools:
+  - name: "Columbia University"
+    loc: "New York, NY, USA"
+    degrees:
+      - name: "PhD in Political Science"
+        date: "Sep 2022"
+      - name: "MA, MPhil in Political Science"
+        date: "May 2016, May 2018"
+  - name: "Stanford University"
+    loc: "Palo Alto, CA, USA"
+    degrees:
+      - name: "MS in Computer Science"
+        date: "May 2014"
+  - name: "University of Maryland"
+    loc: "College Park, MD, USA"
+    degrees:
+      - name: "BS in Mathematics, BS in Computer Science, BA in Economics"
+        date: "May 2012"

@@ -1,0 +1,6 @@
+employers:
+  - name: "Georgetown University"
+    loc: "Washington, DC, USA"
+    position: "Assistant Teaching Professor, Data Science and Analytics"
+    start_date: "Aug 2023"
+    end_date: "Present"
