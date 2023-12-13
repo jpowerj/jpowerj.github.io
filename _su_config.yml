@@ -27,7 +27,8 @@ baseurl: "/~jjacobs3"
 twitter_username: jpowerj
 github_username:  jpowerj
 destination: _docs_su/
-exclude: [docs]
+exclude:
+  - docs/
 
 # Build settings
 #theme: minima
