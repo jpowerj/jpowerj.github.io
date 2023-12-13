@@ -23,11 +23,14 @@
                 
                 <div class="resume-item d-flex flex-column col-md-12 mb-{{ div_mb }} bg-primary-very-opaque">
                     <div class="resume-content-header d-flex flex-md-row">
+                        {% if course.url %} <a href="{{ course.url }}" target="_blank" style="text-decoration: none;"> {%- endif -%}
                         <h4 class="mb-0 flex-grow-1">
-                            {% if course.url %} <a href="{{ course.url }}" target="_blank" style="text-decoration: none;"> {%- endif -%}
                             {% if course.dept_code and course.course_num %}
                               {{ course.dept_code }} {{ course.course_num }}:&nbsp;
-                            {%- endif -%} {{ course.name }}{% if course.url %} <i class='bi bi-box-arrow-up-right ps-1'></i></a>{%- endif -%}</h4>
+                            {%- endif -%} {{ course.name }}{% if course.url %} <i class='bi bi-box-arrow-up-right ps-1'></i>{%- endif -%}
+                        </h4>
+                        {% if course.url %}
+                        </a>{%- endif -%}
                         <div class="resume-date text-md-end align-self-center">
                             <span class="text-dark">{{ course.terms[0] }}</span>
                         </div>
