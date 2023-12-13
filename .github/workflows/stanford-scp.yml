@@ -15,7 +15,7 @@ jobs:
         port: ${{ secrets.SU_PORT }}
         #key: ${{ secrets.SSH_PRIVATE_KEY }}
         #passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
-        source: "docs_su/*"
+        source: "_docs_su/*"
         target: ${{ secrets.SU_PATH }}
         strip_components: 1
         overwrite: true
