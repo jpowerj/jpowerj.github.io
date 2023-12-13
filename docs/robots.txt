@@ -1,1 +1,1 @@
-Sitemap: https://jjacobs.me/homepage/sitemap.xml
+Sitemap: https://jjacobs.me/sitemap.xml
