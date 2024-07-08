@@ -8,5 +8,7 @@
   anchor: "data-software"
 - name: "Teaching"
   anchor: "teaching"
+- name: "Links"
+  anchor: "links"
 - name: "Writings"
   href: "https://jjacobs.me/blog"
