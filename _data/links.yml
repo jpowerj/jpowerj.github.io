@@ -1,7 +1,3 @@
-- name: "Blog"
-  url: "https://jjacobs.me/blog"
-  url_text: "jjacobs.me/blog"
-  description: "Sporadic posts about things that didn't make the cut as full papers."
 - name: "Daily Atrocity"
   url: "https://dailyatrocity.us"
   url_text: "DailyAtrocity.US"
