@@ -4,8 +4,6 @@
   anchor: "cv"
 - name: "Publications"
   anchor: "publications"
-- name: "Dissertation"
-  anchor: "dissertation"
 - name: "Data / Software"
   anchor: "data-software"
 - name: "Teaching"
