@@ -1,0 +1,275 @@
+---
+import PageLayout from '../layouts/BaseLayout.astro'
+import Section from '../components/Section.astro'
+import Card from '../components/Card.astro'
+import PubCard from '../components/PubCard.astro'
+import LRCard from '../components/LRCard.astro'
+import CardMulti from '../components/CardMulti.astro'
+import ProjectCard from '../components/ProjectCard.astro'
+import Label from '../components/Label.astro'
+import SkillLayout from '../components/SkillLayout.astro'
+// import PostPreview from '@/components/blog/PostPreview.astro'
+
+import { Image } from 'astro:assets'
+import profilePic from '../assets/profile.jpg'
+
+// import { getAllPosts, sortMDByDate } from '@/utils'
+
+const languages = ['lorem', 'ipsum']
+const frontend = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+const backend = ['lorem', 'ipsum', 'lorem', 'ipsum']
+const others = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+
+// const MAX_POSTS = 10
+// const allPosts = await getAllPosts()
+// const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+---
+
+<PageLayout meta={{ title: 'Home' }}>
+	<div class='flex w-full flex-col gap-y-10'>
+		<section class='flex flex-col items-center gap-y-7'>
+			<Image
+				src={profilePic}
+				alt='profile photo'
+				class='h-48 w-auto rounded-full bg-[#FFBE98] p-1'
+				loading='eager'
+			/>
+
+			<div class='flex flex-col items-center gap-y-4'>
+				<h1 class='text-3xl font-bold'>Jeff Jacobs <span style="font-size: 50%;">(He/him)</span></h1>
+				<div class='flex flex-wrap justify-center gap-x-3 gap-y-1'>
+					<Label title='Assistant Professor'>
+						<svg class='h-4 w-4' slot='icon' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suitcase-lg" viewBox="0 0 16 16">
+							<path d="M5 2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2h3.5A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5H14a.5.5 0 0 1-1 0H3a.5.5 0 0 1-1 0h-.5A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2zm1 0h4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1M1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5H3V3zM15 12.5v-9a.5.5 0 0 0-.5-.5H13v10h1.5a.5.5 0 0 0 .5-.5m-3 .5V3H4v10z"/>
+						  </svg>
+					</Label>
+					<Label title='Data Science and Public Policy'>
+						<svg slot='icon' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+							<path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+							<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
+						  </svg>
+					</Label>
+					<Label title='Georgetown University'>
+						<svg slot='icon' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+							<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+							<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+						  </svg>
+					</Label>
+				</div>
+			</div>
+		</section>
+
+		<Section title='About'>
+			<p>
+				Welcome! I teach classes in the <a href='https://analytics.georgetown.edu' target="_blank" style="text-decoration: underline;">Data Science and Analytics</a> program and <a href='https://mccourt.georgetown.edu/' target="_blank" style="text-decoration: underline;">McCourt School of Public Policy</a> at <b>Georgetown University</b>.
+			</p>
+			<p>
+				I received my PhD in <b>Political Science</b> from <b>Columbia University</b> in 2022, with a dissertation on quantitative approaches to studying the history of political thought. During the PhD I worked as an Adjunct Instructor in NYU's <a href='https://cds.nyu.edu/' target="_blank" style="text-decoration: underline;">Center for Data Science</a> and Research Assistant in Columbia's <a href='https://www.sipa.columbia.edu/' target="_blank" style="text-decoration: underline;">School of International and Public Affairs (SIPA)</a>.
+			</p>
+			<p>
+				My research in <b>political science</b> mainly pertains to the history of political thought and what I call "computational political theory" (Natural Language Processing + Network Analysis + Political Theory)
+			</p>
+			<p>
+				My research in <b>economics</b> focuses on empirical, text-analytic studies of monopsony and collective bargaining in modern and historical labor markets.
+			</p>
+		</Section>
+
+		<Section title='Publications'>
+			<PubCard
+				heading='Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements'
+				subheading='Elliott Ash, Jeff Jacobs, Bentley MacLeod, Suresh Naidu, and Dominik Stammbach'
+				date='Proceedings of the 20th IEEE International Conference on Data Mining -- International Workshop on Mining and Learning in the Legal Domain (ICDM-MLLD). 2020.'
+			>
+				<!-- <ul class='ml-4 list-disc text-muted-foreground'>
+					<li>
+						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
+						molestiae laboriosam pariatur!
+
+						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+					</li>
+				</ul> -->
+			</PubCard>
+			<PubCard
+				heading='Monopsony in Online Labor Markets'
+				subheading='Arindrajit Dube, Jeff Jacobs, Suresh Naidu, and Siddharth Suri'
+				date='American Economic Review: Insights, (2)1: 33-46. 2020.'
+			/>
+			<PubCard
+				heading='How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation Analysis'
+				subheading='Jeff Jacobs'
+				date='Ninth Annual Conference on New Directions in Analyzing Text as Data (TADA). 2018.'
+			/>
+			<PubCard
+				heading='Information Cartography: Creating Zoomable, Large-Scale Maps of Information'
+				subheading='Dafna Shahaf, Jaewon Yang, Caroline Suen, Jeff Jacobs, Heidi Wang, and Jure Leskovec'
+				date='Proceedings of the ACM International Conference on Knowledge Discovery and Data Mining (KDD), 1097-1105. 2013.'
+			/>
+			<PubCard
+				heading='Metaheuristic Approaches to Resource Scheduling in Heterogeneous Wireless Networks'
+				subheading='Cristy Duan, Honghao Gao, Jeff Jacobs, and Weixiang Wu'
+				date='Joint Mathematics Meetings (JMM). 2012.'
+			/>
+			<PubCard
+				heading='Evolving Musical Counterpoint: The Chronopoint Genetic Algorithm'
+				subheading='Jeff Jacobs and James Reggia'
+				date='Proceedings of the 2011 IEEE Congress on Evolutionary Computation, 11-16. 2011.'
+			/>
+
+
+
+
+
+
+<!-- 
+
+
+
+Dissertation
+"Our Word is Our Weapon": Text-Analyzing Wars of Ideas from the French Revolution to the First World War
+
+Defended on September 23, 2022
+
+Working Papers
+How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation Analysis
+
+Last Updated September 1, 2018
+
+"Simultaneous and Systematic Abolition": Automated Content Analysis of the 1789 Cahiers de Doleances
+
+Last Updated June 1, 2018
+
+Invited Talks
+How to Do Things with Translations: Cross-Lingual Semantic Phrase Embeddings for Translation Analysis
+Feb 2021
+
+Theories of Translation Workshop
+
+Ohio State University, Columbus, OH, USA
+
+"Our Word is Our Weapon": Language, Resistance, and Revolution
+Nov 2019
+
+Columbia Natural Language Processing Lab
+
+Columbia University, New York, NY, USA
+
+Fi Hadal Habs: Text-Analyzing the Underground Communiques of the Palestinian Intifadas
+Oct 2018
+
+Critical Media and Digital Studies Workshop
+
+Columbia University, New York, NY, USA
+
+The Point is to Change It: Theoretical Innovation and Political Practice in the History of Marxism
+Jun 2018
+
+2018 Graduate Workshop in Computational Social Science
+
+Santa Fe Institute, Santa Fe, NM, USA
+
+Automated Content Analysis and the 1789 Cahiers de Doléances
+Jun 2018
+
+5th Annual Politics and History Conference
+
+University of Barcelona, Barcelona, Spain
+
+Word Embeddings: Can Vectors Encode Meaning?
+Feb 2018
+
+with Katy Gero, Harvard University
+
+NYC Digital Humanities Week
+
+Columbia University, New York, NY, USA -->
+
+
+		</Section>
+
+		<Section title='Education'>
+			<CardMulti
+				heading='Columbia University'
+				sub1="PhD in Political Science, Sep 2022"
+				sub2="MPhil in Political Science, May 2018"
+				sub3="MA in Political Science, May 2016"
+			>
+				<!-- <ul class='ml-4 list-disc text-muted-foreground'>
+					<li>
+						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
+						molestiae laboriosam pariatur!
+
+						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+					</li>
+				</ul> -->
+			</CardMulti>
+			<CardMulti
+				heading='Stanford University'
+				sub1='MS in Computer Science, May 2014'
+			/>
+			<CardMulti
+				heading='University of Maryland'
+				sub1='BS in Computer Science, BS in Mathematics, BA in Economics, May 2012'
+			/>
+		</Section>
+
+		<!-- <Section title='Projects'>
+			<div class='flex flex-col gap-y-3 sm:flex-row sm:gap-x-3 sm:gap-y-0'>
+				<ProjectCard
+					href='https://www.google.com'
+					heading='Consectetur'
+					subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit.'
+					imagePath='/src/assets/coming-soon.png'
+					altText='Example'
+					class='w-full sm:w-1/2'
+				/>
+				<ProjectCard
+					as='div'
+					heading='Coming soon...'
+					subheading=''
+					imagePath='/src/assets/coming-soon.png'
+					altText='Lorem, ipsum dolor sit'
+					class='w-full sm:w-1/2'
+				/>
+			</div>
+		</Section> -->
+
+		<!-- <Section title='Certifications'>
+			<Card
+				as='a'
+				heading='Lorem ipsum, dolor sit amet consectetur adipisicing.'
+				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta magni consequuntur corrupti.'
+				date='Mar 2024 - Mar 2024'
+				href='https://www.google.com'
+			/>
+			<Card
+				as='a'
+				heading='Lorem ipsum, dolor sit amet'
+				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta.'
+				date='Mar 2029 - Mar 2032'
+				href='https://www.google.com'
+			/>
+		</Section> -->
+
+		<!-- <Section title='Skills'>
+			<SkillLayout title='Languages' skills={languages} />
+			<SkillLayout title='Frontend' skills={frontend} />
+			<SkillLayout title='Backend' skills={backend} />
+			<SkillLayout title='Others' skills={others} />
+		</Section> -->
+
+		<Section title='Links'>
+			<Card
+				as='a'
+				heading="Jeff's Second Brain"
+				subheading='For sporadic notes / ideas, grouped together using Obsidian.md'
+				href='https://jjacobs.me/notebooks'
+			/>
+			<Card
+				as='a'
+				heading='DailyAtrocity.US'
+				subheading='A daily calendar documenting the horrors rained down upon the rest of the world by the US'
+				href='https://dailyatrocity.us'
+			/>
+		</Section>
+	</div>
+</PageLayout>
