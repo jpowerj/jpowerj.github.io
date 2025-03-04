@@ -74,11 +74,11 @@ export default defineConfig({
   // root: './my-project-directory',
 
   // Prefetch Options
-  prefetch: true,
+  // prefetch: true,
   // Server Options
-  server: {
-    host: true
-  },
+  // server: {
+  //   host: true
+  // },
   // Markdown Options
   markdown: {
     remarkPlugins: [remarkMath],
