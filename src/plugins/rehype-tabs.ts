@@ -101,12 +101,12 @@ const tabsProcessor = rehype()
  * each tab panel correctly.
  * @param html Inner HTML passed to the `<Tabs>` component.
  */
-export const processPanels = (html: string) => {
-  const file = tabsProcessor.processSync({ value: html })
-  return {
-    /** Data for each tab panel. */
-    panels: file.data.panels,
-    /** Processed HTML for the tab panels. */
-    html: file.toString()
-  }
-}
+// export const processPanels = (html: string) => {
+//   const file = tabsProcessor.processSync({ value: html })
+//   return {
+//     /** Data for each tab panel. */
+//     panels: file.data.panels,
+//     /** Processed HTML for the tab panels. */
+//     html: file.toString()
+//   }
+// }
