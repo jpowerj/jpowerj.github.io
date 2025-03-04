@@ -1,123 +1,174 @@
 ---
-import PageLayout from '@/layouts/BaseLayout.astro'
-import ToolSection from '@/components/ToolSection.astro'
-import Button from '@/components/Button.astro'
+import { Image } from 'astro:assets'
 
-const gu_classes = [
-	{
-		name: 'DSAN 6750 / PPOL 6805: Geographic Information Systems (GIS) and Spatial Data Science',
-		description: 'Fall 2024',
-		href: 'https://jjacobs.me/dsan6750',
-		iconPath: 'bi-compass',
-		iconBgColour: '#000001'
-	},
-	{
-		name: 'DSAN 5000: Data Science and Analytics',
-		description: 'Fall 2024',
-		href: 'https://jjacobs.me/dsan5000',
-		iconPath: 'bi-compass',
-		iconBgColour: '#000001'
-	},
-	{
-		name: 'DSAN 5100: Probabilistic Modeling and Statistical Computing',
-		description: 'Fall 2024',
-		href: 'https://jjacobs.me/dsan5100',
-		iconPath: 'bi-compass',
-		iconBgColour: '#000001'
-	},
-	{
-		name: 'DSAN 5450: Data Ethics and Policy',
-		description: 'Spring 2024',
-		href: 'https://jjacobs.me/dsan5450',
-		iconPath: 'bi-compass',
-		iconBgColour: '#000001'
-	},
-	{
-		name: 'DSAN 5500: Data Structures, Objects, and Algorithms in Python',
-		description: 'Spring 2024',
-		href: 'https://jjacobs.me/dsan5500',
-		iconPath: 'bi-compass',
-		iconBgColour: '#000001'
-	},
-]
+import type { iconsType } from 'astro-pure/types'
+import { Button, Icon } from 'astro-pure/user'
+import Collapse from '@/components/user/Collapse.astro'
+import PageLayout from '@/layouts/CommonPage.astro'
+import ProjectSection from '@/components/projects/ProjectSection.astro'
+import config from '@/site-config'
 
-const nyu_classes = [
-	{
-		name: 'DSUA 111: Data Science for Everyone',
-		description: 'Spring, Summer I, Summer II, Fall 2020',
-		href: 'https://cds.nyu.edu',
-		iconPath: 'bi-compass',
-		iconBgColour: '#414350'
-	},
-]
-
-const columbia_classes = [
-	{
-		name: 'QMSS 5067: Natural Language Processing for the Social Sciences',
-		description: 'Summer 2021',
-		href: 'https://columbia.edu',
-		iconPath: 'bi-compass',
-		iconBgColour: '#414350'
-	},
-]
-
-const stanford_classes = [
-	{
-		name: 'CS 103: Mathematical Foundations of Computing',
-		description: 'Autumn 2012, Winter 2013, Autumn 2013',
-		href: 'https://cs103.stanford.edu',
-		iconPath: 'bi-compass',
-		iconBgColour: '#2C2C32'
-	},
-	{
-		name: 'CS 109: Probability Theory for Computer Scientists',
-		description: 'Winter 2014, Spring 2014',
-		href: 'https://cs109.stanford.edu',
-		iconPath: 'bi-compass',
-		iconBgColour: '#06A67F'
-	}
-]
-
-const umd_classes = [
-	{
-		name: 'CMSC 132: Introduction to Object-Oriented Programming',
-		description: 'Fall 2010',
-		href: 'https://cs.umd.edu',
-		iconPath: 'bi-compass',
-		iconBgColour: '#2C2C32'
-	},
+const headings = [
+  { depth: 2, slug: 'georgetown', text: 'Georgetown' },
+  { depth: 2, slug: 'nyu', text: 'NYU' },
+  { depth: 2, slug: 'columbia', text: 'Columbia' },
+  { depth: 2, slug: 'stanford', text: 'Stanford' },
+  { depth: 2, slug: 'umd', text: 'Maryland' }
 ]
 ---
 
-<PageLayout meta={{ title: 'Home' }}>
-	<div class='w-full'>
-		<Button title='Back' href='/' style='button'>
-			<svg
-				xmlns='http://www.w3.org/2000/svg'
-				width='14'
-				height='14'
-				viewBox='0 0 24 24'
-				slot='icon-before'
-			>
-				<path
-					fill='currentColor'
-					d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'
-				>
-				</path>
-			</svg>
-		</Button>
+<PageLayout title='Teaching' {headings} info={{ slug: '/projects', hideComment: true }}>
+  <h2 id='georgetown'>Georgetown</h2>
+  <ProjectSection
+    class="my-2"
+    project={[
+      {
+        name: 'DSAN 5300: Statistical Learning',
+        description: 'Spring 2025',
+        links: [
+          // { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
+          { type: 'site', href: 'https://jjacobs.me/dsan5300-01' }
+        ]
+      },
+      {
+        name: 'DSAN 5450: Data Ethics and Policy',
+        description: 'Spring 2025',
+        links: [
+          // { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
+          { type: 'site', href: 'https://jjacobs.me/dsan5450' }
+        ]
+      },
+      {
+        name: 'DSAN 5500: Data Structures, Objects, and Algorithms in Python',
+        description: 'Spring 2025',
+        links: [
+          // { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
+          { type: 'site', href: 'https://jjacobs.me/dsan5500' }
+        ]
+      }
+    ]}
+  />
 
-		<div class='mt-5 flex w-full flex-col gap-y-5'>
-			<div>
-				<h1 class='mb-1 text-2xl font-bold'>Teaching</h1>
-				<p>Click on a course to go to its homepage!</p>
-			</div>
+  <h2 id='nyu'>NYU</h2>
 
-			<ToolSection title='Georgetown' tools={gu_classes} />
-			<ToolSection title='NYU' tools={nyu_classes} />
-			<ToolSection title='Columbia' tools={columbia_classes} />
-			<ToolSection title='Stanford' tools={stanford_classes} />
-			<ToolSection title='University of Maryland' tools={umd_classes} />
-		</div>
-	</div>
+  <ProjectSection
+    class="my-2"
+    project={[
+      {
+        name: 'DSUA 111: Data Science for Everyone',
+        description: '2019-2020',
+        links: [
+          { type: 'github', href: 'https://github.com/IJNKAWAKAZE/arknights_bot' },
+          { type: 'site', href: 'https://t.me/PtiIopsis_bot' }
+        ]
+      }
+    ]}
+  />
+  <Collapse title='DSUA 111: Data Science for Everyone Lecture Videos (Click to Expand / Collapse)'>
+    <ProjectSection
+      project={[
+        {
+          name: 'Lecture 1',
+          description: 'Introduction to Python',
+          links: [{ type: 'github', href: 'https://github.com/jpowerj/dsua111-sections' }]
+        },
+        {
+          name: 'Lecture 2',
+          description: 'Introduction to Data Science',
+          links: [
+            { type: 'site', href: 'https://github.com/jpowerj/dsua111-sections' }
+          ]
+        }
+      ]}
+    />
+  </Collapse>
+
+  <h2 id='columbia'>Columbia</h2>
+
+  <ProjectSection
+    class='my-2'
+    project={[
+      {
+        name: 'QMSS 6750: Natural Language Processing',
+        description: 'Columbia Quantitative Methods in the Social Sciences (QMSS) Program',
+        links: [{ type: 'github', href: 'https://github.com/jpowerj/qmss' }]
+      },
+      {
+        name: 'POLS 4712: Quantiative Political Analysis',
+        description: 'Graduate Political Science Course',
+        links: [
+          {
+            type: 'github',
+            href: 'https://github.com/jpowerj'
+          }
+        ]
+      },
+      {
+        name: 'HRTS 3001: Introduction to Human Rights',
+        description: 'Columbia Human Rights Program',
+        links: [
+          {
+            type: 'github',
+            href: 'https://github.com/jpowerj'
+          }
+        ]
+      },
+      {
+        name: 'POLS 1201: Introduction to American Politics',
+        description: 'Barnard College',
+        links: [
+          {
+            type: 'github',
+            href: 'https://github.com/jpowerj'
+          }
+        ]
+      }
+    ]}
+  />
+
+  <h2 id='stanford'>Stanford</h2>
+
+  <ProjectSection
+    class='my-2'
+    project={[
+      {
+        name: 'CS 103: Mathematical Foundations of Computing',
+        description: '2012 - 2014',
+        links: [{ type: 'github', href: 'https://cs103.stanford.edu' }]
+      },
+      {
+        name: 'CS 109: Probability Theory for Computer Scientists',
+        description: '2012 - 2014',
+        links: [
+          {
+            type: 'github',
+            href: 'https://cs109.stanford.edu'
+          }
+        ]
+      },
+      {
+        name: 'CS 229: Machine Learning',
+        description: '2012 - 2014',
+        links: [
+          {
+            type: 'github',
+            href: 'https://cs229.stanford.edu'
+          }
+        ]
+      },
+    ]}
+  />
+
+  <h2 id='umd'>Maryland</h2>
+
+  <ProjectSection
+    class="my-2"
+    project={[
+      {
+        name: 'CMSC 420: Data Structures',
+        description: "Data structures class for UMD juniors and seniors",
+        links: [{ type: 'github', href: 'https://github.com/jpowerj' }]
+      }
+    ]}
+  />
 </PageLayout>
