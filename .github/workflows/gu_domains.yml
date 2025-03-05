@@ -5,9 +5,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: copy file via ssh key
-      uses: appleboy/scp-action@v0.1.4
+    - uses: actions/checkout@v4
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.GU_HOST }}
         username: ${{ secrets.GU_USERNAME }}
