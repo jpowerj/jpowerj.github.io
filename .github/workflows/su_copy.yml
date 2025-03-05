@@ -13,7 +13,7 @@ jobs:
         username: ${{ secrets.SU_USERNAME }}
         password: ${{ secrets.SU_PASSWORD }}
         port: 22
-        source: "dist_static/*"
+        source: "dist_su/*"
         target: "/afs/cs.stanford.edu/u/jjacobs3/www/"
         strip_components: 1
         overwrite: true
