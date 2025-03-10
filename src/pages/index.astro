@@ -1,16 +1,15 @@
 ---
 import { Image } from 'astro:assets'
 
-import { Quote } from 'astro-pure/advanced'
-import { PostPreview } from 'astro-pure/components/pages'
+import PubPreview from '@/pages/PubPreview.astro'
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
-import { Button, Card, Icon, Label } from 'astro-pure/user'
+import { Button, Icon, Label } from 'astro-pure/user'
+import Card from '@/components/user/Card.astro'
+import LinkCard from '@/components/user/LinkCard.astro'
 import CardMulti from '@/components/user/CardMulti.astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import ProjectCard from '@/components/home/ProjectCard.astro'
 import Section from '@/components/home/Section.astro'
-import SkillLayout from '@/components/home/SkillLayout.astro'
-import avatar from '@/assets/avatar.png'
 import config from '@/site-config'
 
 const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
@@ -56,131 +55,133 @@ import profilePic from '../assets/profile.jpg'
 					</Label>
         </div>
       </div>
-
-      <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
-        <Section title='About'>
-          <p>
-            Welcome! I teach classes in the <a href='https://analytics.georgetown.edu' target="_blank" style="text-decoration: underline;">Data Science and Analytics</a> program and <a href='https://mccourt.georgetown.edu/' target="_blank" style="text-decoration: underline;">McCourt School of Public Policy</a> at <b>Georgetown University</b>.
-          </p>
-          <p>
-            I received my PhD in <b>Political Science</b> from <b>Columbia University</b> in 2022, with a <a href='https://doi.org/10.7916/k9s3-tq95' target='_blank' style='text-decoration: underline;'>dissertation</a> on using Large Language Models (LLMs) to trace the evolution of political thought. During the PhD I worked as an Adjunct Instructor in NYU's <a href='https://cds.nyu.edu/' target="_blank" style="text-decoration: underline;">Center for Data Science</a> and Research Assistant in Columbia's <a href='https://www.sipa.columbia.edu/' target="_blank" style="text-decoration: underline;">School of International and Public Affairs (SIPA)</a>.
-          </p>
-          <p>
-            My research in <b>political science</b> mainly pertains to the history of political thought and what I call "computational political theory" (Natural Language Processing + Network Analysis + Political Theory)
-          </p>
-          <p>
-            My research in <b>economics</b> focuses on empirical, text-analytic studies of monopsony and collective bargaining in modern and historical labor markets.
-          </p>
-        </Section>
-        <Section title='Publications'>
-          <Card
-            heading='Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements'
-            subheading='Elliott Ash, Jeff Jacobs, Bentley MacLeod, Suresh Naidu, and Dominik Stammbach'
-            date='Proceedings of the 20th IEEE International Conference on Data Mining -- International Workshop on Mining and Learning in the Legal Domain (ICDM-MLLD). 2020.'
-          >
-            <!-- <ul class='ml-4 list-disc text-muted-foreground'>
-              <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-                molestiae laboriosam pariatur!
-    
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-              </li>
-            </ul> -->
-          </Card>
-          <Card
-            heading='Monopsony in Online Labor Markets'
-            subheading='Arindrajit Dube, Jeff Jacobs, Suresh Naidu, and Siddharth Suri'
-            date='American Economic Review: Insights, (2)1: 33-46. 2020.'
-          />
-          <Card
-            heading='How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation Analysis'
-            subheading='Jeff Jacobs'
-            date='Ninth Annual Conference on New Directions in Analyzing Text as Data (TADA). 2018.'
-          />
-          <Card
-            heading='Information Cartography: Creating Zoomable, Large-Scale Maps of Information'
-            subheading='Dafna Shahaf, Jaewon Yang, Caroline Suen, Jeff Jacobs, Heidi Wang, and Jure Leskovec'
-            date='Proceedings of the ACM International Conference on Knowledge Discovery and Data Mining (KDD), 1097-1105. 2013.'
-          />
-          <Card
-            heading='Metaheuristic Approaches to Resource Scheduling in Heterogeneous Wireless Networks'
-            subheading='Cristy Duan, Honghao Gao, Jeff Jacobs, and Weixiang Wu'
-            date='Joint Mathematics Meetings (JMM). 2012.'
-          />
-          <Card
-            heading='Evolving Musical Counterpoint: The Chronopoint Genetic Algorithm'
-            subheading='Jeff Jacobs and James Reggia'
-            date='Proceedings of the 2011 IEEE Congress on Evolutionary Computation, 11-16. 2011.'
-          />
-        </Section>
-        <Section title='Education'>
-          <CardMulti
-            heading='Columbia University'
-            sub1="PhD in Political Science, Sep 2022"
-            sub2="MPhil in Political Science, May 2018"
-            sub3="MA in Political Science, May 2016"
-          >
-            <!-- <ul class='ml-4 list-disc text-muted-foreground'>
-              <li>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-                molestiae laboriosam pariatur!
-    
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-              </li>
-            </ul> -->
-          </CardMulti>
-          <CardMulti
-            heading='Stanford University'
-            sub1='MS in Computer Science, May 2014'
-          />
-          <CardMulti
-            heading='University of Maryland'
-            sub1='BS in Computer Science, BS in Mathematics, BA in Economics, May 2012'
-          />
-        </Section>
-
+    </section>
+    <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
+      <Section title='About'>
+        <p>
+          Welcome! I teach classes in the <a href='https://analytics.georgetown.edu' target="_blank" style="text-decoration: underline;">Data Science and Analytics</a> program and <a href='https://mccourt.georgetown.edu/' target="_blank" style="text-decoration: underline;">McCourt School of Public Policy</a> at <b>Georgetown University</b>.
+        </p>
+        <p>
+          I received my PhD in <b>Political Science</b> from <b>Columbia University</b> in 2022, with a <a href='https://doi.org/10.7916/k9s3-tq95' target='_blank' style='text-decoration: underline;'>dissertation</a> on using Large Language Models (LLMs) to trace the evolution of political thought. During the PhD I worked as an Adjunct Instructor in NYU's <a href='https://cds.nyu.edu/' target="_blank" style="text-decoration: underline;">Center for Data Science</a> and Research Assistant in Columbia's <a href='https://www.sipa.columbia.edu/' target="_blank" style="text-decoration: underline;">School of International and Public Affairs (SIPA)</a>.
+        </p>
+        <p>
+          My research in <b>political science</b> mainly pertains to the history of political thought and what I call "computational political theory" (Natural Language Processing + Network Analysis + Political Theory)
+        </p>
+        <p>
+          My research in <b>economics</b> focuses on empirical, text-analytic studies of monopsony and collective bargaining in modern and historical labor markets.
+        </p>
+      </Section>
+      <Section title='Publications'>
+        <PubPreview
+          title='Unsupervised Extraction of Workplace Rights and Duties from Collective Bargaining Agreements'
+          description='Elliott Ash, Jeff Jacobs, Bentley MacLeod, Suresh Naidu, and Dominik Stammbach',
+          venue='Proceedings of the 20th IEEE International Conference on Data Mining -- International Workshop on Mining and Learning in the Legal Domain (ICDM-MLLD). 2020.'
+          url='https://ieeexplore.ieee.org/document/9346539'
+          detailed={true}
+        />
+        <PubPreview
+          title='Monopsony in Online Labor Markets'
+          description='Arindrajit Dube, Jeff Jacobs, Suresh Naidu, and Siddharth Suri'
+          venue='American Economic Review: Insights, (2)1: 33-46. 2020.'
+          url="https://www.aeaweb.org/articles?id=10.1257/aeri.20180150"
+          detailed={true}
+        />
+        <PubPreview
+              title='How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation Analysis'
+              description='Jeff Jacobs'
+              venue='Ninth Annual Conference on New Directions in Analyzing Text as Data (TADA). 2018.'
+              url='https://cs.stanford.edu/~jjacobs3/Jacobs-Translations_Paper_2018-09-01.pdf'
+          detailed={true}
+        />
+        <PubPreview
+              title='Information Cartography: Creating Zoomable, Large-Scale Maps of Information'
+              description='Dafna Shahaf, Jaewon Yang, Caroline Suen, Jeff Jacobs, Heidi Wang, and Jure Leskovec'
+              venue='Proceedings of the ACM International Conference on Knowledge Discovery and Data Mining (KDD), 1097-1105. 2013.'
+              url='https://dl.acm.org/doi/10.1145/2487575.2487690'
+          detailed={true}
+        />
+        <PubPreview
+              title='Metaheuristic Approaches to Resource Scheduling in Heterogeneous Wireless Networks'
+              description='Cristy Duan, Honghao Gao, Jeff Jacobs, and Weixiang Wu'
+              venue='Joint Mathematics Meetings (JMM). 2012.'
+              url=''
+          detailed={true}
+        />
+        <PubPreview
+              title='Evolving Musical Counterpoint: The Chronopoint Genetic Algorithm'
+              description='Jeff Jacobs and James Reggia'
+              venue='Proceedings of the 2011 IEEE Congress on Evolutionary Computation, 11-16. 2011.'
+              url='https://arxiv.org/abs/1207.5560'
+          detailed={true}
+        />
+      </Section>
+      <Section title='Education'>
+        <CardMulti
+          heading='Columbia University'
+          sub1="PhD in Political Science, Sep 2022"
+          sub2="MPhil in Political Science, May 2018"
+          sub3="MA in Political Science, May 2016"
+        >
+          <!-- <ul class='ml-4 list-disc text-muted-foreground'>
+            <li>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
+              molestiae laboriosam pariatur!
+  
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+            </li>
+          </ul> -->
+        </CardMulti>
+        <CardMulti
+          heading='Stanford University'
+          sub1='MS in Computer Science, May 2014'
+        />
+        <CardMulti
+          heading='University of Maryland'
+          sub1='BS in Computer Science, BS in Mathematics, BA in Economics, May 2012'
+        />
+      </Section>
       <Section title='Teaching'>
-        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-          <ProjectCard
-            href='https://jjacobs.me/dsan5300-01'
-            heading='DSAN 5300: Statistical Learning'
-            subheading='Mondays, 6:30-9pm, Car Barn 203'
-            imagePath='/src/assets/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg'
-          />
-          <ProjectCard
-            href='https://jjacobs.me/dsan5450'
-            heading='DSAN 5450: Data Ethics and Policy'
-            subheading='Wednesdays, 3:30-6pm, Walsh 498'
-            imagePath='/src/assets/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg'
-          />
-          <ProjectCard
-            href='https://jjacobs.me/dsan5500'
-            heading='DSAN 5500: Data Structures and Algorithms in Python'
-            subheading='Thursdays, 6:30-9pm, Healy 104'
-            imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
-          />
-          <ProjectCard
-            href='https://jjacobs.me/dsan5650'
-            heading='DSAN 5650: Causal Inference for Computational Social Science'
-            subheading='Online Meetings (Zoom)'
-            imagePath='/src/assets/projects/wen-qiao-g_w8I64FiO0-unsplash.jpg'
-          />
-        </div>
-        <Button title='Previous Courses' class='w-fit self-end' href='/teaching' style='ahead' />
+      <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+        <ProjectCard
+          href='https://jjacobs.me/dsan5300-01'
+          heading='DSAN 5300: Statistical Learning'
+          subheading='Mondays, 6:30-9pm, Car Barn 203'
+          imagePath='/src/assets/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg'
+        />
+        <ProjectCard
+          href='https://jjacobs.me/dsan5450'
+          heading='DSAN 5450: Data Ethics and Policy'
+          subheading='Wednesdays, 3:30-6pm, Walsh 498'
+          imagePath='/src/assets/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg'
+        />
+        <ProjectCard
+          href='https://jjacobs.me/dsan5500'
+          heading='DSAN 5500: Data Structures and Algorithms in Python'
+          subheading='Thursdays, 6:30-9pm, Healy 104'
+          imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
+        />
+        <ProjectCard
+          href='https://jjacobs.me/dsan5650'
+          heading='DSAN 5650: Causal Inference for Computational Social Science'
+          subheading='Online Meetings (Zoom)'
+          imagePath='/src/assets/projects/wen-qiao-g_w8I64FiO0-unsplash.jpg'
+        />
+      </div>
+      <Button title='Previous Courses' class='w-fit self-end' href='/teaching' style='ahead' />
       </Section>
       <Section title='Links'>
-        <Card
-          as='a'
-          heading="Jeff's Second Brain"
-          subheading='For sporadic notes / ideas, grouped together using Obsidian.md'
-          href='https://jjacobs.me/notebooks'
-        />
-        <Card
-          as='a'
-          heading='DailyAtrocity.US'
-          subheading='A daily calendar documenting the horrors rained down upon the rest of the world by the US'
-          href='https://dailyatrocity.us'
-        />
+      <LinkCard
+        as='a'
+        heading="Jeff's Second Brain"
+        subheading='For sporadic notes / ideas, grouped together using Obsidian.md'
+        href='https://jjacobs.me/notebooks'
+      />
+      <LinkCard
+        as='a'
+        heading='DailyAtrocity.US'
+        subheading='A daily calendar documenting the horrors rained down upon the rest of the world by the US'
+        href='https://dailyatrocity.us'
+      />
       </Section>
     </div>
   </main>

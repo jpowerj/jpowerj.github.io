@@ -53,4 +53,20 @@ const docs = defineCollection({
     })
 })
 
-export const collections = { blog, docs }
+// Define docs collection
+const pubs = defineCollection({
+  loader: glob({ base: './src/content/pubs', pattern: '**/*.{md,mdx}' }),
+  schema: () =>
+    z.object({
+      title: z.string().max(60),
+      description: z.string().max(160),
+      venue: z.string().max(280),
+      url: z.string().max(280),
+      publishDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+      draft: z.boolean().default(false)
+    })
+})
+
+export const collections = { blog, docs, pubs }

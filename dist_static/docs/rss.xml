@@ -107,7 +107,87 @@ import { Button } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Compress: &lt;a href=&quot;https://github.com/PlayForm/Compress&quot;&gt;playform/compress&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Image compress: &lt;a href=&quot;https://github.com/lovell/sharp&quot;&gt;sharp&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title>Advanced Components</title><link>https://jjacobs.me/docs/integrations/advanced</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/advanced</guid><description>Advanced components with advanced docs</description><content:encoded>&lt;h2&gt;Web Content Render&lt;/h2&gt;
+&lt;/ul&gt;</content:encoded></item><item><title>Shiki Code</title><link>https://jjacobs.me/docs/integrations/code</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/code</guid><description>Some mmthods using shiki code</description><content:encoded>&lt;h2&gt;Basic Usage&lt;/h2&gt;
+&lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
+import { Code } from &apos;astro:components&apos;
+---
+
+&amp;#x3C;Code lang=&apos;shell&apos; code={`git log --oneline`} /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For &lt;code&gt;.mdx&lt;/code&gt; and &lt;code&gt;.md&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell
+git log --oneline
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Add Title&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell title=&quot;start.sh&quot;
+#!/bin/bash
+
+bun check &amp;#x26;
+bun dev
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
+
+bun check &amp;#x26;
+bun dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Show Diff&lt;/h2&gt;
+&lt;p&gt;Supports add and del lines.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
+
+```shell title=&quot;deploy.sh&quot;
+#!/bin/bash
+
+bun check
+bun lint
+bun format # [\!code ++]
+# No need for vercel or other ci/cd
+bun run build # [\!code --]
+git push
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
+
+bun check
+bun lint
+bun format # [!code ++]
+# No need for vercel or other ci/cd
+bun run build # [!code --]
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Show Hightlight&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
+
+```ts
+const add = (a: number, b: number) =&gt; a + b
+const sub = (a: number, b: number) =&gt; a - b
+console.log(add(1, 2)) // [\!code highlight]
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;const add = (a: number, b: number) =&gt; a + b
+const sub = (a: number, b: number) =&gt; a - b
+console.log(add(1, 2)) // [!code highlight]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Show Hightlight Multiple Lines&lt;/h2&gt;
+&lt;p&gt;You can also highlight multiple lines with a single comment:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
+
+```ts
+console.log(&apos;Highlighted&apos;) // [\!code highlight:2]
+console.log(&apos;Highlighted&apos;)
+console.log(&apos;Not highlighted&apos;)
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;console.log(&apos;Highlighted&apos;) // [!code highlight:2]
+console.log(&apos;Highlighted&apos;)
+console.log(&apos;Not highlighted&apos;)
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Advanced Components</title><link>https://jjacobs.me/docs/integrations/advanced</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/advanced</guid><description>Advanced components with advanced docs</description><content:encoded>&lt;h2&gt;Web Content Render&lt;/h2&gt;
 &lt;h3&gt;Quote&lt;/h3&gt;
 &lt;p&gt;The &lt;code&gt;Quote&lt;/code&gt; component is a simple component that displays a random quote.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { Quote } from &apos;astro-pure/advanced&apos;
@@ -204,199 +284,203 @@ import { Button } from &apos;astro-pure/user&apos;&lt;/p&gt;
 ;&amp;#x3C;Comment /&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Render:&lt;/p&gt;
-&lt;p&gt;import { Comment } from &apos;astro-pure/advanced&apos;&lt;/p&gt;</content:encoded></item><item><title>Shiki Code</title><link>https://jjacobs.me/docs/integrations/code</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/code</guid><description>Some mmthods using shiki code</description><content:encoded>&lt;h2&gt;Basic Usage&lt;/h2&gt;
-&lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
-import { Code } from &apos;astro:components&apos;
----
-
-&amp;#x3C;Code lang=&apos;shell&apos; code={`git log --oneline`} /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For &lt;code&gt;.mdx&lt;/code&gt; and &lt;code&gt;.md&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell
-git log --oneline
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Add Title&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell title=&quot;start.sh&quot;
-#!/bin/bash
-
-bun check &amp;#x26;
-bun dev
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
-
-bun check &amp;#x26;
-bun dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Show Diff&lt;/h2&gt;
-&lt;p&gt;Supports add and del lines.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
-
-```shell title=&quot;deploy.sh&quot;
-#!/bin/bash
-
-bun check
-bun lint
-bun format # [\!code ++]
-# No need for vercel or other ci/cd
-bun run build # [\!code --]
-git push
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
-
-bun check
-bun lint
-bun format # [!code ++]
-# No need for vercel or other ci/cd
-bun run build # [!code --]
-git push
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Show Hightlight&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
-
-```ts
-const add = (a: number, b: number) =&gt; a + b
-const sub = (a: number, b: number) =&gt; a - b
-console.log(add(1, 2)) // [\!code highlight]
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;const add = (a: number, b: number) =&gt; a + b
-const sub = (a: number, b: number) =&gt; a - b
-console.log(add(1, 2)) // [!code highlight]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Show Hightlight Multiple Lines&lt;/h2&gt;
-&lt;p&gt;You can also highlight multiple lines with a single comment:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
-
-```ts
-console.log(&apos;Highlighted&apos;) // [\!code highlight:2]
-console.log(&apos;Highlighted&apos;)
-console.log(&apos;Not highlighted&apos;)
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;console.log(&apos;Highlighted&apos;) // [!code highlight:2]
-console.log(&apos;Highlighted&apos;)
-console.log(&apos;Not highlighted&apos;)
-&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Friend Links</title><link>https://jjacobs.me/docs/integrations/links</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/links</guid><description>Configurations for friend links</description><content:encoded>&lt;p&gt;import { Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
-&lt;h2&gt;Basic Configurations&lt;/h2&gt;
-&lt;p&gt;A basic configuration for friend links is in &lt;code&gt;src/site.config.ts&lt;/code&gt;. You can add your friend&apos;s logbook or your own link info.&lt;/p&gt;
+&lt;p&gt;import { Comment } from &apos;astro-pure/advanced&apos;&lt;/p&gt;</content:encoded></item><item><title>Update Theme</title><link>https://jjacobs.me/docs/advanced/update</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/update</guid><description>Update astro theme pure to the latest version</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;h2&gt;Breaking Changes&lt;/h2&gt;
+&lt;h3&gt;v4.0.2-beta&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Considering move tools icons to new path like &lt;code&gt;src/assets/tools/&lt;/code&gt;, this may help user know which ones are relevant to tools.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Change links &lt;code&gt;applyTip&lt;/code&gt; to custom array style:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
   links: {
-    // Friend logbook
-    logbook: [
-      { date: &apos;2024-07-01&apos;, content: &apos;Lorem ipsum dolor sit amet.&apos; },
-      { date: &apos;2024-07-01&apos;, content: &apos;vidit suscipit at mei.&apos; },
-    ],
-    // Yourself link info
-    applyTip: {
-      name: theme.title,
-      desc: theme.description || &apos;Null&apos;,
-      url: &apos;https://astro-pure.js.org/&apos;,
-      avatar: &apos;https://astro-pure.js.org/favicon/favicon.ico&apos;
-    }
-  },
+    applyTip: [
+      { name: &apos;Name&apos;, val: theme.title }, // [!code highlight:4]
+      { name: &apos;Desc&apos;, val: theme.description || &apos;Null&apos; },
+      { name: &apos;Link&apos;, val: &apos;https://astro-pure.js.org/&apos; },
+      { name: &apos;Avatar&apos;, val: &apos;https://astro-pure.js.org/favicon/favicon.ico&apos; }
+      // You can also add more fields
+    ]
+  }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Friend Links&lt;/h2&gt;
-&lt;p&gt;The friend links configurations are at &lt;code&gt;public/links.json&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;{
-  &quot;friends&quot;: [
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add env &lt;code&gt;BUN_LINK_PKG&lt;/code&gt;, set this to &lt;code&gt;true&lt;/code&gt; where automatically refer the package &lt;code&gt;astro-pure&lt;/code&gt; in path &lt;code&gt;packages/pure&lt;/code&gt; instead of &lt;code&gt;node_modules/astro-pure&lt;/code&gt;. This may help user to develop the theme or change code for them (may not be recommended for production).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Change CSS framework to UnoCSS. Will affect &lt;code&gt;unocss.config.ts&lt;/code&gt; &amp;#x26; typography classname setting.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v4.0.1-beta&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Change svg deliver import to custom import svg element. This will affect using component for &lt;code&gt;ToolSelection&lt;/code&gt;. You should change:&lt;/p&gt;
+&lt;p&gt;(Optional) Move icons to new path like &lt;code&gt;src/assets/icons/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Then change using code (default at &lt;code&gt;src/pages/about/index.astro&lt;/code&gt;)&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;&amp;#x3C;ToolSection
+  tools={[
     {
-      &quot;id_name&quot;: &quot;cf-links&quot;,
-      &quot;desc&quot;: &quot;Common links included in circle friends&quot;,
-      &quot;link_list&quot;: [
-        { // [!code highlight:6]
-          &quot;name&quot;: &quot;Elysia&quot;,
-          &quot;intro&quot;: &quot;Hi, did you miss me? Anywhere and anytime, Elysia will return all your expectations.&quot;,
-          &quot;link&quot;: &quot;https://honkaiimpact3.fandom.com/wiki/Elysia&quot;,
-          &quot;avatar&quot;: &quot;https://0.gravatar.com/avatar/&quot;
-          // Here you can also leave some other fields as notes
-        },
-      ]
-    },
-    {
-      &quot;id_name&quot;: &quot;inactive-links&quot;,
-      &quot;desc&quot;: &quot;Inactive or rule-breaking friends&quot;,
-      &quot;link_list&quot;: [] // you can temporarily leave some bad links here
-    },
-    {
-      &quot;id_name&quot;: &quot;special-links&quot;,
-      &quot;desc&quot;: &quot;Other special links&quot;,
-      &quot;link_list&quot;: [] // special links which are note your friends
+      name: &apos;Arch Linux&apos;,
+      description: &apos;Linux Distribution&apos;,
+      href: &apos;https://archlinux.org/&apos;,
+      iconPath: &apos;archlinux&apos; // [!code --]
+      icon: import(&apos;@/assets/icons/archlinux.svg?raw&apos;) // [!code ++]
     }
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Integrated with &lt;code&gt;Friend-Circle-Lite&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/willow-god/Friend-Circle-Lite&quot;&gt;Friend-Circle-Lite&lt;/a&gt; is a stripped-down friendlink app with no backend and running only using github action.&lt;/p&gt;
-&lt;p&gt;It requires:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;A github repository with github actions enabled by cron.&lt;/li&gt;
-&lt;li&gt;A static site server like Vercel, Netlify, GitHub Pages, etc.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;This theme has not integrated it and will not provide support for it in the future. But don&apos;t worry, this doc will guide you to integrate it.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Fork the &lt;a href=&quot;https://github.com/cworld1/friend-circle-lite&quot;&gt;Friend-Circle-Lite&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Modify the &lt;code&gt;config.yaml&lt;/code&gt; in your forked repository:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;spider_settings:
-   enable: true
-   json_url: &quot;&amp;#x3C;your-site&gt;/links.json&quot; # [!code highlight]
-   article_count: 4
+  ]},
+/&gt;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Go to &quot;Actions&quot; page and run workflow &quot;Friend Circle Lite&quot; manually to check if it works. This will also generate server files in &quot;page&quot; branch.&lt;/p&gt;
+&lt;p&gt;This change import a new component &lt;code&gt;Svg&lt;/code&gt;. See &lt;a href=&quot;/docs/integrations/components#svg-loader&quot;&gt;User Components #Svg Loader&lt;/a&gt; for usage.&lt;/p&gt;
 &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v4.0.0-alpha&lt;/h3&gt;
+&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Checkout &lt;a href=&quot;https://github.com/willow-god/Friend-Circle-Lite?tab=readme-ov-file#%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99&quot;&gt;docs&lt;/a&gt; to deploy the server files to your static site server.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add &lt;a href=&quot;https://gist.github.com/cworld1/cf0dc6daa89264e6d745d3e68ef8c01c&quot;&gt;fetching script file &lt;code&gt;friendCircle.ts&lt;/code&gt;&lt;/a&gt; to your project at path &lt;code&gt;src/plugins&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add &lt;a href=&quot;https://gist.github.com/cworld1/cf0dc6daa89264e6d745d3e68ef8c01c?permalink_comment_id=5311916#gistcomment-5311916&quot;&gt;style file &lt;code&gt;fc.css&lt;/code&gt;&lt;/a&gt; to your project at path &lt;code&gt;src/assets/styles&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add initialize code in &lt;code&gt;src/components/pages/links/index.astro&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
-const headings = [
-   // ...
-   { depth: 2, slug: &apos;small-circle&apos;, text: &apos;Small Circle&apos; }, // [!code highlight]
-]
----
-
-&amp;#x3C;PageLayout&gt;
-   {/* ... */}
-   &amp;#x3C;!-- [!code highlight:16] --&gt;
-   &amp;#x3C;h2 id=&apos;small-circle&apos;&gt;Small Circle&amp;#x3C;/h2&gt;
-   &amp;#x3C;div id=&apos;friend-circle-lite-root&apos; class=&apos;not-prose&apos;&gt;Loading...&amp;#x3C;/div&gt;
-   &amp;#x3C;script&gt;
-      import &apos;@/assets/styles/fc.css&apos;
-
-      import { FriendCircle } from &apos;@/plugins/friendCircle&apos;
-
-      const fc = new FriendCircle()
-      fc.init({
-         private_api_url: &apos;&amp;#x3C;your-fc-lite-server&gt;&apos;,
-         page_turning_number: 10,
-         error_img: &apos;https://cravatar.cn/avatar/57d8260dfb55501c37dde588e7c3852c&apos;
-      })
-      fc.load()
-   &amp;#x3C;/script&gt;
-&amp;#x3C;/PageLayout&gt;
+&lt;p&gt;Move all components, types and utils that are reused to new npm packages &lt;code&gt;astro-pure&lt;/code&gt;. Affected components are included in . Import method is also changed:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import { Button } from &apos;@/components/user&apos; // [!code --]
+import { Button } from &apos;astro-pure/user&apos; // [!code ++]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content:encoded></item><item><title>User Components</title><link>https://jjacobs.me/docs/integrations/components</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/components</guid><description>Easily extend your content page more interactive</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, MdxRepl } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;li&gt;
+&lt;p&gt;New format config file &lt;code&gt;src/site.config.ts&lt;/code&gt;. There will be zod schema to validate the config file, and use of config will be changed to:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import { siteConfig } from &apos;@/site-config&apos; // [!code --]
+import config from &apos;@/site-config&apos; // [!code ++]
+// Or if you want to use the config that is after processed or transformed
+import config from &apos;vertual:config&apos; // [!code ++]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Built-in astro config supported. package &lt;code&gt;astro-pure&lt;/code&gt; will automatically config some integrations like &lt;code&gt;@astrojs/tailwind&lt;/code&gt;, &lt;code&gt;@astrojs/mdx&lt;/code&gt;, &lt;code&gt;@astrojs/sitemap&lt;/code&gt;, also with some rehypePlugins and remarkPlugins.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Change search engine to &lt;a href=&quot;https://pagefind.app/&quot;&gt;pagefind&lt;/a&gt;, mainly because Astro v5 will not allow getting collection data directly from client (that is core working mode of Fuse.js search engine).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Change some &lt;code&gt;BaseHead&lt;/code&gt; tags config to &lt;code&gt;src/site.config.ts&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v3.1.4&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Move config &lt;code&gt;siteConfig.content.typographyProse&lt;/code&gt; to &lt;code&gt;integrationConfig.typography.class&lt;/code&gt; in &lt;code&gt;src/site.config.ts&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Move advanced components to &lt;code&gt;src/components/advanced&lt;/code&gt;. Affected components are included in &lt;a href=&quot;/docs/integrations/advanced&quot;&gt;Advanced Components&lt;/a&gt;. Import method is also changed:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import LinkPreview from &apos;@/components/LinkPreview.astro&apos; // [!code --]
+import { LinkPreview } from &apos;astro-pure/advanced&apos; // [!code ++]
+
+&amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Move &lt;code&gt;Substats&lt;/code&gt; config to related page &lt;code&gt;src/pages/about/index.astro&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Change Github Card component to &lt;code&gt;GithubCard&lt;/code&gt; in &lt;code&gt;src/components/advanced&lt;/code&gt;. See &lt;a href=&quot;http://localhost:4321/docs/integrations/advanced#github-card&quot;&gt;Advanced Components #Github Card&lt;/a&gt; for usage.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Move Links Logbook to &lt;code&gt;src/site.config.ts&lt;/code&gt;. See &lt;a href=&quot;/docs/integrations/links#basic-configurations&quot;&gt;Friend Links #Basic Configurations&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v3.1.3&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Move user components to &lt;code&gt;src/components/user&lt;/code&gt;. Affected components are included in &lt;a href=&quot;/docs/integrations/components&quot;&gt;User Components&lt;/a&gt;. Import method is also changed:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import Button from &apos;@/components/Button&apos; // [!code --]
+import { Button } from &apos;astro-pure/user&apos; // [!code ++]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Replace &lt;code&gt;remark-github-blockquote-alert&lt;/code&gt; plugin to component &lt;code&gt;Aside&lt;/code&gt;. Check &lt;a href=&quot;/docs/integrations/components#aside&quot;&gt;User Components #Aside&lt;/a&gt; to know how to migrate.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v3.1.2 (pre-release)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Move some configuration items like &lt;code&gt;telegram&lt;/code&gt;, &lt;code&gt;walineServelURL&lt;/code&gt; to new structure in &lt;code&gt;src/site.config.ts&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v3.1.1&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Move the internal parts in the &lt;code&gt;src/utils&lt;/code&gt; to &lt;code&gt;src/plugins&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Modify the configuration file &lt;code&gt;astro.config.ts&lt;/code&gt; to &lt;code&gt;astro.config.mjs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Update ESLint to latest version and migrate configuration file &lt;code&gt;.eslintrc.js&lt;/code&gt; to &lt;code&gt;eslint.config.mjs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Modify the &lt;code&gt;prettier.config.js&lt;/code&gt; to &lt;code&gt;prettier.config.mjs&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v3.1.0 (pre-release)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Change common content markdown formatter &lt;code&gt;coverImage&lt;/code&gt; to &lt;code&gt;heroImage&lt;/code&gt;. You need to modify all your markdown files to replace &lt;code&gt;coverImage&lt;/code&gt; with &lt;code&gt;heroImage&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;v3.0.9&lt;/h3&gt;
+&lt;p&gt;A stable version.&lt;/p&gt;
+&lt;p&gt;Pending update...&lt;/p&gt;
+&lt;h2&gt;Update Method&lt;/h2&gt;
+&lt;h3&gt;Rebase&lt;/h3&gt;
+&lt;p&gt;If you create a new project using fork, you can just rebase the theme repository to the latest version.&lt;/p&gt;
+&lt;h3&gt;Merge Manually&lt;/h3&gt;
+&lt;p&gt;As there&apos;s not the same git history, you might need to merge the theme repository to your project manually.&lt;/p&gt;
+&lt;p&gt;A soluable way for Windows user is using tool &lt;a href=&quot;https://winmerge.org/&quot;&gt;WinMerge&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A filter list here may be helpful:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;## This is a directory/file filter template for WinMerge
+name: Astro Theme Pure
+desc: Diff for Blog v.s. Astro Theme Pure
+
+## Select if filter is inclusive or exclusive
+## Inclusive (loose) filter lets through all items not matching rules
+## Exclusive filter lets through only items that match to rule
+## include or exclude
+def: include
+
+## Filters for filenames begin with f:
+## Filters for directories begin with d:
+## To exclude some of the files that match the f: pattern, specify f!:
+## To exclude some of the folders that match the d: pattern, specify d!:
+## (Inline comments begin with &quot; ##&quot; and extend to the end of the line)
+
+### Front-end files ###
+d: \\\.git$
+d: \\node_modules$
+
+# Astro cache
+d: \\\.vercel
+d: \\\.astro
+
+### Theme dev ###
+d: ^\\packages$
+d: ^\\preset$
+d: ^\\test$
+f: ^LICENSE$
+f: ^README\.md$
+f: ^README-zh-CN\.md$
+f: ^CODE_OF_CONDUCT\.md$
+
+# Project
+f: ^bun\.lockb$
+f: \.code-workspace$
+f: ^ignore\.md$
+
+### Astro theme pure ###
+# Static
+d: ^\\public\\favicon$
+f: ^public\\links\.json$
+f: ^public\\images\\social-card\.png$
+
+# Assets
+f: ^src\\assets\\avatar\.png$
+d: ^\\src\\assets\\projects$
+d: ^\\src\\assets\\tools$
+
+# Content
+d: ^\\src\\content\\blog$
+d: ^\\src\\content\\docs$
+d: ^\\src\\pages\\docs$
+f: ^src\\pages\\terms\\.*\.md$
+
+### Blog ###
+# Your own files
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>User Components</title><link>https://jjacobs.me/docs/integrations/components</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/components</guid><description>Easily extend your content page more interactive</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, MdxRepl } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;p&gt;Components let you easily reuse a piece of UI or styling consistently. You can use them not just in &lt;code&gt;.astro&lt;/code&gt; files, but also in &lt;code&gt;.mdx&lt;/code&gt; files.&lt;/p&gt;
 &lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt;, you can directly import and use components and use. An example will also shown in the first section.&lt;/p&gt;
 &lt;h2&gt;Containers&lt;/h2&gt;
@@ -598,203 +682,7 @@ import { Button } from &apos;astro-pure/user&apos;
 }
 &amp;#x3C;/div&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There&apos;s also some &lt;a href=&quot;/docs/integrations/advanced&quot;&gt;Advanced Components&lt;/a&gt;, which may suit for you. Hope you enjoy using these components!&lt;/p&gt;</content:encoded></item><item><title>Update Theme</title><link>https://jjacobs.me/docs/advanced/update</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/update</guid><description>Update astro theme pure to the latest version</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
-&lt;h2&gt;Breaking Changes&lt;/h2&gt;
-&lt;h3&gt;v4.0.2-beta&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Considering move tools icons to new path like &lt;code&gt;src/assets/tools/&lt;/code&gt;, this may help user know which ones are relevant to tools.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change links &lt;code&gt;applyTip&lt;/code&gt; to custom array style:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
-  links: {
-    applyTip: [
-      { name: &apos;Name&apos;, val: theme.title }, // [!code highlight:4]
-      { name: &apos;Desc&apos;, val: theme.description || &apos;Null&apos; },
-      { name: &apos;Link&apos;, val: &apos;https://astro-pure.js.org/&apos; },
-      { name: &apos;Avatar&apos;, val: &apos;https://astro-pure.js.org/favicon/favicon.ico&apos; }
-      // You can also add more fields
-    ]
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add env &lt;code&gt;BUN_LINK_PKG&lt;/code&gt;, set this to &lt;code&gt;true&lt;/code&gt; where automatically refer the package &lt;code&gt;astro-pure&lt;/code&gt; in path &lt;code&gt;packages/pure&lt;/code&gt; instead of &lt;code&gt;node_modules/astro-pure&lt;/code&gt;. This may help user to develop the theme or change code for them (may not be recommended for production).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change CSS framework to UnoCSS. Will affect &lt;code&gt;unocss.config.ts&lt;/code&gt; &amp;#x26; typography classname setting.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v4.0.1-beta&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Change svg deliver import to custom import svg element. This will affect using component for &lt;code&gt;ToolSelection&lt;/code&gt;. You should change:&lt;/p&gt;
-&lt;p&gt;(Optional) Move icons to new path like &lt;code&gt;src/assets/icons/&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Then change using code (default at &lt;code&gt;src/pages/about/index.astro&lt;/code&gt;)&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;&amp;#x3C;ToolSection
-  tools={[
-    {
-      name: &apos;Arch Linux&apos;,
-      description: &apos;Linux Distribution&apos;,
-      href: &apos;https://archlinux.org/&apos;,
-      iconPath: &apos;archlinux&apos; // [!code --]
-      icon: import(&apos;@/assets/icons/archlinux.svg?raw&apos;) // [!code ++]
-    }
-  ]},
-/&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;This change import a new component &lt;code&gt;Svg&lt;/code&gt;. See &lt;a href=&quot;/docs/integrations/components#svg-loader&quot;&gt;User Components #Svg Loader&lt;/a&gt; for usage.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v4.0.0-alpha&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Move all components, types and utils that are reused to new npm packages &lt;code&gt;astro-pure&lt;/code&gt;. Affected components are included in . Import method is also changed:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import { Button } from &apos;@/components/user&apos; // [!code --]
-import { Button } from &apos;astro-pure/user&apos; // [!code ++]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;New format config file &lt;code&gt;src/site.config.ts&lt;/code&gt;. There will be zod schema to validate the config file, and use of config will be changed to:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import { siteConfig } from &apos;@/site-config&apos; // [!code --]
-import config from &apos;@/site-config&apos; // [!code ++]
-// Or if you want to use the config that is after processed or transformed
-import config from &apos;vertual:config&apos; // [!code ++]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Built-in astro config supported. package &lt;code&gt;astro-pure&lt;/code&gt; will automatically config some integrations like &lt;code&gt;@astrojs/tailwind&lt;/code&gt;, &lt;code&gt;@astrojs/mdx&lt;/code&gt;, &lt;code&gt;@astrojs/sitemap&lt;/code&gt;, also with some rehypePlugins and remarkPlugins.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change search engine to &lt;a href=&quot;https://pagefind.app/&quot;&gt;pagefind&lt;/a&gt;, mainly because Astro v5 will not allow getting collection data directly from client (that is core working mode of Fuse.js search engine).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change some &lt;code&gt;BaseHead&lt;/code&gt; tags config to &lt;code&gt;src/site.config.ts&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v3.1.4&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Move config &lt;code&gt;siteConfig.content.typographyProse&lt;/code&gt; to &lt;code&gt;integrationConfig.typography.class&lt;/code&gt; in &lt;code&gt;src/site.config.ts&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Move advanced components to &lt;code&gt;src/components/advanced&lt;/code&gt;. Affected components are included in &lt;a href=&quot;/docs/integrations/advanced&quot;&gt;Advanced Components&lt;/a&gt;. Import method is also changed:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import LinkPreview from &apos;@/components/LinkPreview.astro&apos; // [!code --]
-import { LinkPreview } from &apos;astro-pure/advanced&apos; // [!code ++]
-
-&amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Move &lt;code&gt;Substats&lt;/code&gt; config to related page &lt;code&gt;src/pages/about/index.astro&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Change Github Card component to &lt;code&gt;GithubCard&lt;/code&gt; in &lt;code&gt;src/components/advanced&lt;/code&gt;. See &lt;a href=&quot;http://localhost:4321/docs/integrations/advanced#github-card&quot;&gt;Advanced Components #Github Card&lt;/a&gt; for usage.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Move Links Logbook to &lt;code&gt;src/site.config.ts&lt;/code&gt;. See &lt;a href=&quot;/docs/integrations/links#basic-configurations&quot;&gt;Friend Links #Basic Configurations&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v3.1.3&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Move user components to &lt;code&gt;src/components/user&lt;/code&gt;. Affected components are included in &lt;a href=&quot;/docs/integrations/components&quot;&gt;User Components&lt;/a&gt;. Import method is also changed:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import Button from &apos;@/components/Button&apos; // [!code --]
-import { Button } from &apos;astro-pure/user&apos; // [!code ++]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Replace &lt;code&gt;remark-github-blockquote-alert&lt;/code&gt; plugin to component &lt;code&gt;Aside&lt;/code&gt;. Check &lt;a href=&quot;/docs/integrations/components#aside&quot;&gt;User Components #Aside&lt;/a&gt; to know how to migrate.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v3.1.2 (pre-release)&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Move some configuration items like &lt;code&gt;telegram&lt;/code&gt;, &lt;code&gt;walineServelURL&lt;/code&gt; to new structure in &lt;code&gt;src/site.config.ts&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v3.1.1&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Move the internal parts in the &lt;code&gt;src/utils&lt;/code&gt; to &lt;code&gt;src/plugins&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Modify the configuration file &lt;code&gt;astro.config.ts&lt;/code&gt; to &lt;code&gt;astro.config.mjs&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Update ESLint to latest version and migrate configuration file &lt;code&gt;.eslintrc.js&lt;/code&gt; to &lt;code&gt;eslint.config.mjs&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Modify the &lt;code&gt;prettier.config.js&lt;/code&gt; to &lt;code&gt;prettier.config.mjs&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v3.1.0 (pre-release)&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Change common content markdown formatter &lt;code&gt;coverImage&lt;/code&gt; to &lt;code&gt;heroImage&lt;/code&gt;. You need to modify all your markdown files to replace &lt;code&gt;coverImage&lt;/code&gt; with &lt;code&gt;heroImage&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;v3.0.9&lt;/h3&gt;
-&lt;p&gt;A stable version.&lt;/p&gt;
-&lt;p&gt;Pending update...&lt;/p&gt;
-&lt;h2&gt;Update Method&lt;/h2&gt;
-&lt;h3&gt;Rebase&lt;/h3&gt;
-&lt;p&gt;If you create a new project using fork, you can just rebase the theme repository to the latest version.&lt;/p&gt;
-&lt;h3&gt;Merge Manually&lt;/h3&gt;
-&lt;p&gt;As there&apos;s not the same git history, you might need to merge the theme repository to your project manually.&lt;/p&gt;
-&lt;p&gt;A soluable way for Windows user is using tool &lt;a href=&quot;https://winmerge.org/&quot;&gt;WinMerge&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;A filter list here may be helpful:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;## This is a directory/file filter template for WinMerge
-name: Astro Theme Pure
-desc: Diff for Blog v.s. Astro Theme Pure
-
-## Select if filter is inclusive or exclusive
-## Inclusive (loose) filter lets through all items not matching rules
-## Exclusive filter lets through only items that match to rule
-## include or exclude
-def: include
-
-## Filters for filenames begin with f:
-## Filters for directories begin with d:
-## To exclude some of the files that match the f: pattern, specify f!:
-## To exclude some of the folders that match the d: pattern, specify d!:
-## (Inline comments begin with &quot; ##&quot; and extend to the end of the line)
-
-### Front-end files ###
-d: \\\.git$
-d: \\node_modules$
-
-# Astro cache
-d: \\\.vercel
-d: \\\.astro
-
-### Theme dev ###
-d: ^\\packages$
-d: ^\\preset$
-d: ^\\test$
-f: ^LICENSE$
-f: ^README\.md$
-f: ^README-zh-CN\.md$
-f: ^CODE_OF_CONDUCT\.md$
-
-# Project
-f: ^bun\.lockb$
-f: \.code-workspace$
-f: ^ignore\.md$
-
-### Astro theme pure ###
-# Static
-d: ^\\public\\favicon$
-f: ^public\\links\.json$
-f: ^public\\images\\social-card\.png$
-
-# Assets
-f: ^src\\assets\\avatar\.png$
-d: ^\\src\\assets\\projects$
-d: ^\\src\\assets\\tools$
-
-# Content
-d: ^\\src\\content\\blog$
-d: ^\\src\\content\\docs$
-d: ^\\src\\pages\\docs$
-f: ^src\\pages\\terms\\.*\.md$
-
-### Blog ###
-# Your own files
-&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Other Integrations</title><link>https://jjacobs.me/docs/integrations/others</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/others</guid><description>Other integrations that help improve your site</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;p&gt;There&apos;s also some &lt;a href=&quot;/docs/integrations/advanced&quot;&gt;Advanced Components&lt;/a&gt;, which may suit for you. Hope you enjoy using these components!&lt;/p&gt;</content:encoded></item><item><title>Other Integrations</title><link>https://jjacobs.me/docs/integrations/others</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/others</guid><description>Other integrations that help improve your site</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;h2&gt;&lt;code&gt;medium-zoom&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;Checkout &lt;a href=&quot;https://github.com/francoischalifour/medium-zoom&quot;&gt;medium-zoom&lt;/a&gt; for more.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
@@ -886,7 +774,119 @@ import config from &apos;@/site-config&apos;
 &lt;p&gt;Problem: Errors during build time when processing LaTeX syntax.&lt;/p&gt;
 &lt;p&gt;Solution: Ensure that your LaTeX is correctly formatted and that there are no syntax errors in your markdown files. LaTeX syntax errors can break the parser and cause build failures.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title>Deployment</title><link>https://jjacobs.me/docs/setup/deployment</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/deployment</guid><description>Comment system for pages at the bottom</description><content:encoded>&lt;p&gt;import { Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;/ul&gt;</content:encoded></item><item><title>Friend Links</title><link>https://jjacobs.me/docs/integrations/links</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/links</guid><description>Configurations for friend links</description><content:encoded>&lt;p&gt;import { Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;h2&gt;Basic Configurations&lt;/h2&gt;
+&lt;p&gt;A basic configuration for friend links is in &lt;code&gt;src/site.config.ts&lt;/code&gt;. You can add your friend&apos;s logbook or your own link info.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
+  links: {
+    // Friend logbook
+    logbook: [
+      { date: &apos;2024-07-01&apos;, content: &apos;Lorem ipsum dolor sit amet.&apos; },
+      { date: &apos;2024-07-01&apos;, content: &apos;vidit suscipit at mei.&apos; },
+    ],
+    // Yourself link info
+    applyTip: {
+      name: theme.title,
+      desc: theme.description || &apos;Null&apos;,
+      url: &apos;https://astro-pure.js.org/&apos;,
+      avatar: &apos;https://astro-pure.js.org/favicon/favicon.ico&apos;
+    }
+  },
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Friend Links&lt;/h2&gt;
+&lt;p&gt;The friend links configurations are at &lt;code&gt;public/links.json&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;{
+  &quot;friends&quot;: [
+    {
+      &quot;id_name&quot;: &quot;cf-links&quot;,
+      &quot;desc&quot;: &quot;Common links included in circle friends&quot;,
+      &quot;link_list&quot;: [
+        { // [!code highlight:6]
+          &quot;name&quot;: &quot;Elysia&quot;,
+          &quot;intro&quot;: &quot;Hi, did you miss me? Anywhere and anytime, Elysia will return all your expectations.&quot;,
+          &quot;link&quot;: &quot;https://honkaiimpact3.fandom.com/wiki/Elysia&quot;,
+          &quot;avatar&quot;: &quot;https://0.gravatar.com/avatar/&quot;
+          // Here you can also leave some other fields as notes
+        },
+      ]
+    },
+    {
+      &quot;id_name&quot;: &quot;inactive-links&quot;,
+      &quot;desc&quot;: &quot;Inactive or rule-breaking friends&quot;,
+      &quot;link_list&quot;: [] // you can temporarily leave some bad links here
+    },
+    {
+      &quot;id_name&quot;: &quot;special-links&quot;,
+      &quot;desc&quot;: &quot;Other special links&quot;,
+      &quot;link_list&quot;: [] // special links which are note your friends
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Integrated with &lt;code&gt;Friend-Circle-Lite&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/willow-god/Friend-Circle-Lite&quot;&gt;Friend-Circle-Lite&lt;/a&gt; is a stripped-down friendlink app with no backend and running only using github action.&lt;/p&gt;
+&lt;p&gt;It requires:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A github repository with github actions enabled by cron.&lt;/li&gt;
+&lt;li&gt;A static site server like Vercel, Netlify, GitHub Pages, etc.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This theme has not integrated it and will not provide support for it in the future. But don&apos;t worry, this doc will guide you to integrate it.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Fork the &lt;a href=&quot;https://github.com/cworld1/friend-circle-lite&quot;&gt;Friend-Circle-Lite&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Modify the &lt;code&gt;config.yaml&lt;/code&gt; in your forked repository:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;spider_settings:
+   enable: true
+   json_url: &quot;&amp;#x3C;your-site&gt;/links.json&quot; # [!code highlight]
+   article_count: 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Go to &quot;Actions&quot; page and run workflow &quot;Friend Circle Lite&quot; manually to check if it works. This will also generate server files in &quot;page&quot; branch.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Checkout &lt;a href=&quot;https://github.com/willow-god/Friend-Circle-Lite?tab=readme-ov-file#%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99&quot;&gt;docs&lt;/a&gt; to deploy the server files to your static site server.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add &lt;a href=&quot;https://gist.github.com/cworld1/cf0dc6daa89264e6d745d3e68ef8c01c&quot;&gt;fetching script file &lt;code&gt;friendCircle.ts&lt;/code&gt;&lt;/a&gt; to your project at path &lt;code&gt;src/plugins&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add &lt;a href=&quot;https://gist.github.com/cworld1/cf0dc6daa89264e6d745d3e68ef8c01c?permalink_comment_id=5311916#gistcomment-5311916&quot;&gt;style file &lt;code&gt;fc.css&lt;/code&gt;&lt;/a&gt; to your project at path &lt;code&gt;src/assets/styles&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add initialize code in &lt;code&gt;src/components/pages/links/index.astro&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
+const headings = [
+   // ...
+   { depth: 2, slug: &apos;small-circle&apos;, text: &apos;Small Circle&apos; }, // [!code highlight]
+]
+---
+
+&amp;#x3C;PageLayout&gt;
+   {/* ... */}
+   &amp;#x3C;!-- [!code highlight:16] --&gt;
+   &amp;#x3C;h2 id=&apos;small-circle&apos;&gt;Small Circle&amp;#x3C;/h2&gt;
+   &amp;#x3C;div id=&apos;friend-circle-lite-root&apos; class=&apos;not-prose&apos;&gt;Loading...&amp;#x3C;/div&gt;
+   &amp;#x3C;script&gt;
+      import &apos;@/assets/styles/fc.css&apos;
+
+      import { FriendCircle } from &apos;@/plugins/friendCircle&apos;
+
+      const fc = new FriendCircle()
+      fc.init({
+         private_api_url: &apos;&amp;#x3C;your-fc-lite-server&gt;&apos;,
+         page_turning_number: 10,
+         error_img: &apos;https://cravatar.cn/avatar/57d8260dfb55501c37dde588e7c3852c&apos;
+      })
+      fc.load()
+   &amp;#x3C;/script&gt;
+&amp;#x3C;/PageLayout&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content:encoded></item><item><title>Deployment</title><link>https://jjacobs.me/docs/setup/deployment</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/deployment</guid><description>Comment system for pages at the bottom</description><content:encoded>&lt;p&gt;import { Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;h2&gt;Package Mode&lt;/h2&gt;
 &lt;p&gt;This theme which &gt;= v4.0.0 has integrated NPM package mode. Recommended way is remove local package file, and install the theme integration from NPM. If there&apos;s some reason you want to change the package content, you should link local package to your theme template. A &lt;code&gt;bun&lt;/code&gt; method is integrated. You should:&lt;/p&gt;
 &lt;ol&gt;

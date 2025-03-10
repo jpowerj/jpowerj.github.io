@@ -1,6 +1,7 @@
 ---
 import { ThemeProvider } from 'astro-pure/components/basic'
 import Footer from '@/components/basic/Footer.astro'
+import HomeHeader from '@/components/basic/HomeHeader.astro'
 import Header from '@/components/basic/Header.astro'
 import type { SiteMeta } from 'astro-pure/types'
 import BaseHead from '@/components/BaseHead.astro'
@@ -38,7 +39,9 @@ const {
       )
     }
     <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10'>
-      <Header />
+      {
+        title == "Home" ? (<HomeHeader />) : (<Header />)
+      }
       <slot />
       <Footer />
     </div>

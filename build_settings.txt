@@ -1,0 +1,2 @@
+npx astro build --outDir "dist_static"
+npx astro build --base "/~jjacobs3" --outDir "dist_su"
