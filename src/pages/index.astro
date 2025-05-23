@@ -87,17 +87,17 @@ import profilePic from '../assets/profile.jpg'
           detailed={true}
         />
         <PubPreview
-              title='How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation Analysis'
-              description='Jeff Jacobs'
-              venue='Ninth Annual Conference on New Directions in Analyzing Text as Data (TADA). 2018.'
-              url='https://cs.stanford.edu/~jjacobs3/Jacobs-Translations_Paper_2018-09-01.pdf'
+          title='How to Do Things with Translations: Cross-Lingual Phrase Embeddings for Translation Analysis'
+          description='Jeff Jacobs'
+          venue='Ninth Annual Conference on New Directions in Analyzing Text as Data (TADA). 2018.'
+          url='https://cs.stanford.edu/~jjacobs3/Jacobs-Translations_Paper_2018-09-01.pdf'
           detailed={true}
         />
         <PubPreview
-              title='Information Cartography: Creating Zoomable, Large-Scale Maps of Information'
-              description='Dafna Shahaf, Jaewon Yang, Caroline Suen, Jeff Jacobs, Heidi Wang, and Jure Leskovec'
-              venue='Proceedings of the ACM International Conference on Knowledge Discovery and Data Mining (KDD), 1097-1105. 2013.'
-              url='https://dl.acm.org/doi/10.1145/2487575.2487690'
+          title='Information Cartography: Creating Zoomable, Large-Scale Maps of Information'
+          description='Dafna Shahaf, Jaewon Yang, Caroline Suen, Jeff Jacobs, Heidi Wang, and Jure Leskovec'
+          venue='Proceedings of the ACM International Conference on Knowledge Discovery and Data Mining (KDD), 1097-1105. 2013.'
+          url='https://dl.acm.org/doi/10.1145/2487575.2487690'
           detailed={true}
         />
         <PubPreview
@@ -112,6 +112,30 @@ import profilePic from '../assets/profile.jpg'
               description='Jeff Jacobs and James Reggia'
               venue='Proceedings of the 2011 IEEE Congress on Evolutionary Computation, 11-16. 2011.'
               url='https://arxiv.org/abs/1207.5560'
+          detailed={true}
+        />
+      </Section>
+      <Section title='Dissertation'>
+        <PubPreview
+          title='"Our Word is Our Weapon": Text-Analyzing Wars of Ideas from the French Revolution to the First Intifada'
+          description='Jeff Jacobs'
+          venue='Columbia Academic Commons, 2022'
+          url='https://academiccommons.columbia.edu/doi/10.7916/k9s3-tq95'
+          detailed={true}
+        />
+        <LinkCard
+          as='a'
+          heading="MarxDB.com"
+          subheading='Frontend UI to dissertation database'
+          href='https://marxdb.com'
+        />
+      </Section>
+      <Section title="Invited Talks">
+        <PubPreview
+          title="<i>Fi Hadal Habs</i>: Text-Analyzing the Underground Communiqués of the Palestinian Intifadas"
+          description='Jeff Jacobs'
+          venue="Columbia Critical Media and Digital Studies Workshop, 2018"
+          url="https://cs.stanford.edu/~jjacobs3/Jacobs-Text_Analyzing_the_Intifada_2018-10-16.pdf"
           detailed={true}
         />
       </Section>
@@ -141,47 +165,54 @@ import profilePic from '../assets/profile.jpg'
         />
       </Section>
       <Section title='Teaching'>
-      <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-        <ProjectCard
-          href='https://jjacobs.me/dsan5300-01'
-          heading='DSAN 5300: Statistical Learning'
-          subheading='Mondays, 6:30-9pm, Car Barn 203'
-          imagePath='/src/assets/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg'
-        />
-        <ProjectCard
-          href='https://jjacobs.me/dsan5450'
-          heading='DSAN 5450: Data Ethics and Policy'
-          subheading='Wednesdays, 3:30-6pm, Walsh 498'
-          imagePath='/src/assets/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg'
-        />
-        <ProjectCard
-          href='https://jjacobs.me/dsan5500'
-          heading='DSAN 5500: Data Structures and Algorithms in Python'
-          subheading='Thursdays, 6:30-9pm, Healy 104'
-          imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
-        />
-        <ProjectCard
-          href='https://jjacobs.me/dsan5650'
-          heading='DSAN 5650: Causal Inference for Computational Social Science'
-          subheading='Online Meetings (Zoom)'
-          imagePath='/src/assets/projects/wen-qiao-g_w8I64FiO0-unsplash.jpg'
-        />
-      </div>
-      <Button title='Previous Courses' class='w-fit self-end' href='/teaching' style='ahead' />
+        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+          <ProjectCard
+            href='https://jjacobs.me/dsan5650'
+            heading='DSAN 5650: Causal Inference for Computational Social Science'
+            subheading='Online Meetings (Zoom)'
+            imagePath='/src/assets/projects/wen-qiao-g_w8I64FiO0-unsplash.jpg'
+          />
+          <ProjectCard
+            href='https://jjacobs.me/dsan5650'
+            heading='PPOL 6805: GIS for Spatial Data Science'
+            subheading='Wednesdays 6:30-9pm, Healy 105'
+            imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
+          />
+          <ProjectCard
+            href='https://jjacobs.me/dsan5300-01'
+            heading='DSAN 5300: Statistical Learning'
+            subheading='Mondays, 6:30-9pm, Car Barn 203'
+            imagePath='/src/assets/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg'
+          />
+          <ProjectCard
+            href='https://jjacobs.me/dsan5450'
+            heading='DSAN 5450: Data Ethics and Policy'
+            subheading='Wednesdays, 3:30-6pm, Walsh 498'
+            imagePath='/src/assets/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg'
+          />
+          <!-- <ProjectCard
+            href='https://jjacobs.me/dsan5500'
+            heading='DSAN 5500: Data Structures and Algorithms in Python'
+            subheading='Thursdays, 6:30-9pm, Healy 104'
+            imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
+          /> -->
+        </div>
+        <Button title='Previous Courses' class='w-fit self-end' href='/teaching' style='ahead' />
       </Section>
       <Section title='Links'>
-      <LinkCard
-        as='a'
-        heading="Jeff's Second Brain"
-        subheading='For sporadic notes / ideas, grouped together using Obsidian.md'
-        href='https://jjacobs.me/notebooks'
-      />
-      <LinkCard
-        as='a'
-        heading='DailyAtrocity.US'
-        subheading='A daily calendar documenting the horrors rained down upon the rest of the world by the US'
-        href='https://dailyatrocity.us'
-      />
+        <LinkCard
+          as='a'
+          heading="Jeff's Second Brain"
+          subheading='For sporadic notes / ideas, grouped together using Obsidian.md'
+          href='https://jjacobs.me/notebooks'
+        />
+        <LinkCard
+          as='a'
+          heading='DailyAtrocity.US'
+          subheading='A daily calendar documenting the horrors rained down upon the rest of the world by the US'
+          href='https://dailyatrocity.us'
+          target="_blank"
+        />
       </Section>
     </div>
   </main>

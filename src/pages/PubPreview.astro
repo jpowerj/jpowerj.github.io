@@ -32,8 +32,7 @@ const {
     <Tag class='z-10 flex-grow'>
       {/* title */}
       <div class='flex justify-between'>
-        <h2 class='text-lg font-medium'>
-          {title}
+        <h2 class='text-lg font-medium' set:html={title}>
         </h2>
         { (url != "") &&
         <svg
