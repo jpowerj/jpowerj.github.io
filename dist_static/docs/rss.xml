@@ -107,87 +107,7 @@ import { Button } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Compress: &lt;a href=&quot;https://github.com/PlayForm/Compress&quot;&gt;playform/compress&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Image compress: &lt;a href=&quot;https://github.com/lovell/sharp&quot;&gt;sharp&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title>Shiki Code</title><link>https://jjacobs.me/docs/integrations/code</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/code</guid><description>Some mmthods using shiki code</description><content:encoded>&lt;h2&gt;Basic Usage&lt;/h2&gt;
-&lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
-import { Code } from &apos;astro:components&apos;
----
-
-&amp;#x3C;Code lang=&apos;shell&apos; code={`git log --oneline`} /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For &lt;code&gt;.mdx&lt;/code&gt; and &lt;code&gt;.md&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell
-git log --oneline
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Add Title&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell title=&quot;start.sh&quot;
-#!/bin/bash
-
-bun check &amp;#x26;
-bun dev
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
-
-bun check &amp;#x26;
-bun dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Show Diff&lt;/h2&gt;
-&lt;p&gt;Supports add and del lines.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
-
-```shell title=&quot;deploy.sh&quot;
-#!/bin/bash
-
-bun check
-bun lint
-bun format # [\!code ++]
-# No need for vercel or other ci/cd
-bun run build # [\!code --]
-git push
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
-
-bun check
-bun lint
-bun format # [!code ++]
-# No need for vercel or other ci/cd
-bun run build # [!code --]
-git push
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Show Hightlight&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
-
-```ts
-const add = (a: number, b: number) =&gt; a + b
-const sub = (a: number, b: number) =&gt; a - b
-console.log(add(1, 2)) // [\!code highlight]
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;const add = (a: number, b: number) =&gt; a + b
-const sub = (a: number, b: number) =&gt; a - b
-console.log(add(1, 2)) // [!code highlight]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Show Hightlight Multiple Lines&lt;/h2&gt;
-&lt;p&gt;You can also highlight multiple lines with a single comment:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
-
-```ts
-console.log(&apos;Highlighted&apos;) // [\!code highlight:2]
-console.log(&apos;Highlighted&apos;)
-console.log(&apos;Not highlighted&apos;)
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;console.log(&apos;Highlighted&apos;) // [!code highlight:2]
-console.log(&apos;Highlighted&apos;)
-console.log(&apos;Not highlighted&apos;)
-&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Advanced Components</title><link>https://jjacobs.me/docs/integrations/advanced</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/advanced</guid><description>Advanced components with advanced docs</description><content:encoded>&lt;h2&gt;Web Content Render&lt;/h2&gt;
+&lt;/ul&gt;</content:encoded></item><item><title>Advanced Components</title><link>https://jjacobs.me/docs/integrations/advanced</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/advanced</guid><description>Advanced components with advanced docs</description><content:encoded>&lt;h2&gt;Web Content Render&lt;/h2&gt;
 &lt;h3&gt;Quote&lt;/h3&gt;
 &lt;p&gt;The &lt;code&gt;Quote&lt;/code&gt; component is a simple component that displays a random quote.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { Quote } from &apos;astro-pure/advanced&apos;
@@ -284,209 +204,87 @@ console.log(&apos;Not highlighted&apos;)
 ;&amp;#x3C;Comment /&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Render:&lt;/p&gt;
-&lt;p&gt;import { Comment } from &apos;astro-pure/advanced&apos;&lt;/p&gt;</content:encoded></item><item><title>User Components</title><link>https://jjacobs.me/docs/integrations/components</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/components</guid><description>Easily extend your content page more interactive</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, MdxRepl } from &apos;astro-pure/user&apos;&lt;/p&gt;
-&lt;p&gt;Components let you easily reuse a piece of UI or styling consistently. You can use them not just in &lt;code&gt;.astro&lt;/code&gt; files, but also in &lt;code&gt;.mdx&lt;/code&gt; files.&lt;/p&gt;
-&lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt;, you can directly import and use components and use. An example will also shown in the first section.&lt;/p&gt;
-&lt;h2&gt;Containers&lt;/h2&gt;
-&lt;h3&gt;Card&lt;/h3&gt;
-&lt;p&gt;&amp;#x3C;Card
-as=&apos;a&apos;
-href=&apos;#card&apos;
-heading=&apos;Lorem ipsum&apos;
-subheading=&apos;Lorem ipsum dolor sit amet, vidit suscipit at mei.&apos;
-date=&apos;August 2021&apos;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;You can even contain a list here
-&lt;/p&gt;
-&lt;p&gt;&amp;#x3C;Card
-as=&apos;a&apos;
-href=&apos;#card&apos;
-heading=&apos;Lorem ipsum&apos;
-subheading=&apos;Lorem ipsum dolor sit amet, vidit suscipit at mei.&apos;
-date=&apos;August 2021&apos;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;You can even contain a list here
-&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;#x3C;/TabItem&gt;
-&amp;#x3C;TabItem label=&apos;Astro&apos;&gt;
-```astro
+&lt;p&gt;import { Comment } from &apos;astro-pure/advanced&apos;&lt;/p&gt;</content:encoded></item><item><title>Shiki Code</title><link>https://jjacobs.me/docs/integrations/code</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/code</guid><description>Some mmthods using shiki code</description><content:encoded>&lt;h2&gt;Basic Usage&lt;/h2&gt;
+&lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
+import { Code } from &apos;astro:components&apos;
 ---
-import { Card } from &apos;astro-pure/user&apos;
----
-&amp;#x3C;!-- ... --&gt;
-&amp;#x3C;Card
-  as=&apos;a&apos;
-  href=&apos;#card&apos;
-  heading=&apos;Lorem ipsum&apos;
-  subheading=&apos;Lorem ipsum dolor sit amet, vidit suscipit at mei.&apos;
-  date=&apos;August 2021&apos;
-&gt;
-  You can even contain a list here
-&amp;#x3C;/Card&gt;
+
+&amp;#x3C;Code lang=&apos;shell&apos; code={`git log --oneline`} /&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Collapse&lt;/h3&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, vidit suscipit at mei.
-&lt;/p&gt;
-&lt;p&gt; Lorem ipsum dolor sit amet, vidit suscipit at mei. 
-&lt;/p&gt;
-&lt;h3&gt;Aside&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// A code snippet, for example.
+&lt;p&gt;For &lt;code&gt;.mdx&lt;/code&gt; and &lt;code&gt;.md&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell
+git log --oneline
+```
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;// &lt;code&gt;js   // A code snippet, for example.   // &lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;This component also has a remark support version (which can directly use in &lt;code&gt;.md&lt;/code&gt;), but not integrated in this theme. You can check &lt;a href=&quot;https://github.com/withastro/starlight/blob/main/packages/starlight/integrations/asides.ts&quot;&gt;packages/starlight/index.ts&lt;/a&gt; for reference code.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;:::tip
-This theme author is a good guy.
-:::
+&lt;h2&gt;Add Title&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;```shell title=&quot;start.sh&quot;
+#!/bin/bash
+
+bun check &amp;#x26;
+bun dev
+```
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Tabs&lt;/h3&gt;
-&lt;h3&gt;MDX Repl&lt;/h3&gt;
-&lt;p&gt;// Width is optional; using width parameter to set
-// all elements inside the MDX Repl component.
-// (slot desc is not included this parameter)
-&lt;/p&gt;
-&lt;p&gt;You can combine any other components for the sclot &lt;code&gt;desc&lt;/code&gt;. And &lt;code&gt;&amp;#x3C;Fragment&gt;&lt;/code&gt; will not be rendered as a parent html container tag.&lt;/p&gt;
-&lt;h2&gt;List&lt;/h2&gt;
-&lt;h3&gt;CardList&lt;/h3&gt;
-&lt;p&gt;&amp;#x3C;CardList title=&apos;A list&apos; list={
-[{title: &apos;I am hidden!&apos;}]
-} collapse /&gt;
-&amp;#x3C;CardList title=&apos;A list&apos; list={
-[
-{ title: &apos;Lorem ipsum&apos;, link: &apos;#list&apos; },
-{ title: &apos;Dolor sit amet&apos;, children: [{
-title: &apos;Vidit suscipit&apos;, link: &apos;#&apos;
-}] }
-]
-} /&gt;&lt;/p&gt;
-&lt;p&gt;&amp;#x3C;CardList title=&apos;A list&apos; list={
-[{title: &apos;I am hidden!&apos;}]
-} collapse /&gt;
-&amp;#x3C;CardList title=&apos;A list&apos; list={
-[
-{ title: &apos;Lorem ipsum&apos;, link: &apos;#list&apos; },
-{ title: &apos;Dolor sit amet&apos;, children: [{
-title: &apos;Vidit suscipit&apos;, link: &apos;#&apos;
-}] }
-]
-} /&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;#x3C;/Fragment&gt;
-&amp;#x3C;/MdxRepl&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
 
-### Timeline
-
-&amp;#x3C;MdxRepl&gt;
-import { Timeline } from &apos;astro-pure/user&apos;
-
-&amp;#x3C;Timeline events={
-[
-  { date: &apos;August 2021&apos;, content: &apos;Hello&apos; },
-  { date: &apos;August 2022&apos;, content: &apos;&amp;#x3C;i&gt;World!&amp;#x3C;/i&gt;&apos; },
-]
-} /&gt;
-
-&amp;#x3C;Fragment slot=&apos;desc&apos;&gt;
-```jsx
-import { Timeline } from &apos;astro-pure/user&apos;
-
-&amp;#x3C;Timeline events={
-  [
-    { date: &apos;August 2021&apos;, content: &apos;Hello&apos; },
-    { date: &apos;August 2022&apos;, content: &apos;&amp;#x3C;i&gt;World!&amp;#x3C;/i&gt;&apos; },
-  ]
-} /&gt;
+bun check &amp;#x26;
+bun dev
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Steps&lt;/h3&gt;
-&lt;p&gt;How to Yi Jian San Lian:&lt;/p&gt;
-&lt;p&gt;Or GuanZhu sometimes.
-&lt;/p&gt;
-&lt;p&gt;How to Yi Jian San Lian:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Or GuanZhu sometimes.
+&lt;h2&gt;Show Diff&lt;/h2&gt;
+&lt;p&gt;Supports add and del lines.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
+
+```shell title=&quot;deploy.sh&quot;
+#!/bin/bash
+
+bun check
+bun lint
+bun format # [\!code ++]
+# No need for vercel or other ci/cd
+bun run build # [\!code --]
+git push
+```
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Simple Text Render&lt;/h2&gt;
-&lt;h3&gt;Button&lt;/h3&gt;
-&lt;h3&gt;Spoiler&lt;/h3&gt;
-&lt;p&gt;No one can find me. But I am exposed here.&lt;/p&gt;
-&lt;p&gt;No one can find me. But I am exposed here.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;#x3C;/Fragment&gt;
-&amp;#x3C;/MdxRepl&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;#!/bin/bash
 
-### Formatted Date
-
-&amp;#x3C;MdxRepl&gt;
-import { FormattedDate } from &apos;astro-pure/user&apos;
-
-&amp;#x3C;FormattedDate date={new Date(&apos;2021-08-01&apos;)} dateTimeOptions={{ month: &apos;short&apos; }} /&gt;
-
-&amp;#x3C;Fragment slot=&apos;desc&apos;&gt;
-```jsx
-import { FormattedDate } from &apos;astro-pure/user&apos;
-
-&amp;#x3C;FormattedDate date={new Date(&apos;2021-08-01&apos;)} dateTimeOptions={{ month: &apos;short&apos; }} /&gt;
+bun check
+bun lint
+bun format # [!code ++]
+# No need for vercel or other ci/cd
+bun run build # [!code --]
+git push
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Label&lt;/h3&gt;
-&lt;h3&gt;SVG Loader&lt;/h3&gt;
-&lt;p&gt;&amp;#x3C;Svg src={import(&apos;@/assets/icons/key.svg?raw&apos;)} /&gt;&lt;/p&gt;
-&lt;p&gt;&amp;#x3C;Svg src={import(&apos;@/assets/icons/key.svg?raw&apos;)} /&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;#x3C;/Fragment&gt;
-&amp;#x3C;/MdxRepl&gt;
+&lt;h2&gt;Show Hightlight&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
 
-## Resources
-
-### Icon
-
-&amp;#x3C;MdxRepl width=&apos;100%&apos;&gt;
-&amp;#x3C;div&gt;
-import { Icon } from &apos;astro-pure/user&apos;
-
-Single use: &amp;#x3C;Icon name=&apos;rss&apos; class=&apos;inline&apos; /&gt;
-
-Preview all icons available (click button to copy):
-
-import { Icons as allIcons } from &apos;astro-pure/libs&apos;
-
-&amp;#x3C;div class=&apos;flex flex-wrap gap-2&apos;&gt;
-{
-Object.keys(allIcons).map(icon =&gt; {
-  const script = `navigator.clipboard.writeText(&apos;${icon}&apos;);document.dispatchEvent(new CustomEvent(&apos;toast&apos;,{detail:{message:&apos;Copied &quot;${icon}&quot; to clipboard!&apos;}}))`
-  return (
-    &amp;#x3C;Button as=&apos;button&apos; type=&apos;button&apos; class=&apos;cursor-pointer&apos; onClick={script}&gt;
-      &amp;#x3C;Icon slot=&apos;before&apos; name={icon} /&gt;
-      &amp;#x3C;span&gt;{icon}&amp;#x3C;/span&gt;
-    &amp;#x3C;/Button&gt;
-  )
-})
-}
-&amp;#x3C;/div&gt;
-&amp;#x3C;/div&gt;
-
-&amp;#x3C;Fragment slot=&apos;desc&apos;&gt;
-```jsx
-import { Icon } from &apos;astro-pure/user&apos;
-
-Single use: &amp;#x3C;Icon name=&apos;rss&apos; class=&apos;inline&apos; /&gt;
-
-Preview all icons available (click button to copy):
-
-import { Icons as allIcons } from &apos;astro-pure/libs&apos;
-import { Button } from &apos;astro-pure/user&apos;
-
-&amp;#x3C;div class=&apos;flex flex-wrap gap-2&apos;&gt;
-{
-  Object.keys(allIcons).map(icon =&gt; {
-    const script = `navigator.clipboard.writeText(&apos;${icon}&apos;);document.dispatchEvent(new CustomEvent(&apos;toast&apos;,{detail:{message:&apos;Copied &quot;${icon}&quot; to clipboard!&apos;}}))`
-    return (
-      &amp;#x3C;Button as=&apos;button&apos; type=&apos;button&apos; class=&apos;cursor-pointer&apos; onclick={script}&gt;
-        &amp;#x3C;Icon slot=&apos;before&apos; name={icon} /&gt;
-        &amp;#x3C;span&gt;{icon}&amp;#x3C;/span&gt;
-      &amp;#x3C;/Button&gt;
-    )
-  })
-}
-&amp;#x3C;/div&gt;
+```ts
+const add = (a: number, b: number) =&gt; a + b
+const sub = (a: number, b: number) =&gt; a - b
+console.log(add(1, 2)) // [\!code highlight]
+```
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There&apos;s also some &lt;a href=&quot;/docs/integrations/advanced&quot;&gt;Advanced Components&lt;/a&gt;, which may suit for you. Hope you enjoy using these components!&lt;/p&gt;</content:encoded></item><item><title>Update Theme</title><link>https://jjacobs.me/docs/advanced/update</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/update</guid><description>Update astro theme pure to the latest version</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;const add = (a: number, b: number) =&gt; a + b
+const sub = (a: number, b: number) =&gt; a - b
+console.log(add(1, 2)) // [!code highlight]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Show Hightlight Multiple Lines&lt;/h2&gt;
+&lt;p&gt;You can also highlight multiple lines with a single comment:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-markdown&quot;&gt;&amp;#x3C;!-- You need to delete `\` during the use --&gt;
+
+```ts
+console.log(&apos;Highlighted&apos;) // [\!code highlight:2]
+console.log(&apos;Highlighted&apos;)
+console.log(&apos;Not highlighted&apos;)
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;console.log(&apos;Highlighted&apos;) // [!code highlight:2]
+console.log(&apos;Highlighted&apos;)
+console.log(&apos;Not highlighted&apos;)
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Update Theme</title><link>https://jjacobs.me/docs/advanced/update</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/update</guid><description>Update astro theme pure to the latest version</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;h2&gt;Breaking Changes&lt;/h2&gt;
 &lt;h3&gt;v4.0.2-beta&lt;/h3&gt;
 &lt;ul&gt;
@@ -886,7 +684,305 @@ import config from &apos;@/site-config&apos;
 &lt;p&gt;Problem: Errors during build time when processing LaTeX syntax.&lt;/p&gt;
 &lt;p&gt;Solution: Ensure that your LaTeX is correctly formatted and that there are no syntax errors in your markdown files. LaTeX syntax errors can break the parser and cause build failures.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title>Getting Started</title><link>https://jjacobs.me/docs/setup/getting-started</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/getting-started</guid><description>Get started with the astro theme pure</description><content:encoded>&lt;p&gt;import { Steps, Aside, Tabs, TabItem } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;/ul&gt;</content:encoded></item><item><title>User Components</title><link>https://jjacobs.me/docs/integrations/components</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/components</guid><description>Easily extend your content page more interactive</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, MdxRepl } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;p&gt;Components let you easily reuse a piece of UI or styling consistently. You can use them not just in &lt;code&gt;.astro&lt;/code&gt; files, but also in &lt;code&gt;.mdx&lt;/code&gt; files.&lt;/p&gt;
+&lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt;, you can directly import and use components and use. An example will also shown in the first section.&lt;/p&gt;
+&lt;h2&gt;Containers&lt;/h2&gt;
+&lt;h3&gt;Card&lt;/h3&gt;
+&lt;p&gt;&amp;#x3C;Card
+as=&apos;a&apos;
+href=&apos;#card&apos;
+heading=&apos;Lorem ipsum&apos;
+subheading=&apos;Lorem ipsum dolor sit amet, vidit suscipit at mei.&apos;
+date=&apos;August 2021&apos;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You can even contain a list here
+&lt;/p&gt;
+&lt;p&gt;&amp;#x3C;Card
+as=&apos;a&apos;
+href=&apos;#card&apos;
+heading=&apos;Lorem ipsum&apos;
+subheading=&apos;Lorem ipsum dolor sit amet, vidit suscipit at mei.&apos;
+date=&apos;August 2021&apos;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You can even contain a list here
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#x3C;/TabItem&gt;
+&amp;#x3C;TabItem label=&apos;Astro&apos;&gt;
+```astro
+---
+import { Card } from &apos;astro-pure/user&apos;
+---
+&amp;#x3C;!-- ... --&gt;
+&amp;#x3C;Card
+  as=&apos;a&apos;
+  href=&apos;#card&apos;
+  heading=&apos;Lorem ipsum&apos;
+  subheading=&apos;Lorem ipsum dolor sit amet, vidit suscipit at mei.&apos;
+  date=&apos;August 2021&apos;
+&gt;
+  You can even contain a list here
+&amp;#x3C;/Card&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Collapse&lt;/h3&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, vidit suscipit at mei.
+&lt;/p&gt;
+&lt;p&gt; Lorem ipsum dolor sit amet, vidit suscipit at mei. 
+&lt;/p&gt;
+&lt;h3&gt;Aside&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// A code snippet, for example.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;// &lt;code&gt;js   // A code snippet, for example.   // &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This component also has a remark support version (which can directly use in &lt;code&gt;.md&lt;/code&gt;), but not integrated in this theme. You can check &lt;a href=&quot;https://github.com/withastro/starlight/blob/main/packages/starlight/integrations/asides.ts&quot;&gt;packages/starlight/index.ts&lt;/a&gt; for reference code.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;:::tip
+This theme author is a good guy.
+:::
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Tabs&lt;/h3&gt;
+&lt;h3&gt;MDX Repl&lt;/h3&gt;
+&lt;p&gt;// Width is optional; using width parameter to set
+// all elements inside the MDX Repl component.
+// (slot desc is not included this parameter)
+&lt;/p&gt;
+&lt;p&gt;You can combine any other components for the sclot &lt;code&gt;desc&lt;/code&gt;. And &lt;code&gt;&amp;#x3C;Fragment&gt;&lt;/code&gt; will not be rendered as a parent html container tag.&lt;/p&gt;
+&lt;h2&gt;List&lt;/h2&gt;
+&lt;h3&gt;CardList&lt;/h3&gt;
+&lt;p&gt;&amp;#x3C;CardList title=&apos;A list&apos; list={
+[{title: &apos;I am hidden!&apos;}]
+} collapse /&gt;
+&amp;#x3C;CardList title=&apos;A list&apos; list={
+[
+{ title: &apos;Lorem ipsum&apos;, link: &apos;#list&apos; },
+{ title: &apos;Dolor sit amet&apos;, children: [{
+title: &apos;Vidit suscipit&apos;, link: &apos;#&apos;
+}] }
+]
+} /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x3C;CardList title=&apos;A list&apos; list={
+[{title: &apos;I am hidden!&apos;}]
+} collapse /&gt;
+&amp;#x3C;CardList title=&apos;A list&apos; list={
+[
+{ title: &apos;Lorem ipsum&apos;, link: &apos;#list&apos; },
+{ title: &apos;Dolor sit amet&apos;, children: [{
+title: &apos;Vidit suscipit&apos;, link: &apos;#&apos;
+}] }
+]
+} /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#x3C;/Fragment&gt;
+&amp;#x3C;/MdxRepl&gt;
+
+### Timeline
+
+&amp;#x3C;MdxRepl&gt;
+import { Timeline } from &apos;astro-pure/user&apos;
+
+&amp;#x3C;Timeline events={
+[
+  { date: &apos;August 2021&apos;, content: &apos;Hello&apos; },
+  { date: &apos;August 2022&apos;, content: &apos;&amp;#x3C;i&gt;World!&amp;#x3C;/i&gt;&apos; },
+]
+} /&gt;
+
+&amp;#x3C;Fragment slot=&apos;desc&apos;&gt;
+```jsx
+import { Timeline } from &apos;astro-pure/user&apos;
+
+&amp;#x3C;Timeline events={
+  [
+    { date: &apos;August 2021&apos;, content: &apos;Hello&apos; },
+    { date: &apos;August 2022&apos;, content: &apos;&amp;#x3C;i&gt;World!&amp;#x3C;/i&gt;&apos; },
+  ]
+} /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Steps&lt;/h3&gt;
+&lt;p&gt;How to Yi Jian San Lian:&lt;/p&gt;
+&lt;p&gt;Or GuanZhu sometimes.
+&lt;/p&gt;
+&lt;p&gt;How to Yi Jian San Lian:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Or GuanZhu sometimes.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Simple Text Render&lt;/h2&gt;
+&lt;h3&gt;Button&lt;/h3&gt;
+&lt;h3&gt;Spoiler&lt;/h3&gt;
+&lt;p&gt;No one can find me. But I am exposed here.&lt;/p&gt;
+&lt;p&gt;No one can find me. But I am exposed here.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#x3C;/Fragment&gt;
+&amp;#x3C;/MdxRepl&gt;
+
+### Formatted Date
+
+&amp;#x3C;MdxRepl&gt;
+import { FormattedDate } from &apos;astro-pure/user&apos;
+
+&amp;#x3C;FormattedDate date={new Date(&apos;2021-08-01&apos;)} dateTimeOptions={{ month: &apos;short&apos; }} /&gt;
+
+&amp;#x3C;Fragment slot=&apos;desc&apos;&gt;
+```jsx
+import { FormattedDate } from &apos;astro-pure/user&apos;
+
+&amp;#x3C;FormattedDate date={new Date(&apos;2021-08-01&apos;)} dateTimeOptions={{ month: &apos;short&apos; }} /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Label&lt;/h3&gt;
+&lt;h3&gt;SVG Loader&lt;/h3&gt;
+&lt;p&gt;&amp;#x3C;Svg src={import(&apos;@/assets/icons/key.svg?raw&apos;)} /&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x3C;Svg src={import(&apos;@/assets/icons/key.svg?raw&apos;)} /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#x3C;/Fragment&gt;
+&amp;#x3C;/MdxRepl&gt;
+
+## Resources
+
+### Icon
+
+&amp;#x3C;MdxRepl width=&apos;100%&apos;&gt;
+&amp;#x3C;div&gt;
+import { Icon } from &apos;astro-pure/user&apos;
+
+Single use: &amp;#x3C;Icon name=&apos;rss&apos; class=&apos;inline&apos; /&gt;
+
+Preview all icons available (click button to copy):
+
+import { Icons as allIcons } from &apos;astro-pure/libs&apos;
+
+&amp;#x3C;div class=&apos;flex flex-wrap gap-2&apos;&gt;
+{
+Object.keys(allIcons).map(icon =&gt; {
+  const script = `navigator.clipboard.writeText(&apos;${icon}&apos;);document.dispatchEvent(new CustomEvent(&apos;toast&apos;,{detail:{message:&apos;Copied &quot;${icon}&quot; to clipboard!&apos;}}))`
+  return (
+    &amp;#x3C;Button as=&apos;button&apos; type=&apos;button&apos; class=&apos;cursor-pointer&apos; onClick={script}&gt;
+      &amp;#x3C;Icon slot=&apos;before&apos; name={icon} /&gt;
+      &amp;#x3C;span&gt;{icon}&amp;#x3C;/span&gt;
+    &amp;#x3C;/Button&gt;
+  )
+})
+}
+&amp;#x3C;/div&gt;
+&amp;#x3C;/div&gt;
+
+&amp;#x3C;Fragment slot=&apos;desc&apos;&gt;
+```jsx
+import { Icon } from &apos;astro-pure/user&apos;
+
+Single use: &amp;#x3C;Icon name=&apos;rss&apos; class=&apos;inline&apos; /&gt;
+
+Preview all icons available (click button to copy):
+
+import { Icons as allIcons } from &apos;astro-pure/libs&apos;
+import { Button } from &apos;astro-pure/user&apos;
+
+&amp;#x3C;div class=&apos;flex flex-wrap gap-2&apos;&gt;
+{
+  Object.keys(allIcons).map(icon =&gt; {
+    const script = `navigator.clipboard.writeText(&apos;${icon}&apos;);document.dispatchEvent(new CustomEvent(&apos;toast&apos;,{detail:{message:&apos;Copied &quot;${icon}&quot; to clipboard!&apos;}}))`
+    return (
+      &amp;#x3C;Button as=&apos;button&apos; type=&apos;button&apos; class=&apos;cursor-pointer&apos; onclick={script}&gt;
+        &amp;#x3C;Icon slot=&apos;before&apos; name={icon} /&gt;
+        &amp;#x3C;span&gt;{icon}&amp;#x3C;/span&gt;
+      &amp;#x3C;/Button&gt;
+    )
+  })
+}
+&amp;#x3C;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There&apos;s also some &lt;a href=&quot;/docs/integrations/advanced&quot;&gt;Advanced Components&lt;/a&gt;, which may suit for you. Hope you enjoy using these components!&lt;/p&gt;</content:encoded></item><item><title>Configuration</title><link>https://jjacobs.me/docs/setup/configuration</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/configuration</guid><description>Configuration files</description><content:encoded>&lt;h2&gt;Theme Configuration&lt;/h2&gt;
+&lt;p&gt;File: &lt;code&gt;src/site.config.ts&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;pending update...&lt;/p&gt;
+&lt;h2&gt;Astro Configuration&lt;/h2&gt;
+&lt;p&gt;File: &lt;code&gt;astro.config.mjs&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You can configure it to change deployment methods, add rehype &amp;#x26; remark plugins, and more.&lt;/p&gt;
+&lt;p&gt;Read more about Astro configuration &lt;a href=&quot;https://docs.astro.build/en/guides/configuring-astro/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;ESLint Configuration&lt;/h2&gt;
+&lt;p&gt;File: &lt;code&gt;eslint.config.mjs&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You can configure ESLint to change rules and security checks.&lt;/p&gt;
+&lt;p&gt;Read more about ESLint configuration &lt;a href=&quot;https://eslint.org/docs/latest/use/configure/configuration-files&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Prettier Configuration&lt;/h2&gt;
+&lt;p&gt;File: &lt;code&gt;prettier.config.mjs&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You can configure Prettier to change code formatting rules, this can change your experience using package command &lt;code&gt;format&lt;/code&gt; and extension support for your favorite IDE.&lt;/p&gt;
+&lt;p&gt;Options are available &lt;a href=&quot;https://prettier.io/docs/en/options&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Tailwind CSS Configuration&lt;/h2&gt;
+&lt;p&gt;File: &lt;code&gt;tailwind.config.mjs&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;It is a utility-first CSS framework building custom designs. Theme also uses its plugin &lt;code&gt;typography&lt;/code&gt; to make typesettings (checkout &lt;a href=&quot;/docs/integrations/others#tailwindcsstypography&quot;&gt;Other Integrations#&lt;code&gt;@tailwindcss/typography&lt;/code&gt;&lt;/a&gt; for more info).&lt;/p&gt;
+&lt;p&gt;Get to know more:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.astro.build/en/recipes/tailwind-rendered-markdown/#setting-up-tailwindcsstypography&quot;&gt;Astro: Style rendered Markdown with Tailwind Typography&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.astro.build/en/guides/integrations-guide/tailwind/&quot;&gt;Astro: Integrations with @astrojs/tailwind&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tailwindcss.com/docs/configuration&quot;&gt;Tailwindcss: Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And you can also customize the theme default tailwind palette by modifying the CSS file at &lt;code&gt;src/assets/styles/app.css&lt;/code&gt;. For example, if you want to change the default theme color, you can modify the following code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-css&quot;&gt;/* ... */
+@layer base {
+  /* ... */
+  --primary: 200 29% 45%; /* [!code --] */
+  --primary: &amp;#x3C;Your favorite color using hsl&gt;; /* [!code ++] */
+  /* ... */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Typescript Configuration&lt;/h2&gt;
+&lt;p&gt;File: &lt;code&gt;tsconfig.json&lt;/code&gt;&lt;/p&gt;</content:encoded></item><item><title>Deployment</title><link>https://jjacobs.me/docs/setup/deployment</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/deployment</guid><description>Comment system for pages at the bottom</description><content:encoded>&lt;p&gt;import { Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;h2&gt;Package Mode&lt;/h2&gt;
+&lt;p&gt;This theme which &gt;= v4.0.0 has integrated NPM package mode. Recommended way is remove local package file, and install the theme integration from NPM. If there&apos;s some reason you want to change the package content, you should link local package to your theme template. A &lt;code&gt;bun&lt;/code&gt; method is integrated. You should:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add environment variable &lt;code&gt;BUN_LINK_PKG=true&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;bun pure check&lt;/code&gt; to link the package automatically.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This method can also work on Deployment for other platforms like &apos;Vercel&apos;. All you need is to add the environment variable to build options on your platform control settings. The build command &lt;code&gt;astro-pure check &amp;#x26;&amp;#x26; astro check &amp;#x26;&amp;#x26; astro build&lt;/code&gt; will automatically link the package.&lt;/p&gt;
+&lt;h2&gt;Deployment Mode&lt;/h2&gt;
+&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;h3&gt;Vercel&lt;/h3&gt;
+&lt;p&gt;This theme supports Vercel by default:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Push your code to your online Git repository (GitHub, GitLab, BitBucket).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://vercel.com/new&quot;&gt;Import your project&lt;/a&gt; into Vercel.&lt;/li&gt;
+&lt;li&gt;Vercel will automatically detect Astro and configure the right settings.&lt;/li&gt;
+&lt;li&gt;Your application is deployed! (e.g. &lt;a href=&quot;https://astro.vercel.app/&quot;&gt;astro.vercel.app&lt;/a&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And vercel also support static method:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import vercelServerless from &apos;@astrojs/vercel/serverless&apos; // [!code --]
+import vercelStatic from &apos;@astrojs/vercel/static&apos;; // [!code ++]
+
+export default defineConfig({
+  //   ...
+  adapter: vercelServerless() // [!code --]
+  adapter: vercelStatic(), // [!code ++]
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Node server&lt;/h3&gt;
+&lt;p&gt;If you are deploying with Node.js locally, you need to install &lt;code&gt;@astrojs/node&lt;/code&gt; first:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;bun add &apos;@astrojs/node&apos;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then follow the comments in &lt;code&gt;astro.config.ts&lt;/code&gt; and modify like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import vercelServerless from &apos;@astrojs/vercel/serverless&apos; // [!code --]
+import node from &apos;@astrojs/node&apos; // [!code ++]
+
+export default defineConfig({
+  //   ...
+  adapter: vercelServerless(), // [!code --]
+  adapter: node({ mode: &apos;standalone&apos; }), // [!code ++]
+
+  integrations: [
+    outputCopier({ // [!code --]
+      integ: [&apos;sitemap&apos;, &apos;pagefind&apos;] // [!code --]
+    }) // [!code --]
+  ]
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Bun server&lt;/h3&gt;
+&lt;p&gt;Bun also support static method.&lt;/p&gt;
+&lt;p&gt;Check &lt;a href=&quot;https://www.npmjs.com/package/@nurodev/astro-bun&quot;&gt;@nurodev/astro-bun&lt;/a&gt; for more.&lt;/p&gt;
+&lt;h3&gt;Static&lt;/h3&gt;
+&lt;p&gt;Remove all server adapter configuration in &lt;code&gt;astro.config.ts&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import vercelServerless from &apos;@astrojs/vercel/serverless&apos; // [!code --]
+
+export default defineConfig({
+  //   ...
+  adapter: vercelServerless(), // [!code --]
+  output: &apos;server&apos;, // [!code --]
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;GitHub Pages&lt;/h3&gt;
+&lt;p&gt;See &lt;a href=&quot;https://docs.astro.build/en/guides/deploy/github/&quot;&gt;Astro: Configure Astro for GitHub Pages&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>Getting Started</title><link>https://jjacobs.me/docs/setup/getting-started</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/getting-started</guid><description>Get started with the astro theme pure</description><content:encoded>&lt;p&gt;import { Steps, Aside, Tabs, TabItem } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;h2&gt;Installation&lt;/h2&gt;
 &lt;p&gt;Two way to install. &quot;Template&quot; way is lightweight and simple, but hard to update; while &quot;Fork&quot; way is easy to update but needs some skills for git.&lt;/p&gt;
 &lt;h3&gt;Install Using Template&lt;/h3&gt;
@@ -1007,103 +1103,7 @@ export const integ: IntegrationUserConfig = { /* ... */ }
 &lt;p&gt;Typescript Syntax&lt;/p&gt;
 &lt;p&gt;The configuration file &lt;code&gt;site.config.ts&lt;/code&gt; uses Typescript syntax. If you are not familiar with TS syntax, please read about it &lt;a href=&quot;https://learnxinyminutes.com/docs/typescript/&quot;&gt;here&lt;/a&gt; first.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;</content:encoded></item><item><title>Configuration</title><link>https://jjacobs.me/docs/setup/configuration</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/configuration</guid><description>Configuration files</description><content:encoded>&lt;h2&gt;Theme Configuration&lt;/h2&gt;
-&lt;p&gt;File: &lt;code&gt;src/site.config.ts&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;pending update...&lt;/p&gt;
-&lt;h2&gt;Astro Configuration&lt;/h2&gt;
-&lt;p&gt;File: &lt;code&gt;astro.config.mjs&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;You can configure it to change deployment methods, add rehype &amp;#x26; remark plugins, and more.&lt;/p&gt;
-&lt;p&gt;Read more about Astro configuration &lt;a href=&quot;https://docs.astro.build/en/guides/configuring-astro/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;ESLint Configuration&lt;/h2&gt;
-&lt;p&gt;File: &lt;code&gt;eslint.config.mjs&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;You can configure ESLint to change rules and security checks.&lt;/p&gt;
-&lt;p&gt;Read more about ESLint configuration &lt;a href=&quot;https://eslint.org/docs/latest/use/configure/configuration-files&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;Prettier Configuration&lt;/h2&gt;
-&lt;p&gt;File: &lt;code&gt;prettier.config.mjs&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;You can configure Prettier to change code formatting rules, this can change your experience using package command &lt;code&gt;format&lt;/code&gt; and extension support for your favorite IDE.&lt;/p&gt;
-&lt;p&gt;Options are available &lt;a href=&quot;https://prettier.io/docs/en/options&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;Tailwind CSS Configuration&lt;/h2&gt;
-&lt;p&gt;File: &lt;code&gt;tailwind.config.mjs&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;It is a utility-first CSS framework building custom designs. Theme also uses its plugin &lt;code&gt;typography&lt;/code&gt; to make typesettings (checkout &lt;a href=&quot;/docs/integrations/others#tailwindcsstypography&quot;&gt;Other Integrations#&lt;code&gt;@tailwindcss/typography&lt;/code&gt;&lt;/a&gt; for more info).&lt;/p&gt;
-&lt;p&gt;Get to know more:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.astro.build/en/recipes/tailwind-rendered-markdown/#setting-up-tailwindcsstypography&quot;&gt;Astro: Style rendered Markdown with Tailwind Typography&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://docs.astro.build/en/guides/integrations-guide/tailwind/&quot;&gt;Astro: Integrations with @astrojs/tailwind&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://tailwindcss.com/docs/configuration&quot;&gt;Tailwindcss: Configuration&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;And you can also customize the theme default tailwind palette by modifying the CSS file at &lt;code&gt;src/assets/styles/app.css&lt;/code&gt;. For example, if you want to change the default theme color, you can modify the following code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-css&quot;&gt;/* ... */
-@layer base {
-  /* ... */
-  --primary: 200 29% 45%; /* [!code --] */
-  --primary: &amp;#x3C;Your favorite color using hsl&gt;; /* [!code ++] */
-  /* ... */
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Typescript Configuration&lt;/h2&gt;
-&lt;p&gt;File: &lt;code&gt;tsconfig.json&lt;/code&gt;&lt;/p&gt;</content:encoded></item><item><title>Deployment</title><link>https://jjacobs.me/docs/setup/deployment</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/deployment</guid><description>Comment system for pages at the bottom</description><content:encoded>&lt;p&gt;import { Steps } from &apos;astro-pure/user&apos;&lt;/p&gt;
-&lt;h2&gt;Package Mode&lt;/h2&gt;
-&lt;p&gt;This theme which &gt;= v4.0.0 has integrated NPM package mode. Recommended way is remove local package file, and install the theme integration from NPM. If there&apos;s some reason you want to change the package content, you should link local package to your theme template. A &lt;code&gt;bun&lt;/code&gt; method is integrated. You should:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Add environment variable &lt;code&gt;BUN_LINK_PKG=true&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Run &lt;code&gt;bun pure check&lt;/code&gt; to link the package automatically.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;This method can also work on Deployment for other platforms like &apos;Vercel&apos;. All you need is to add the environment variable to build options on your platform control settings. The build command &lt;code&gt;astro-pure check &amp;#x26;&amp;#x26; astro check &amp;#x26;&amp;#x26; astro build&lt;/code&gt; will automatically link the package.&lt;/p&gt;
-&lt;h2&gt;Deployment Mode&lt;/h2&gt;
-&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
-&lt;h3&gt;Vercel&lt;/h3&gt;
-&lt;p&gt;This theme supports Vercel by default:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Push your code to your online Git repository (GitHub, GitLab, BitBucket).&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://vercel.com/new&quot;&gt;Import your project&lt;/a&gt; into Vercel.&lt;/li&gt;
-&lt;li&gt;Vercel will automatically detect Astro and configure the right settings.&lt;/li&gt;
-&lt;li&gt;Your application is deployed! (e.g. &lt;a href=&quot;https://astro.vercel.app/&quot;&gt;astro.vercel.app&lt;/a&gt;)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;And vercel also support static method:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import vercelServerless from &apos;@astrojs/vercel/serverless&apos; // [!code --]
-import vercelStatic from &apos;@astrojs/vercel/static&apos;; // [!code ++]
-
-export default defineConfig({
-  //   ...
-  adapter: vercelServerless() // [!code --]
-  adapter: vercelStatic(), // [!code ++]
-})
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Node server&lt;/h3&gt;
-&lt;p&gt;If you are deploying with Node.js locally, you need to install &lt;code&gt;@astrojs/node&lt;/code&gt; first:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;bun add &apos;@astrojs/node&apos;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then follow the comments in &lt;code&gt;astro.config.ts&lt;/code&gt; and modify like:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import vercelServerless from &apos;@astrojs/vercel/serverless&apos; // [!code --]
-import node from &apos;@astrojs/node&apos; // [!code ++]
-
-export default defineConfig({
-  //   ...
-  adapter: vercelServerless(), // [!code --]
-  adapter: node({ mode: &apos;standalone&apos; }), // [!code ++]
-
-  integrations: [
-    outputCopier({ // [!code --]
-      integ: [&apos;sitemap&apos;, &apos;pagefind&apos;] // [!code --]
-    }) // [!code --]
-  ]
-})
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Bun server&lt;/h3&gt;
-&lt;p&gt;Bun also support static method.&lt;/p&gt;
-&lt;p&gt;Check &lt;a href=&quot;https://www.npmjs.com/package/@nurodev/astro-bun&quot;&gt;@nurodev/astro-bun&lt;/a&gt; for more.&lt;/p&gt;
-&lt;h3&gt;Static&lt;/h3&gt;
-&lt;p&gt;Remove all server adapter configuration in &lt;code&gt;astro.config.ts&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;import vercelServerless from &apos;@astrojs/vercel/serverless&apos; // [!code --]
-
-export default defineConfig({
-  //   ...
-  adapter: vercelServerless(), // [!code --]
-  output: &apos;server&apos;, // [!code --]
-})
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;GitHub Pages&lt;/h3&gt;
-&lt;p&gt;See &lt;a href=&quot;https://docs.astro.build/en/guides/deploy/github/&quot;&gt;Astro: Configure Astro for GitHub Pages&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>Authoring Content</title><link>https://jjacobs.me/docs/setup/content</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/content</guid><description>Astro is a perfect choice for your content-focused site: blogs, marketing sites, portfolios, and more!</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;/ol&gt;</content:encoded></item><item><title>Authoring Content</title><link>https://jjacobs.me/docs/setup/content</link><guid isPermaLink="true">https://jjacobs.me/docs/setup/content</guid><description>Astro is a perfect choice for your content-focused site: blogs, marketing sites, portfolios, and more!</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;p&gt;Astro helps you &lt;a href=&quot;https://docs.astro.build/en/guides/content/&quot;&gt;author and present your content&lt;/a&gt;. You can write a blog post directly in Astro using Markdown/MDX, or fetch your content from a headless CMS. Astro lets you build a site around your content: you can add a layout to your pages, create an index of posts, and set up an RSS feed to allow readers to subscribe.&lt;/p&gt;
 &lt;h2&gt;Writing Content&lt;/h2&gt;
 &lt;p&gt;In Astro, you can author your content in a variety of ways:&lt;/p&gt;
