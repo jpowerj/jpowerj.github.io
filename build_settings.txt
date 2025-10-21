@@ -5,7 +5,11 @@ Build:
 npx astro build --outDir "dist_static"
 npx astro build --base "/~jjacobs3" --outDir "dist_su"
 
-[[ERROR] [output-copier] [sitemap] Error copying files: Error: ENOENT: no such file or directory, scandir './dist/client']
+[If you see:
+
+[ERROR] [output-copier] [sitemap] Error copying files: Error: ENOENT: no such file or directory, scandir './dist/client'
+
+it's ok... I only vaguely remember setting that file-copying step up, and don't want to break smth by trying to de-activate it!]
 
 Then push:
 git add -A .

@@ -72,73 +72,8 @@ import myImage from &apos;../assets/my_image.png&apos;; // Image is 1600x900
     domains: [&apos;&amp;#x3C;specific site domain&gt;&apos;] // [!code ++]
   }
 })
-&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Advanced Components</title><link>https://jjacobs.me/docs/integrations/advanced</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/advanced</guid><description>Advanced components with advanced docs</description><content:encoded>&lt;h2&gt;Web Content Render&lt;/h2&gt;
-&lt;h3&gt;Quote&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;Quote&lt;/code&gt; component is a simple component that displays a random quote.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { Quote } from &apos;astro-pure/advanced&apos;
-
-&amp;#x3C;Quote /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Renders:&lt;/p&gt;
-&lt;p&gt;import { Quote } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
-&lt;p&gt;Config:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
-  // Add a random quote to the footer (default on homepage footer)
-  quote: {
-    // https://github.com/lukePeavey/quotable
-    server: &apos;https://api.quotable.io/quotes/random?maxLength=60&apos;, // [!code highlight:2]
-    target: `(data) =&gt; data[0].content || &apos;Error&apos;`
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/lukePeavey/quotable&quot;&gt;Quotable&lt;/a&gt; is a open-source API that provides random English quotes.&lt;/p&gt;
-&lt;p&gt;For Chinese quotes, you can use &lt;a href=&quot;https://developer.hitokoto.cn/sentence/&quot;&gt;Hitokoto&lt;/a&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
-  quote: {
-    // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
-    server: &apos;https://v1.hitokoto.cn/?c=i&apos;, // [!code highlight:2]
-    target: `(data) =&gt; data.hitokoto || &apos;Error&apos;`
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;GitHub Card&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;GithubCard&lt;/code&gt; component is a simple component that displays a GitHub user card.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { GithubCard } from &apos;astro-pure/advanced&apos;
-
-&amp;#x3C;GithubCard repo=&apos;cworld1/astro-theme-pure&apos; /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Render:&lt;/p&gt;
-&lt;p&gt;import { GithubCard } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
-&lt;h3&gt;Link Preview&lt;/h3&gt;
-&lt;p&gt;Preview any link inserted in the content.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { LinkPreview } from &apos;astro-pure/advanced&apos;
-
-&amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; /&gt;
-// `zoomable` option will control mediumzoom tag
-// &amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; zoomable={false} /&gt;
-&amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; hideMedia /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Render:&lt;/p&gt;
-&lt;p&gt;import { LinkPreview } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
-&lt;h2&gt;Data Transformer&lt;/h2&gt;
-&lt;h3&gt;QRCode&lt;/h3&gt;
-&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { QRCode } from &apos;astro-pure/advanced&apos;
-
-// &amp;#x3C;QRCode /&gt; // default to render current page link
-&amp;#x3C;QRCode
-  content=&apos;https://github.com/cworld1/astro-theme-pure&apos;
-  class=&apos;inline-flex max-w-44 p-3 bg-muted rounded-lg border&apos; /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Render:&lt;/p&gt;
-&lt;p&gt;import { QRCode } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;h3&gt;Medium Zoom&lt;/h3&gt;
-&lt;p&gt;Try click the following image.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://github.com/user-attachments/assets/6c42b061-df7e-4696-a29b-bff07fe17d88&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
-&lt;p&gt;See &lt;a href=&quot;/docs/integrations/others#medium-zoom&quot;&gt;Other Integrations#medium-zoom&lt;/a&gt;.&lt;/p&gt;
-&lt;h2&gt;Individual Server Integration&lt;/h2&gt;
-&lt;h3&gt;Comment System&lt;/h3&gt;
-&lt;p&gt;See &lt;a href=&quot;/docs/integrations/comment#usage&quot;&gt;Comment#Usage&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>Acknowledgements</title><link>https://jjacobs.me/docs/advanced/thanks</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/thanks</guid><description>Acknowledgements for this theme project</description><content:encoded>&lt;p&gt;import { GithubCard } from &apos;astro-pure/advanced&apos;
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Routes</title><link>https://jjacobs.me/docs/advanced/routes</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/routes</guid><description>Dynamic routing in Astro</description><content:encoded>&lt;h2&gt;Routing blogs format like &lt;code&gt;/blog/:year/:id&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;See &lt;a href=&quot;https://github.com/cworld1/astro-theme-pure/discussions/37#discussioncomment-11905851&quot;&gt;4.0.2-beta如何使文章链接中包含年份&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>Acknowledgements</title><link>https://jjacobs.me/docs/advanced/thanks</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/thanks</guid><description>Acknowledgements for this theme project</description><content:encoded>&lt;p&gt;import { GithubCard } from &apos;astro-pure/advanced&apos;
 import { Button } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;p&gt;The astro-theme-pure theme is open source under the &lt;a href=&quot;https://github.com/cworld1/astro-theme-pure/blob/main/LICENSE&quot;&gt;Apache 2.0&lt;/a&gt; license. Please abide by this license for any further development.&lt;/p&gt;
 &lt;h2&gt;Contributions&lt;/h2&gt;
@@ -172,7 +107,38 @@ import { Button } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Compress: &lt;a href=&quot;https://github.com/PlayForm/Compress&quot;&gt;playform/compress&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Image compress: &lt;a href=&quot;https://github.com/lovell/sharp&quot;&gt;sharp&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title>Shiki Code</title><link>https://jjacobs.me/docs/integrations/code</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/code</guid><description>Some mmthods using shiki code</description><content:encoded>&lt;h2&gt;Basic Usage&lt;/h2&gt;
+&lt;/ul&gt;</content:encoded></item><item><title>Comment System</title><link>https://jjacobs.me/docs/integrations/comment</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/comment</guid><description>Comment system for pages at the bottom</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;h2&gt;Waline Comment System&lt;/h2&gt;
+&lt;p&gt;The theme&apos;s comment, read statistics, likes, and other functionalities are all provided by &lt;a href=&quot;https://waline.js.org/&quot;&gt;Waline&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Deploy&lt;/h3&gt;
+&lt;p&gt;You can refer to its documentation for configuration, and it is recommended to use the &lt;a href=&quot;https://vercel.com/&quot;&gt;Vercel&lt;/a&gt; + &lt;a href=&quot;https://supabase.com/&quot;&gt;Supabase&lt;/a&gt; combination.&lt;/p&gt;
+&lt;h3&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Then you can configure the Waline comment system in the &lt;code&gt;integrationConfig.server&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
+  // ...
+  waline: {
+    enable: true,
+    // Server service link
+    server: &apos;https://astro-theme-pure-waline.arthals.ink/&apos;, // [!code highlight]
+    // Refer https://waline.js.org/en/guide/features/emoji.html
+    emoji: [&apos;bmoji&apos;, &apos;weibo&apos;],
+    // Refer https://waline.js.org/en/reference/client/props.html
+    additionalConfigs: {
+      pageview: true,
+      comment: true
+      // ...
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Usage&lt;/h3&gt;
+&lt;p&gt;You can call it manually in &lt;code&gt;.astro&lt;/code&gt; or &lt;code&gt;.mdx&lt;/code&gt; files.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { Comment } from &apos;astro-pure/advanced&apos;
+
+;&amp;#x3C;Comment /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Render:&lt;/p&gt;
+&lt;p&gt;import { Comment } from &apos;astro-pure/advanced&apos;&lt;/p&gt;</content:encoded></item><item><title>Shiki Code</title><link>https://jjacobs.me/docs/integrations/code</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/code</guid><description>Some mmthods using shiki code</description><content:encoded>&lt;h2&gt;Basic Usage&lt;/h2&gt;
 &lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt; file:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-astro&quot;&gt;---
 import { Code } from &apos;astro:components&apos;
@@ -252,39 +218,7 @@ console.log(&apos;Not highlighted&apos;)
 &lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;console.log(&apos;Highlighted&apos;) // [!code highlight:2]
 console.log(&apos;Highlighted&apos;)
 console.log(&apos;Not highlighted&apos;)
-&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Routes</title><link>https://jjacobs.me/docs/advanced/routes</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/routes</guid><description>Dynamic routing in Astro</description><content:encoded>&lt;h2&gt;Routing blogs format like &lt;code&gt;/blog/:year/:id&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;See &lt;a href=&quot;https://github.com/cworld1/astro-theme-pure/discussions/37#discussioncomment-11905851&quot;&gt;4.0.2-beta如何使文章链接中包含年份&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>Comment System</title><link>https://jjacobs.me/docs/integrations/comment</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/comment</guid><description>Comment system for pages at the bottom</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
-&lt;h2&gt;Waline Comment System&lt;/h2&gt;
-&lt;p&gt;The theme&apos;s comment, read statistics, likes, and other functionalities are all provided by &lt;a href=&quot;https://waline.js.org/&quot;&gt;Waline&lt;/a&gt;.&lt;/p&gt;
-&lt;h3&gt;Deploy&lt;/h3&gt;
-&lt;p&gt;You can refer to its documentation for configuration, and it is recommended to use the &lt;a href=&quot;https://vercel.com/&quot;&gt;Vercel&lt;/a&gt; + &lt;a href=&quot;https://supabase.com/&quot;&gt;Supabase&lt;/a&gt; combination.&lt;/p&gt;
-&lt;h3&gt;Configuration&lt;/h3&gt;
-&lt;p&gt;Then you can configure the Waline comment system in the &lt;code&gt;integrationConfig.server&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
-  // ...
-  waline: {
-    enable: true,
-    // Server service link
-    server: &apos;https://astro-theme-pure-waline.arthals.ink/&apos;, // [!code highlight]
-    // Refer https://waline.js.org/en/guide/features/emoji.html
-    emoji: [&apos;bmoji&apos;, &apos;weibo&apos;],
-    // Refer https://waline.js.org/en/reference/client/props.html
-    additionalConfigs: {
-      pageview: true,
-      comment: true
-      // ...
-    }
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Usage&lt;/h3&gt;
-&lt;p&gt;You can call it manually in &lt;code&gt;.astro&lt;/code&gt; or &lt;code&gt;.mdx&lt;/code&gt; files.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { Comment } from &apos;astro-pure/advanced&apos;
-
-;&amp;#x3C;Comment /&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Render:&lt;/p&gt;
-&lt;p&gt;import { Comment } from &apos;astro-pure/advanced&apos;&lt;/p&gt;</content:encoded></item><item><title>Update Theme</title><link>https://jjacobs.me/docs/advanced/update</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/update</guid><description>Update astro theme pure to the latest version</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Update Theme</title><link>https://jjacobs.me/docs/advanced/update</link><guid isPermaLink="true">https://jjacobs.me/docs/advanced/update</guid><description>Update astro theme pure to the latest version</description><content:encoded>&lt;p&gt;import { Aside } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;h2&gt;Breaking Changes&lt;/h2&gt;
 &lt;h3&gt;v4.0.2-beta&lt;/h3&gt;
 &lt;ul&gt;
@@ -480,7 +414,73 @@ f: ^src\\pages\\terms\\.*\.md$
 
 ### Blog ###
 # Your own files
-&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>User Components</title><link>https://jjacobs.me/docs/integrations/components</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/components</guid><description>Easily extend your content page more interactive</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, MdxRepl } from &apos;astro-pure/user&apos;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Advanced Components</title><link>https://jjacobs.me/docs/integrations/advanced</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/advanced</guid><description>Advanced components with advanced docs</description><content:encoded>&lt;h2&gt;Web Content Render&lt;/h2&gt;
+&lt;h3&gt;Quote&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;Quote&lt;/code&gt; component is a simple component that displays a random quote.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { Quote } from &apos;astro-pure/advanced&apos;
+
+&amp;#x3C;Quote /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Renders:&lt;/p&gt;
+&lt;p&gt;import { Quote } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
+&lt;p&gt;Config:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
+  // Add a random quote to the footer (default on homepage footer)
+  quote: {
+    // https://github.com/lukePeavey/quotable
+    server: &apos;https://api.quotable.io/quotes/random?maxLength=60&apos;, // [!code highlight:2]
+    target: `(data) =&gt; data[0].content || &apos;Error&apos;`
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/lukePeavey/quotable&quot;&gt;Quotable&lt;/a&gt; is a open-source API that provides random English quotes.&lt;/p&gt;
+&lt;p&gt;For Chinese quotes, you can use &lt;a href=&quot;https://developer.hitokoto.cn/sentence/&quot;&gt;Hitokoto&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ts&quot;&gt;export const integ: IntegrationUserConfig = {
+  quote: {
+    // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
+    server: &apos;https://v1.hitokoto.cn/?c=i&apos;, // [!code highlight:2]
+    target: `(data) =&gt; data.hitokoto || &apos;Error&apos;`
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;GitHub Card&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;GithubCard&lt;/code&gt; component is a simple component that displays a GitHub user card.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { GithubCard } from &apos;astro-pure/advanced&apos;
+
+&amp;#x3C;GithubCard repo=&apos;cworld1/astro-theme-pure&apos; /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Render:&lt;/p&gt;
+&lt;p&gt;import { GithubCard } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
+&lt;h3&gt;Link Preview&lt;/h3&gt;
+&lt;p&gt;Preview any link inserted in the content.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { LinkPreview } from &apos;astro-pure/advanced&apos;
+
+&amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; /&gt;
+// `zoomable` option will control mediumzoom tag
+// &amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; zoomable={false} /&gt;
+&amp;#x3C;LinkPreview href=&apos;https://www.cloudflare.com/&apos; hideMedia /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Render:&lt;/p&gt;
+&lt;p&gt;import { LinkPreview } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
+&lt;h2&gt;Data Transformer&lt;/h2&gt;
+&lt;h3&gt;QRCode&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-jsx&quot;&gt;import { QRCode } from &apos;astro-pure/advanced&apos;
+
+// &amp;#x3C;QRCode /&gt; // default to render current page link
+&amp;#x3C;QRCode
+  content=&apos;https://github.com/cworld1/astro-theme-pure&apos;
+  class=&apos;inline-flex max-w-44 p-3 bg-muted rounded-lg border&apos; /&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Render:&lt;/p&gt;
+&lt;p&gt;import { QRCode } from &apos;astro-pure/advanced&apos;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;h3&gt;Medium Zoom&lt;/h3&gt;
+&lt;p&gt;Try click the following image.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/user-attachments/assets/6c42b061-df7e-4696-a29b-bff07fe17d88&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&quot;/docs/integrations/others#medium-zoom&quot;&gt;Other Integrations#medium-zoom&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Individual Server Integration&lt;/h2&gt;
+&lt;h3&gt;Comment System&lt;/h3&gt;
+&lt;p&gt;See &lt;a href=&quot;/docs/integrations/comment#usage&quot;&gt;Comment#Usage&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>User Components</title><link>https://jjacobs.me/docs/integrations/components</link><guid isPermaLink="true">https://jjacobs.me/docs/integrations/components</guid><description>Easily extend your content page more interactive</description><content:encoded>&lt;p&gt;import { Aside, Tabs, TabItem, MdxRepl } from &apos;astro-pure/user&apos;&lt;/p&gt;
 &lt;p&gt;Components let you easily reuse a piece of UI or styling consistently. You can use them not just in &lt;code&gt;.astro&lt;/code&gt; files, but also in &lt;code&gt;.mdx&lt;/code&gt; files.&lt;/p&gt;
 &lt;p&gt;For &lt;code&gt;.astro&lt;/code&gt;, you can directly import and use components and use. An example will also shown in the first section.&lt;/p&gt;
 &lt;h2&gt;Containers&lt;/h2&gt;
