@@ -12,7 +12,7 @@ import UnoCSS from 'unocss/astro'
 // import { visualizer } from 'rollup-plugin-visualizer'
 
 // Local integrations
-import { outputCopier } from './src/plugins/output-copier.ts'
+// import { outputCopier } from './src/plugins/output-copier.ts'
 // Local rehype & remark plugins
 import rehypeAutolinkHeadings from './src/plugins/rehype-auto-link-headings.ts'
 // Shiki
@@ -64,12 +64,12 @@ export default defineConfig({
 
     // Temporary fix vercel adapter
     // static build method is not needed
-    outputCopier({
-      integ: [
-        'sitemap',
-        // 'pagefind'
-      ]
-    })
+    // outputCopier({
+    //   integ: [
+    //     'sitemap',
+    //     // 'pagefind'
+    //   ]
+    // })
   ],
   // root: './my-project-directory',
 
