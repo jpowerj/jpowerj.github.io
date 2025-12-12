@@ -1,174 +1,176 @@
 ---
-import { Image } from 'astro:assets'
-
-import type { iconsType } from 'astro-pure/types'
-import { Button, Icon } from 'astro-pure/user'
-import Collapse from '@/components/user/Collapse.astro'
 import PageLayout from '@/layouts/CommonPage.astro'
-import ProjectSection from '@/components/projects/ProjectSection.astro'
-import config from '@/site-config'
+import TermSection from '@/components/teaching/TermSection.astro'
 
 const headings = [
-  { depth: 2, slug: 'georgetown', text: 'Georgetown' },
-  { depth: 2, slug: 'nyu', text: 'NYU' },
-  { depth: 2, slug: 'columbia', text: 'Columbia' },
-  { depth: 2, slug: 'stanford', text: 'Stanford' },
-  { depth: 2, slug: 'umd', text: 'Maryland' }
+  { depth: 2, slug: 'georgetown', text: 'Georgetown 2023-Present' },
+  { depth: 2, slug: 'nyu', text: 'NYU 2019-2020' },
+  { depth: 2, slug: 'columbia', text: 'Columbia 2015-2023' },
+  { depth: 2, slug: 'stanford', text: 'Stanford 2012-2014' },
+  { depth: 2, slug: 'umd', text: 'Maryland 2010-2012' }
 ]
 ---
 
-<PageLayout title='Teaching' {headings} info={{ slug: '/projects', hideComment: true }}>
-  <h2 id='georgetown'>Georgetown</h2>
-  <ProjectSection
-    class="my-2"
-    project={[
+<PageLayout {headings} title='Teaching'>
+  <h2 id='georgetown' class='mt-0 flex flex-row items-center space-between' style='justify-content: space-between;'>Georgetown <span style='float: right; font-size: 75%;'>(2023-Present)</span></h2>
+
+  <h3 id="s26">Spring 2026</h3>
+
+  <TermSection
+    class="grid-cols-3"
+    name="Spring 2026"
+    courses={[
       {
-        name: 'DSAN 5300: Statistical Learning',
-        description: 'Spring 2025',
-        links: [
-          // { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
-          { type: 'site', href: 'https://jjacobs.me/dsan5300-01' }
-        ]
+        courseid: 's26-dsan5300',
+        name: 'DSAN 5300-02: Statistical Learning',
+        description: 'M 6:30-9, Car Barn 309',
       },
       {
+        courseid: 's26-dsan5450',
         name: 'DSAN 5450: Data Ethics and Policy',
-        description: 'Spring 2025',
-        links: [
-          // { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
-          { type: 'site', href: 'https://jjacobs.me/dsan5450' }
-        ]
+        description: 'W 3:30-6, Walsh 498',
       },
       {
+        courseid: 's26-dsan5500',
         name: 'DSAN 5500: Data Structures, Objects, and Algorithms in Python',
-        description: 'Spring 2025',
-        links: [
-          // { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
-          { type: 'site', href: 'https://jjacobs.me/dsan5500' }
-        ]
+        description: 'Th 6:30-9, Car Barn 202',
       }
     ]}
   />
 
-  <h2 id='nyu'>NYU</h2>
+  <h3 id='f25'>Fall 2025</h3>
 
-  <ProjectSection
-    class="my-2"
-    project={[
+  <TermSection
+    class="grid-cols-2"
+    name="Fall 2025"
+    courses={[
       {
+        courseid: 'f25-ppol6805',
+        name: 'PPOL 6805: GIS for Spatial Data Science',
+        description: 'W 6pm',
+      },
+      {
+        courseid: 'f25-dsan6000',
+        name: 'DSAN 6000: Big Data and Cloud Computing',
+        description: 'W 6pm',
+      }
+    ]}
+  />
+
+  <h3 id='s25'>Spring 2025</h3>
+
+  <TermSection
+    class="grid-cols-3"
+    name="Sprint 2025"
+    courses={[
+      {
+        courseid: 's26-dsan5300',
+        name: 'DSAN 5300-02: Statistical Learning',
+        description: 'M 6:30-9, Car Barn 309',
+      },
+      {
+        courseid: 's26-dsan5450',
+        name: 'DSAN 5450: Data Ethics and Policy',
+        description: 'W 3:30-6, Walsh 498',
+      },
+      {
+        courseid: 's26-dsan5500',
+        name: 'DSAN 5500: Data Structures, Objects, and Algorithms in Python',
+        description: 'Th 6:30-9, Car Barn 202',
+      }
+    ]}
+  />
+
+  <h2 id='nyu' class='flex flex-row items-center space-between' style='justify-content: space-between;'>NYU <span style='float: right; font-size: 75%;'>(2019-2020)</span></h2>
+
+  <TermSection
+    class="grid-cols-1"
+    courses={[
+      {
+        courseid: 'dsua111',
         name: 'DSUA 111: Data Science for Everyone',
         description: '2019-2020',
-        links: [
-          { type: 'github', href: 'https://github.com/IJNKAWAKAZE/arknights_bot' },
-          { type: 'site', href: 'https://t.me/PtiIopsis_bot' }
-        ]
+        href: 'https://github.com/jpowerj/dsua111-sections'
       }
     ]}
   />
-  <Collapse title='DSUA 111: Data Science for Everyone Lecture Videos (Click to Expand / Collapse)'>
-    <ProjectSection
-      project={[
-        {
-          name: 'Lecture 1',
-          description: 'Introduction to Python',
-          links: [{ type: 'github', href: 'https://github.com/jpowerj/dsua111-sections' }]
-        },
-        {
-          name: 'Lecture 2',
-          description: 'Introduction to Data Science',
-          links: [
-            { type: 'site', href: 'https://github.com/jpowerj/dsua111-sections' }
-          ]
-        }
-      ]}
-    />
-  </Collapse>
 
-  <h2 id='columbia'>Columbia</h2>
+  <h2 id='columbia' class='flex flex-row items-center space-between' style='justify-content: space-between;'>Columbia <span style='float: right; font-size: 75%;'>(2015-2023)</span></h2>
 
-  <ProjectSection
-    class='my-2'
-    project={[
+  <TermSection
+    class="grid-cols-2"
+    courses={[
       {
+        courseid: 'qmss6750',
         name: 'QMSS 6750: Natural Language Processing',
         description: 'Columbia Quantitative Methods in the Social Sciences (QMSS) Program',
-        links: [{ type: 'github', href: 'https://github.com/jpowerj/qmss' }]
+        href: 'https://github.com/jpowerj/qmss',
       },
       {
+        courseid: 'pols4712',
         name: 'POLS 4712: Quantiative Political Analysis',
         description: 'Graduate Political Science Course',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/jpowerj'
-          }
-        ]
+        href: 'https://github.com/jpowerj',
       },
       {
+        courseid: 'hrts3001',
         name: 'HRTS 3001: Introduction to Human Rights',
         description: 'Columbia Human Rights Program',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/jpowerj'
-          }
-        ]
+        href: 'https://github.com/jpowerj',
       },
       {
+        courseid: 'pols1201',
         name: 'POLS 1201: Introduction to American Politics',
         description: 'Barnard College',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/jpowerj'
-          }
-        ]
+        href: 'https://github.com/jpowerj'
       }
     ]}
   />
 
-  <h2 id='stanford'>Stanford</h2>
+  <h2 id='stanford' class='flex flex-row items-center space-between' style='justify-content: space-between;'>Stanford <span style='float: right; font-size: 75%;'>(2012-2014)</span></h2>
 
-  <ProjectSection
-    class='my-2'
-    project={[
+  <TermSection
+    class='grid-cols-2'
+    courses={[
       {
+        courseid: 'cs90si',
+        name: 'CS 90SI: Learn Web Development Through Nonprofit Projects',
+        description: '2013 - 2014',
+        href: 'https://cs90si.stanford.edu',
+      },
+      {
+        courseid: 'cs103',
         name: 'CS 103: Mathematical Foundations of Computing',
         description: '2012 - 2014',
-        links: [{ type: 'github', href: 'https://cs103.stanford.edu' }]
+        href: 'https://cs103.stanford.edu',
       },
       {
+        courseid: 'cs109',
         name: 'CS 109: Probability Theory for Computer Scientists',
         description: '2012 - 2014',
-        links: [
-          {
-            type: 'github',
-            href: 'https://cs109.stanford.edu'
-          }
-        ]
+        href: 'https://cs109.stanford.edu'
       },
       {
+        courseid: 'cs229',
         name: 'CS 229: Machine Learning',
         description: '2012 - 2014',
-        links: [
-          {
-            type: 'github',
-            href: 'https://cs229.stanford.edu'
-          }
-        ]
+        href: 'https://cs229.stanford.edu',
       },
     ]}
   />
 
-  <h2 id='umd'>Maryland</h2>
+  <h2 id='umd' class='flex flex-row items-center space-between' style='justify-content: space-between;'>Maryland <span style='float: right; font-size: 75%;'>(2010-2012)</span></h2>
 
-  <ProjectSection
-    class="my-2"
-    project={[
+  <TermSection
+    class="grid-cols-1"
+    courses={[
       {
+        courseid: 'cmsc420',
         name: 'CMSC 420: Data Structures',
         description: "Data structures class for UMD juniors and seniors",
-        links: [{ type: 'github', href: 'https://github.com/jpowerj' }]
+        href: 'https://github.com/jpowerj',
       }
     ]}
   />
+
 </PageLayout>

@@ -40,19 +40,15 @@ export const theme: ThemeUserConfig = {
   /** Configure the header of your site. */
   header: {
     menu: [
-      { title: 'CV', link: 'https://www.dropbox.com/scl/fi/iccewji2ooyyylfn063bk/Jacobs_CV_2024-09-24.pdf?rlkey=xk5f4xbv76o92fju5cdp7rwed&st=c01g77yp&dl=1' },
+      { title: 'Teaching', link: '/teaching' },
       { title: 'Blog', link: 'https://jjacobs.me/blog/' },
-      { title: 'Teaching', link: '/teaching' }
+      { title: 'CV', link: 'https://www.dropbox.com/scl/fi/iccewji2ooyyylfn063bk/Jacobs_CV_2024-09-24.pdf?rlkey=xk5f4xbv76o92fju5cdp7rwed&st=c01g77yp&dl=1' },
     ]
   },
 
   /** Configure the footer of your site. */
   footer: {
-    // Registration information for ICP (optional)
-    registration: {
-      // url: 'https://icp.gov.moe/?keyword=APTX4869',
-      // text: 'Moe ICP APTX4869'
-    },
+    year: `© ${new Date().getFullYear()}`,
     /** Enable displaying a “Astro & Pure theme powered” link in your site’s footer. */
     credits: false,
     /** Optional details about the social media accounts for this site. */
@@ -60,10 +56,16 @@ export const theme: ThemeUserConfig = {
   },
 
   content: {
-    externalLinksContent: ' ↗',
+    /** External links configuration */
+    externalLinks: {
+      content: ' ↗',
+      /** Properties for the external links element */
+      properties: {
+        style: 'user-select:none'
+      }
+    },
     /** Blog page size for pagination (optional) */
     blogPageSize: 8,
-    externalLinkArrow: false, // show external link arrow
     // Currently support weibo, x, bluesky
     share: []
   }

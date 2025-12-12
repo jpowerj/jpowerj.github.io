@@ -1,7 +1,7 @@
 // @ts-check
 
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import vercel from '@astrojs/vercel'
+// import vercel from '@astrojs/vercel'
 import AstroPureIntegration from 'astro-pure'
 import { defineConfig } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
@@ -111,7 +111,6 @@ export default defineConfig({
     }
   },
   experimental: {
-    svg: true,
     contentIntellisense: true
   },
   vite: {
