@@ -11,7 +11,7 @@ const headings = [
 ]
 ---
 
-<PageLayout {headings} title='Teaching'>
+<PageLayout {headings} title='Teaching' view>
   <h2 id='georgetown' class='mt-0 flex flex-row items-center space-between' style='justify-content: space-between;'>Georgetown <span style='float: right; font-size: 75%;'>(2023-Present)</span></h2>
 
   <h3 id="s26">Spring 2026</h3>
@@ -66,25 +66,25 @@ const headings = [
 
   <TermSection
     class="grid-cols-3"
-    name="Sprint 2025"
+    name="Spring 2025"
     courses={[
       {
-        courseid: 's26-dsan5300',
-        name: 'DSAN 5300-02: Statistical Learning',
-        description: 'M 6:30-9, Car Barn 309',
-        href: 'https://jjacobs.me/dsan5300'
+        courseid: 's25-dsan5300',
+        name: 'DSAN 5300: Statistical Learning',
+        description: 'M 6:30-9, Car Barn 203',
+        href: 'https://jjacobs.me/dsan5300-spr25'
       },
       {
-        courseid: 's26-dsan5450',
+        courseid: 's25-dsan5450',
         name: 'DSAN 5450: Data Ethics and Policy',
         description: 'W 3:30-6, Walsh 498',
-        href: 'https://jjacobs.me/dsan5450'
+        href: 'https://jjacobs.me/dsan5450-spr25'
       },
       {
-        courseid: 's26-dsan5500',
+        courseid: 's25-dsan5500',
         name: 'DSAN 5500: Data Structures, Objects, and Algorithms in Python',
-        description: 'Th 6:30-9, Car Barn 202',
-        href: 'https://jjacobs.me/dsan5500'
+        description: 'Th 6:30-9, Healy 104',
+        href: 'https://jjacobs.me/dsan5500-spr25'
       }
     ]}
   />
@@ -138,31 +138,42 @@ const headings = [
   <h2 id='stanford' class='flex flex-row items-center space-between' style='justify-content: space-between;'>Stanford <span style='float: right; font-size: 75%;'>(2012-2014)</span></h2>
 
   <TermSection
-    class='grid-cols-2'
+    class='grid-cols-6 grid-rows-2'
     courses={[
       {
         courseid: 'cs90si',
         name: 'CS 90SI: Learn Web Development Through Nonprofit Projects',
         description: '2013 - 2014',
         href: 'https://cs90si.stanford.edu',
+        colspan: "2"
       },
       {
         courseid: 'cs103',
         name: 'CS 103: Mathematical Foundations of Computing',
         description: '2012 - 2014',
         href: 'https://cs103.stanford.edu',
+        colspan: "2"
       },
       {
         courseid: 'cs109',
         name: 'CS 109: Probability Theory for Computer Scientists',
         description: '2012 - 2014',
-        href: 'https://cs109.stanford.edu'
+        href: 'https://cs109.stanford.edu',
+        colspan: "2"
+      },
+      {
+        courseid: 'cs221',
+        name: 'CS 221: Artificial Intelligence Principles and Techniques',
+        description: '2012 - 2014',
+        href: 'https://cs221.stanford.edu',
+        colspan: "3"
       },
       {
         courseid: 'cs229',
         name: 'CS 229: Machine Learning',
         description: '2012 - 2014',
         href: 'https://cs229.stanford.edu',
+        colspan: "3"
       },
     ]}
   />
@@ -170,13 +181,19 @@ const headings = [
   <h2 id='umd' class='flex flex-row items-center space-between' style='justify-content: space-between;'>Maryland <span style='float: right; font-size: 75%;'>(2010-2012)</span></h2>
 
   <TermSection
-    class="grid-cols-1"
+    class="grid-cols-2"
     courses={[
       {
         courseid: 'cmsc420',
         name: 'CMSC 420: Data Structures',
-        description: "Data structures class for UMD juniors and seniors",
-        href: 'https://github.com/jpowerj',
+        description: "Data structures class for junior and senior Computer Science majors at Maryland",
+        href: 'https://www.math.umd.edu/~immortal/CMSC420/',
+      },
+      {
+        courseid: 'math003',
+        name: 'MATH 003: Developmental Mathematics',
+        description: "A review of High School Algebra for students preparing to take further math coursework",
+        href: 'https://www-math.umd.edu/undergraduate/departmental-course-pages/offered-courses/350-math-003-developmental-mathematics.html'
       }
     ]}
   />

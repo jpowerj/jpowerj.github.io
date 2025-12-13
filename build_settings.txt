@@ -1,3 +1,16 @@
+New build (using bun)
+
+bun run build --outDir "dist_static"
+bun run build --base "/~jjacobs3" --outDir "dist_su"
+
+Then push:
+git add -A .
+git commit -m "message"
+git push
+
+---
+Old build (using npx)
+
 Preview:
 npx astro dev
 
@@ -11,7 +24,4 @@ npx astro build --base "/~jjacobs3" --outDir "dist_su"
 
 it's ok... I only vaguely remember setting that file-copying step up, and don't want to break smth by trying to de-activate it!]
 
-Then push:
-git add -A .
-git commit -m "message"
-git push
+---

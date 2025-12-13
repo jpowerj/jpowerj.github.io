@@ -34,7 +34,6 @@ import profilePic from '../assets/profile.jpg'
           <span class='text-lg font-bold self-end'>(He/him)</span>
         </div>
         <div class='pb-4'>
-          {/* Get template */}
           {/* https://astro-pure.js.org/docs/setup/getting-started */}
           <a
             href='https://jjacobs.me/meet'
@@ -192,6 +191,27 @@ import profilePic from '../assets/profile.jpg'
         />
       </Section>
       <Section title='Teaching'>
+        <h3 class="font-italic">Spring 2026</h3>
+        <div class='grid grid-cols-3 gap-3 sm:grid-cols-3'>
+          <ProjectCard
+            href='https://jjacobs.me/dsan5300-01'
+            heading='DSAN 5300: Statistical Learning'
+            subheading='M 6:30-9, Car Barn 309'
+            imagePath='/src/assets/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg'
+          />
+          <ProjectCard
+            href='https://jjacobs.me/dsan5450'
+            heading='DSAN 5450: Data Ethics and Policy'
+            subheading='W 3:30-6, Walsh 498'
+            imagePath='/src/assets/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg'
+          />
+          <ProjectCard
+            href='https://jjacobs.me/dsan5500'
+            heading='DSAN 5500: Data Structures and Algorithms in Python'
+            subheading='Th 6:30-9, Car Barn 202'
+            imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
+          />
+        </div>
         <div class='grid grid-cols-3'>
           <h3><i>Fall 2025</i></h3>
         </div>
@@ -209,10 +229,8 @@ import profilePic from '../assets/profile.jpg'
             imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
           />
         </div>
-        <div class='grid grid-cols-3'>
-          <h3><i>Summer 2025</i></h3>
-        </div>
-        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+        <h3 class="font-italic">Summer 2025</h3>
+        <div class='grid grid-cols-1 gap-3'>
           <ProjectCard
             href='https://jjacobs.me/dsan5650'
             heading='DSAN 5650: Causal Inference for Computational Social Science'
@@ -220,30 +238,7 @@ import profilePic from '../assets/profile.jpg'
             imagePath='/src/assets/projects/wen-qiao-g_w8I64FiO0-unsplash.jpg'
           />
         </div>
-        <div class='grid grid-cols-3'>
-          <h3><i>Spring 2025</i></h3>
-        </div>
-        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-          <ProjectCard
-            href='https://jjacobs.me/dsan5300-01'
-            heading='DSAN 5300: Statistical Learning'
-            subheading='M 6:30-9, Car Barn 203'
-            imagePath='/src/assets/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg'
-          />
-          <ProjectCard
-            href='https://jjacobs.me/dsan5450'
-            heading='DSAN 5450: Data Ethics and Policy'
-            subheading='W 3:30-6, Walsh 498'
-            imagePath='/src/assets/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg'
-          />
-          <ProjectCard
-            href='https://jjacobs.me/dsan5500'
-            heading='DSAN 5500: Data Structures and Algorithms in Python'
-            subheading='Th 6:30-9, Healy 104'
-            imagePath='/src/assets/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg'
-          />
-        </div>
-        <Button title='All Courses' class='w-fit self-end' href='/teaching' style='ahead' />
+        <Button title='All Courses' class='w-fit self-end px-4' href='/teaching' variant='ahead' />
       </Section>
       <Section title='Links'>
         <LinkCard
