@@ -9,7 +9,7 @@ export const theme: ThemeUserConfig = {
   /** Description metadata for your website. Can be used in page metadata. */
   description: 'Assistant Professor, Data Science, Georgetown University',
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
-  favicon: '/favicon.png',
+  favicon: '/favicon/favicon.png',
   /** Specify the default language for this site. */
   locale: {
     lang: 'en-US',
