@@ -12,7 +12,7 @@ interface Props {
     name: string
     description: string
     href?: string
-    colspan?: string
+    className?: string
   }[]
 }
 const { class: className, courses, ...props } = Astro.props
@@ -34,15 +34,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
         if (!images[imagePath]) {
           throw new Error(`${imagePath} not found via glob`)
         }
-        if (typeof course.colspan === 'undefined') {
-          course.colspan = "1"
-        }
 
         return (
           <a
             class={cn(
-              'col-span-' + course.colspan,
-              'group overflow-hidden no-underline relative flex flex-col rounded-2xl border bg-muted',
+              course.className,
+              'group overflow-hidden no-underline relative flex flex-col flex-grow rounded-2xl border bg-muted',
               course.href && 'transition-all hover:border-foreground/25 hover:shadow-sm '
             )}
             href={course.href || "https://github.com/jpowerj"}
@@ -51,14 +48,14 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
             <Image
               src={images[imagePath]()}
               alt={course.name}
-              class='absolute top-0 h-50 w-full object-cover opacity-30 transition-opacity group-hover:opacity-55 group-hover:blur-[0.5px] dark:opacity-35'
+              class='absolute top-0 h-60 w-full object-cover opacity-30 transition-opacity group-hover:opacity-55 group-hover:blur-[0.5px] dark:opacity-35'
               loading='lazy'
             />
             <div
-              class='z-10 flex flex-col flex-grow items-start gap-y-0.5 px-5 pb-4 pt-2'
+              class='z-10 flex flex-col flex-grow items-start justify-between gap-y-0.5 px-5 pb-4 pt-2'
             >
-              <p class='text-lg text-foreground bold text-foreground mb-0 group-hover:text-shadow-lg/90'>{course.name}</p>
-              <p class='text-muted-foreground self-end'>{course.description}</p>
+              <p class='text-lg text-foreground bold text-foreground mt-1 mb-1 group-hover:text-shadow-white-2xl/90'>{course.name}</p>
+              <p class='text-muted-foreground self-start mt-1 mb-1'>{course.description}</p>
             </div>
           </a>
         )
