@@ -1,7 +1,6 @@
 New build (using bun)
 
-bun run build --outDir "dist_static"
-bun run build --base "/~jjacobs3" --outDir "dist_su"
+bun run build --outDir "dist_static" && bun run build --base "/~jjacobs3" --outDir "dist_su"
 
 Then push:
 git add -A .
